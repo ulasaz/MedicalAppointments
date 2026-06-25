@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+    <data name="UserAlreadyExists" xml:space="preserve">
+        <value>Uzytkownik z tym adresem email juz istnieje</value>
+    </data>
+    <data name="InvalidRegistrationData" xml:space="preserve">
+        <value>Nieprawidlowe dane rejestracji</value>
+    </data>
+    <data name="InvalidCredentials" xml:space="preserve">
+        <value>Nieprawidlowy email lub haslo</value>
+    </data>
+    <data name="InvalidLoginData" xml:space="preserve">
+        <value>Nieprawidlowe dane logowania</value>
+    </data>
+    <data name="UserNotFound" xml:space="preserve">
+        <value>Nie znaleziono uzytkownika</value>
+    </data>
+    <data name="InvalidProfileRequest" xml:space="preserve">
+        <value>Nieprawidlowe zadanie profilu</value>
+    </data>
+</root>

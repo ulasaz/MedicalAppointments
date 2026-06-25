@@ -1,0 +1,424 @@
+<div class="max-w-screen-2xl mx-auto px-6 py-12">
+
+  <header class="mb-10">
+    <p class="text-xs uppercase tracking-[0.22em] text-gray-500 font-medium mb-4">
+      {{ 'CAFE_PANEL.EYEBROW' | translate }}
+    </p>
+    <h1 class="text-5xl md:text-6xl font-serif font-bold tracking-tight text-heading leading-[1.05]">
+      {{ 'CAFE_PANEL.HEADING' | translate }}
+    </h1>
+    <p class="text-lg text-body mt-5 max-w-2xl">
+      {{ 'CAFE_PANEL.SUBHEADING' | translate }}
+    </p>
+  </header>
+
+  <!-- Tab switcher -->
+  <div class="flex gap-1 bg-gray-100 p-1 rounded-full w-fit mb-10 shadow-inner">
+    <button type="button"
+            (click)="setActiveTab('orders')"
+            class="px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-200"
+            [class.bg-white]="activeTab === 'orders'"
+            [class.text-heading]="activeTab === 'orders'"
+            [class.shadow-sm]="activeTab === 'orders'"
+            [class.text-gray-500]="activeTab !== 'orders'">
+      {{ 'CAFE_PANEL.TAB_ORDERS' | translate }}
+    </button>
+    <button type="button"
+            (click)="setActiveTab('schedule')"
+            class="px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-200"
+            [class.bg-white]="activeTab === 'schedule'"
+            [class.text-heading]="activeTab === 'schedule'"
+            [class.shadow-sm]="activeTab === 'schedule'"
+            [class.text-gray-500]="activeTab !== 'schedule'">
+      {{ 'CAFE_PANEL.TAB_SCHEDULE' | translate }}
+    </button>
+      <button type="button"
+              (click)="setActiveTab('parsing')"
+              class="px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-200"
+              [class.bg-white]="activeTab === 'parsing'"
+              [class.text-heading]="activeTab === 'parsing'"
+              [class.shadow-sm]="activeTab === 'parsing'"
+              [class.text-gray-500]="activeTab !== 'parsing'">
+        {{ 'CAFE_PANEL.TAB_PARSING' | translate }}
+      </button>
+  </div>
+
+  <!-- ── ORDERS TAB ─────────────────────────────────────────────────────────── -->
+  @if (activeTab === 'orders') {
+    @if (orders.length === 0) {
+      <div class="bg-white border border-dashed border-gray-300 rounded-3xl p-16 text-center max-w-2xl">
+        <p class="text-xl font-serif italic text-gray-400">{{ 'CAFE_PANEL.EMPTY' | translate }}</p>
+      </div>
+    } @else {
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 items-start">
+
+        @for (status of statuses; track status) {
+          @if (ordersByStatus[status]?.length) {
+
+            <section class="bg-white border border-gray-200 rounded-3xl shadow-sm p-6">
+
+              <div class="flex items-baseline justify-between mb-6">
+                <div>
+                  <h2 class="flex items-center gap-2.5 text-2xl font-serif font-bold text-heading">
+                    <span class="w-2.5 h-2.5 rounded-full"
+                          [class.bg-brand]="status === 'Pending'"
+                          [class.bg-amber-400]="status === 'Confirmed'"
+                          [class.bg-green-500]="status === 'Ready'"
+                          [class.bg-gray-300]="status === 'Completed'"
+                          [class.bg-red-400]="status === 'Rejected' || status === 'Cancelled'"></span>
+                    {{ ('CAFE_PANEL.STATUS.' + status.toUpperCase()) | translate }}
+                  </h2>
+                  <p class="text-sm text-gray-500 mt-1 ml-5">
+                    {{ ('CAFE_PANEL.STATUS_DESC.' + status.toUpperCase()) | translate }}
+                  </p>
+                </div>
+                <span class="text-2xl font-serif font-medium text-gray-400">
+                  {{ ordersByStatus[status].length }}
+                </span>
+              </div>
+
+              <div class="space-y-4">
+                @for (order of ordersByStatus[status]; track order.id) {
+                  <article class="border border-gray-200 rounded-2xl p-5 hover:border-gray-300 transition-colors">
+
+                    <div class="flex items-start justify-between mb-3 gap-4">
+                      <div class="min-w-0">
+                        <p class="text-base font-serif font-bold text-heading truncate">
+                          #{{ order.id?.substring(0, 5)?.toUpperCase() }}
+                          <span class="text-gray-300 mx-1">·</span>
+                          <span class="font-sans font-normal text-body">{{ order.customerName }}</span>
+                        </p>
+                        <p class="flex items-center gap-1.5 text-sm text-gray-500 mt-1">
+                          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          {{ order.placedAt?.substring(11, 16) }}
+                        </p>
+                      </div>
+                      <span class="text-xl font-serif font-bold text-heading whitespace-nowrap">
+                        {{ order.totalMinor | price }}
+                      </span>
+                    </div>
+
+                    <ul class="space-y-1.5 mb-4 text-base">
+                      @for (line of order.lines; track line.id) {
+                        <li class="flex gap-3">
+                          <span class="text-gray-400 font-medium w-10 shrink-0">{{ line.quantity }}×</span>
+                          <span class="text-heading">{{ line.itemNameSnapshot }}</span>
+                        </li>
+                      }
+                    </ul>
+
+                    @if (order.note) {
+                      <p class="text-sm italic text-body bg-brand-soft/50 px-4 py-3 rounded-xl mb-4">
+                        "{{ order.note }}"
+                      </p>
+                    }
+
+                    @if (status === 'Pending') {
+                      <div class="flex gap-3">
+                        <button type="button" (click)="confirmOrder(order.id)"
+                                class="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 bg-brand text-white text-sm font-semibold rounded-full hover:bg-brand-strong shadow-md hover:shadow-lg transition-all duration-200">
+                          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                          </svg>
+                          {{ 'CAFE_PANEL.CONFIRM' | translate }}
+                        </button>
+                        <button type="button" (click)="openRejectModal(order.id)"
+                                class="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 bg-white text-heading text-sm font-semibold rounded-full border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-200">
+                          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                          {{ 'CAFE_PANEL.REJECT' | translate }}
+                        </button>
+                      </div>
+                    }
+                    @if (status === 'Confirmed') {
+                      <div class="flex gap-3">
+                        <button type="button" (click)="readyOrder(order.id)"
+                                class="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 bg-brand text-white text-sm font-semibold rounded-full hover:bg-brand-strong shadow-md hover:shadow-lg transition-all duration-200">
+                          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                          </svg>
+                          {{ 'CAFE_PANEL.READY' | translate }}
+                        </button>
+                        <button type="button" (click)="openRejectModal(order.id)"
+                                class="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 bg-white text-heading text-sm font-semibold rounded-full border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-200">
+                          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                          {{ 'CAFE_PANEL.REJECT' | translate }}
+                        </button>
+                      </div>
+                    }
+                  </article>
+                }
+              </div>
+            </section>
+
+          }
+        }
+      </div>
+    }
+  }
+
+  <!-- ── PARSING TAB ────────────────────────────────────────────────────────── -->
+  @if (activeTab === 'parsing') {
+    <div class="max-w-5xl">
+
+      <!-- Controls -->
+      <div class="bg-white border border-gray-200 rounded-3xl shadow-sm p-6 mb-6">
+        <h2 class="text-xl font-serif font-bold text-heading mb-1">
+          {{ 'CAFE_PANEL.PARSING.HEADING' | translate }}
+        </h2>
+        <p class="text-sm text-gray-500 mb-5">{{ 'CAFE_PANEL.PARSING.DESCRIPTION' | translate }}</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          <!-- Google Drive source -->
+          <div class="p-4 rounded-2xl border border-gray-100 bg-gray-50/50">
+            <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">
+              {{ 'CAFE_PANEL.PARSING.GDRIVE_LABEL' | translate }}
+            </p>
+            <div class="flex gap-2">
+              <input [(ngModel)]="folderId"
+                     [placeholder]="'CAFE_PANEL.PARSING.FOLDER_PLACEHOLDER' | translate"
+                     class="flex-1 px-4 py-2 text-sm text-heading bg-white border border-gray-200 rounded-full
+                            focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand-soft
+                            transition-all duration-200" />
+              <button type="button"
+                      (click)="startParsing()"
+                      [disabled]="isParsing || isFacebookParsing || !folderId"
+                      class="flex items-center gap-2 px-5 py-2 text-sm font-semibold bg-brand text-white rounded-full
+                             hover:bg-brand-strong shadow-sm hover:shadow-md
+                             disabled:opacity-40 disabled:cursor-not-allowed
+                             transition-all duration-200">
+                @if (isParsing) {
+                  <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                    <path class="opacity-75" fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                  </svg>
+                  {{ 'CAFE_PANEL.PARSING.PARSING' | translate }}
+                } @else {
+                  {{ 'CAFE_PANEL.PARSING.PARSE' | translate }}
+                }
+              </button>
+            </div>
+          </div>
+
+          <!-- Facebook source -->
+          <div class="p-4 rounded-2xl border border-gray-100 bg-gray-50/50">
+            <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">
+              {{ 'CAFE_PANEL.PARSING.FB_LABEL' | translate }}
+            </p>
+            <div class="flex gap-2">
+              <input [(ngModel)]="facebookUrl"
+                     [placeholder]="'CAFE_PANEL.PARSING.FB_PLACEHOLDER' | translate"
+                     class="flex-1 px-4 py-2 text-sm text-heading bg-white border border-gray-200 rounded-full
+                            focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand-soft
+                            transition-all duration-200" />
+              <button type="button"
+                      (click)="startFacebookParsing()"
+                      [disabled]="isParsing || isFacebookParsing || !facebookUrl"
+                      class="flex items-center gap-2 px-5 py-2 text-sm font-semibold bg-brand text-white rounded-full
+                             hover:bg-brand-strong shadow-sm hover:shadow-md
+                             disabled:opacity-40 disabled:cursor-not-allowed
+                             transition-all duration-200">
+                @if (isFacebookParsing) {
+                  <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                    <path class="opacity-75" fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                  </svg>
+                  {{ 'CAFE_PANEL.PARSING.PARSING_FB' | translate }}
+                } @else {
+                  {{ 'CAFE_PANEL.PARSING.PARSE_FB' | translate }}
+                }
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Results -->
+      @if (parsedItems.length > 0) {
+        <div class="flex items-center justify-between mb-5">
+          <p class="text-sm text-gray-500">
+            {{ 'CAFE_PANEL.PARSING.ITEMS_FOUND' | translate: { count: parsedItems.length } }}
+          </p>
+          <div class="flex gap-3">
+            <button type="button"
+                    (click)="parsedItems = []"
+                    class="px-5 py-2.5 text-sm font-semibold bg-white border border-gray-200 text-heading rounded-full
+                           hover:bg-gray-50 transition-colors">
+              {{ 'CAFE_PANEL.PARSING.CLEAR' | translate }}
+            </button>
+            <button type="button"
+                    (click)="saveParsedMenu()"
+                    class="px-5 py-2.5 text-sm font-semibold bg-brand text-white rounded-full
+                           hover:bg-brand-strong shadow-sm hover:shadow-md transition-all duration-200">
+              {{ 'CAFE_PANEL.PARSING.SAVE' | translate }}
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          @for (item of parsedItems; track $index) {
+            <article class="bg-white border border-gray-200 rounded-2xl p-5 hover:border-gray-300 transition-colors">
+
+              <div class="flex items-start justify-between gap-3 mb-2">
+                <input [(ngModel)]="item.name"
+                       class="flex-1 text-base font-serif font-bold text-heading bg-transparent border-b border-transparent
+                              hover:border-gray-200 focus:border-brand focus:outline-none transition-colors py-0.5"
+                       [placeholder]="'CAFE_PANEL.PARSING.NAME_PLACEHOLDER' | translate" />
+                <button type="button"
+                        (click)="removeParsedItem($index)"
+                        class="shrink-0 w-7 h-7 flex items-center justify-center rounded-full text-gray-400
+                               hover:text-red-500 hover:bg-red-50 transition-colors">
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                  </svg>
+                </button>
+              </div>
+
+              @if (item.category?.name) {
+                <p class="text-xs font-semibold uppercase tracking-wider text-brand mb-2 ml-0.5">
+                  {{ item.category.name }}
+                </p>
+              }
+
+              <textarea [(ngModel)]="item.description"
+                        rows="2"
+                        class="w-full text-sm text-body bg-transparent border border-transparent rounded-xl px-2 py-1.5 resize-none
+                               hover:border-gray-200 focus:border-brand focus:outline-none focus:bg-gray-50 transition-all mb-3"
+                        [placeholder]="'CAFE_PANEL.PARSING.DESC_PLACEHOLDER' | translate"></textarea>
+
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-gray-400">{{ 'CAFE_PANEL.PARSING.PRICE' | translate }}</span>
+                <input type="number" [(ngModel)]="item.priceMinor"
+                       class="w-28 text-sm font-medium text-heading bg-transparent border-b border-gray-200
+                              focus:border-brand focus:outline-none text-right py-0.5 transition-colors" />
+              </div>
+
+            </article>
+          }
+        </div>
+      }
+
+    </div>
+  }
+
+  <!-- ── SCHEDULE TAB ───────────────────────────────────────────────────────── -->
+  @if (activeTab === 'schedule') {
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-start">
+
+      @for (day of days; track day) {
+        <section class="bg-white border border-gray-200 rounded-3xl shadow-sm p-6 flex flex-col">
+
+          <!-- Day header -->
+          <h2 class="text-xl font-serif font-bold text-heading mb-5">
+            {{ ('CAFE_PANEL.SCHEDULE.DAYS.' + day) | translate }}
+          </h2>
+
+          <!-- Scheduled items -->
+          @if (scheduleByDay[day].length === 0) {
+            <p class="text-sm text-gray-400 italic mb-5">
+              {{ 'CAFE_PANEL.SCHEDULE.EMPTY_DAY' | translate }}
+            </p>
+          } @else {
+            <ul class="space-y-1 mb-5 flex-1">
+              @for (entry of scheduleByDay[day]; track entry.id) {
+                <li class="flex items-center justify-between gap-3 py-2 border-b border-gray-100 last:border-0">
+                  <span class="text-sm text-heading font-medium leading-snug">{{ entry.menuItem?.name ?? entry.menuItemName }}</span>
+                  <button type="button"
+                          (click)="removeFromSchedule(entry.id, day)"
+                          title="{{ 'CAFE_PANEL.SCHEDULE.REMOVE' | translate }}"
+                          class="shrink-0 w-7 h-7 flex items-center justify-center rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                  </button>
+                </li>
+              }
+            </ul>
+          }
+
+          <!-- Add item -->
+          <div class="flex gap-2 mt-auto">
+            <div class="relative flex-1">
+              <select [(ngModel)]="selectedItemIds[day]"
+                      class="w-full px-3 py-2.5 text-sm text-heading bg-white border border-gray-200 rounded-full
+                             focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand-soft
+                             appearance-none cursor-pointer transition-all duration-200">
+                <option value="">{{ 'CAFE_PANEL.SCHEDULE.ADD_PLACEHOLDER' | translate }}</option>
+                @for (item of menuItems; track item.id) {
+                  <option [value]="item.id">{{ item.name }}</option>
+                }
+              </select>
+              <svg class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
+                   fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </div>
+            <button type="button"
+                    (click)="addToSchedule(day)"
+                    [disabled]="!selectedItemIds[day]"
+                    class="shrink-0 px-4 py-2.5 text-sm font-semibold bg-brand text-white rounded-full
+                           hover:bg-brand-strong shadow-sm hover:shadow-md
+                           disabled:opacity-40 disabled:cursor-not-allowed
+                           transition-all duration-200">
+              {{ 'CAFE_PANEL.SCHEDULE.ADD' | translate }}
+            </button>
+          </div>
+
+        </section>
+      }
+    </div>
+  }
+
+</div>
+
+
+
+
+<!-- ── REJECT MODAL ──────────────────────────────────────────────────────────── -->
+@if (isRejectModalOpen && selectedOrderIdToReject) {
+  <div class="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+       (click)="closeRejectModal()">
+
+    <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl"
+         (click)="$event.stopPropagation()">
+
+      <h3 class="text-2xl font-serif font-bold text-heading mb-2">{{ 'CAFE_PANEL.REJECT_MODAL.HEADING' | translate }}</h3>
+      <p class="text-gray-500 text-sm mb-6">
+        {{ 'CAFE_PANEL.REJECT_MODAL.DESCRIPTION' | translate }}
+      </p>
+
+      <form [formGroup]="reasonForm" (ngSubmit)="confirmReject()">
+
+        <textarea
+          formControlName="reason"
+          rows="3"
+          [placeholder]="'CAFE_PANEL.REJECT_MODAL.PLACEHOLDER' | translate"
+          class="w-full px-4 py-3 text-heading bg-gray-50 border border-gray-200 rounded-2xl focus:bg-white focus:outline-none focus:border-brand focus:ring-4 focus:ring-brand-soft transition-all duration-200 mb-6 resize-none">
+        </textarea>
+
+        <div class="flex gap-3">
+          <button type="button"
+                  (click)="closeRejectModal()"
+                  class="flex-1 px-5 py-3 rounded-full text-sm font-semibold bg-white border border-gray-200 text-heading hover:bg-gray-50 transition-colors">
+            {{ 'CAFE_PANEL.REJECT_MODAL.CANCEL' | translate }}
+          </button>
+          <button type="submit"
+                  [disabled]="reasonForm.invalid"
+                  class="flex-1 px-5 py-3 rounded-full text-sm font-semibold bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-md transition-all">
+            {{ 'CAFE_PANEL.REJECT_MODAL.CONFIRM' | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

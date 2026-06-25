@@ -1,0 +1,75 @@
+<main class="w-full min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center px-6 py-12">
+  <div class="max-w-md w-full">
+
+    <div class="text-center mb-10">
+      <p class="text-xs uppercase tracking-[0.22em] text-gray-500 font-medium mb-3">
+        {{ 'LOGIN.EYEBROW' | translate }}
+      </p>
+      <h1 class="text-4xl md:text-5xl font-serif font-bold tracking-tight text-heading leading-tight">
+        {{ 'LOGIN.HEADING' | translate }}
+      </h1>
+    </div>
+
+<div class="bg-brand-soft p-1 flex rounded-full w-full mb-8 shadow-inner">
+  <button
+    type="button"
+    (click)="setTab('customer')"
+    [ngClass]="activeTab === 'customer'
+      ? 'bg-brand text-white shadow-md'
+      : 'text-heading/60 hover:text-heading'"
+    class="flex-1 py-2.5 rounded-full text-sm font-semibold transition-all duration-300">
+    {{ 'LOGIN.TAB_CUSTOMER' | translate }}
+  </button>
+
+  <button
+    type="button"
+    (click)="setTab('cafe')"
+    [ngClass]="activeTab === 'cafe'
+      ? 'bg-brand text-white shadow-md'
+      : 'text-heading/60 hover:text-heading'"
+    class="flex-1 py-2.5 rounded-full text-sm font-semibold transition-all duration-300">
+    {{ 'LOGIN.TAB_CAFE' | translate }}
+  </button>
+</div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="onLogin()" class="space-y-5">
+      <div>
+        <label class="text-sm font-medium text-heading block mb-2">{{ 'LOGIN.EMAIL' | translate }}</label>
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="you@example.com"
+          class="w-full px-4 py-3 text-heading bg-white border border-gray-200 rounded-2xl shadow-sm
+                 focus:outline-none focus:border-brand focus:ring-4 focus:ring-brand-soft
+                 transition-all duration-200 placeholder:text-gray-400"
+        />
+      </div>
+      <div>
+        <label class="text-sm font-medium text-heading block mb-2">{{ 'LOGIN.PASSWORD' | translate }}</label>
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="••••••••"
+          class="w-full px-4 py-3 text-heading bg-white border border-gray-200 rounded-2xl shadow-sm
+                 focus:outline-none focus:border-brand focus:ring-4 focus:ring-brand-soft
+                 transition-all duration-200 placeholder:text-gray-400"
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="w-full px-6 py-3.5 mt-2 text-white text-base font-semibold bg-brand hover:bg-brand-strong
+               rounded-full shadow-md hover:shadow-xl hover:-translate-y-0.5
+               disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200">
+        {{ 'LOGIN.SUBMIT' | translate }}
+      </button>
+    </form>
+
+    <p class="text-center text-sm text-body mt-8">
+      {{ 'LOGIN.NO_ACCOUNT' | translate }}
+      <a routerLink="/register" class="font-semibold text-brand hover:text-brand-strong transition-colors">
+        {{ 'LOGIN.SIGN_UP' | translate }}
+      </a>
+    </p>
+  </div>
+</main>

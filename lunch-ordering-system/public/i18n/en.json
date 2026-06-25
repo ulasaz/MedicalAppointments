@@ -1,0 +1,257 @@
+{
+  "LANGUAGE": "English",
+
+  "NAV": {
+    "TITLE": "Lunch ordering",
+    "MENU": "Menu",
+    "MY_ORDERS": "My orders",
+    "CAFE_PANEL": "Cafe panel"
+  },
+
+  "LOGIN": {
+    "EYEBROW": "Welcome back",
+    "HEADING": "Sign in to order",
+    "TAB_CUSTOMER": "Customer",
+    "TAB_CAFE": "Cafe",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "SUBMIT": "Sign in",
+    "NO_ACCOUNT": "Don't have an account?",
+    "SIGN_UP": "Sign up",
+    "SUCCESS": "Welcome back!",
+    "ERROR_ROLE": "This is not a {{role}} account. Switch the tab and try again.",
+    "ERROR_CREDENTIALS": "Invalid email or password."
+  },
+
+  "REGISTER": {
+    "EYEBROW": "New here",
+    "HEADING": "Sign up to order",
+    "DISPLAY_NAME": "Display name",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "SUBMIT": "Sign up",
+    "ALREADY_HAVE_ACCOUNT": "Already have an account?",
+    "SIGN_IN": "Sign in",
+    "VALIDATION": {
+      "DISPLAY_NAME": "At least 2 characters",
+      "EMAIL": "Enter a valid email",
+      "PASSWORD": "At least 6 characters"
+    },
+    "SUCCESS": "Welcome!",
+    "ERROR": "Could not create account. Try a different email."
+  },
+
+  "MENU": {
+    "EYEBROW": "Today's menu",
+    "HEADING": "What's on for lunch?",
+    "SUBHEADING": "Pick a few things — pickup at the counter, usually 12 minutes from confirmation.",
+    "ALL": "All",
+    "NEW_ITEM": "New item",
+    "SOLD_OUT": "Sold out",
+    "MARK_SOLD_OUT": "Mark as sold out",
+    "MARK_AVAILABLE": "Mark as available",
+    "EDIT_ITEM": "Edit item",
+    "DELETE_ITEM": "Delete item",
+    "ADD_TO_CART": "Add to cart",
+
+    "ADD_MODAL": {
+      "EYEBROW": "Menu",
+      "HEADING": "Add new item",
+      "DESCRIPTION": "Fill in the details. You can mark it sold out later if it runs out.",
+      "NAME": "Name",
+      "NAME_PLACEHOLDER": "Black Coffee",
+      "DESCRIPTION_LABEL": "Description",
+      "DESCRIPTION_PLACEHOLDER": "Freshly brewed, no sugar...",
+      "CATEGORY": "Category",
+      "CATEGORY_PLACEHOLDER": "Pick a category",
+      "PRICE": "Price",
+      "PRICE_NOTE": "(in cents, e.g. 1500 = $15.00)",
+      "PHOTO_URL": "Photo URL",
+      "PHOTO_NOTE": "(optional)",
+      "AVAILABLE": "Available right now",
+      "CANCEL": "Cancel",
+      "SAVE": "Save item",
+      "VALIDATION": {
+        "NAME_REQUIRED": "Name is required",
+        "DESCRIPTION_REQUIRED": "Description is required",
+        "CATEGORY_REQUIRED": "Pick a category",
+        "PRICE_REQUIRED": "Price must be 0 or more"
+      }
+    },
+
+    "EDIT_MODAL": {
+      "EYEBROW": "Menu",
+      "HEADING": "Edit item",
+      "DESCRIPTION": "Update the details — changes apply to new orders only, past orders keep their original snapshot.",
+      "NAME": "Name",
+      "DESCRIPTION_LABEL": "Description",
+      "CATEGORY": "Category",
+      "CATEGORY_PLACEHOLDER": "Pick a category",
+      "PRICE": "Price",
+      "PRICE_NOTE": "(in cents)",
+      "PHOTO_URL": "Photo URL",
+      "PHOTO_NOTE": "(optional)",
+      "AVAILABLE": "Available right now",
+      "CANCEL": "Cancel",
+      "SAVE": "Save changes"
+    },
+
+    "DELETE_MODAL": {
+      "HEADING": "Delete \"{{name}}\"?",
+      "DESCRIPTION": "This permanently removes the item from the menu. Past orders keep their snapshot, but customers can no longer order it.",
+      "CANCEL": "Cancel",
+      "CONFIRM": "Yes, delete"
+    },
+
+    "CART": {
+      "EYEBROW": "Your cart",
+      "HEADING": "Ready to order?",
+      "TOTAL": "Total",
+      "PLACE_ORDER": "Place order"
+    },
+
+    "TOAST": {
+      "ITEM_ADDED_TO_CART": "Item added to cart",
+      "LOGIN_REQUIRED": "Please log in to add items to your cart",
+      "ORDER_PLACED": "Order placed",
+      "ORDER_FAILED": "Could not place order. Try again.",
+      "ITEM_ADDED": "Item was successfully added",
+      "ITEM_ADD_ERROR": "Error during adding item",
+      "ITEM_UPDATED": "Item was successfully updated",
+      "ITEM_UPDATE_ERROR": "Error during updating item",
+      "ITEM_DELETED": "Item was deleted",
+      "ITEM_DELETE_ERROR": "Could not delete item",
+      "MARKED_SOLD_OUT": "Marked as sold out",
+      "MARKED_AVAILABLE": "Marked as available",
+      "AVAILABILITY_ERROR": "Could not change availability"
+    }
+  },
+
+  "ORDERS": {
+    "EYEBROW": "Your account",
+    "HEADING": "My orders",
+    "SUBHEADING": "Everything you've ordered, freshest at the top.",
+    "EMPTY": "No orders yet.",
+    "BROWSE_MENU": "Browse the menu",
+    "WHAT_YOU_GOT": "What you got",
+    "ITEM_REF": "Item #{{id}}",
+    "TOTAL": "Total",
+    "COMPLETE": "Complete",
+    "CANCEL": "Cancel",
+    "TITLE_NOT_READY": "Order is not ready for pickup yet",
+    "TITLE_COMPLETE": "Mark as completed",
+    "TITLE_CANCEL_DISABLED": "Order can only be cancelled while pending",
+    "TITLE_CANCEL": "Cancel this order",
+
+    "STATUS": {
+      "PENDING": "Pending",
+      "CONFIRMED": "Confirmed",
+      "READY": "Ready",
+      "COMPLETED": "Completed",
+      "REJECTED": "Rejected",
+      "CANCELLED": "Cancelled"
+    },
+
+    "TOAST": {
+      "COMPLETED": "Order with id: {{id}} was completed",
+      "COMPLETE_ERROR": "Failed to complete order",
+      "CANCELLED": "Order with id: {{id}} was canceled",
+      "CANCEL_ERROR": "Failed to cancel order"
+    }
+  },
+
+  "CAFE_PANEL": {
+    "EYEBROW": "For staff",
+    "HEADING": "Cafe panel",
+    "SUBHEADING": "Manage today's orders and confirm what's coming through.",
+    "EMPTY": "No orders yet.",
+    "CONFIRM": "Confirm",
+    "REJECT": "Reject",
+    "READY": "Ready",
+    "TAB_ORDERS": "Orders",
+    "TAB_SCHEDULE": "Schedule",
+    "TAB_PARSING": "Parsing",
+
+    "PARSING": {
+      "HEADING": "Parse menu",
+      "DESCRIPTION": "Choose a source to load menu items from. Review and edit them before saving to the database.",
+      "GDRIVE_LABEL": "Google Drive",
+      "FOLDER_PLACEHOLDER": "Google Drive folder ID",
+      "PARSE": "Parse",
+      "PARSING": "Parsing…",
+      "FB_LABEL": "Facebook",
+      "FB_PLACEHOLDER": "Facebook post URL",
+      "PARSE_FB": "Parse",
+      "PARSING_FB": "Parsing…",
+      "ITEMS_FOUND": "{{count}} items found — review before saving",
+      "CLEAR": "Clear",
+      "SAVE": "Save to menu",
+      "PRICE": "Price (minor)",
+      "NAME_PLACEHOLDER": "Item name",
+      "DESC_PLACEHOLDER": "Description",
+      "TOAST": {
+        "SAVED": "Menu items saved successfully",
+        "SAVE_ERROR": "Could not save menu items",
+        "ERROR": "Error during parsing"
+      }
+    },
+
+    "SCHEDULE": {
+      "EMPTY_DAY": "Nothing scheduled",
+      "ADD_PLACEHOLDER": "Add item…",
+      "ADD": "Add",
+      "REMOVE": "Remove from schedule",
+      "DAYS": {
+        "0": "Monday",
+        "1": "Tuesday",
+        "2": "Wednesday",
+        "3": "Thursday",
+        "4": "Friday",
+        "5": "Saturday",
+        "6": "Sunday"
+      },
+      "TOAST": {
+        "ADDED": "Added to schedule",
+        "ADD_ERROR": "Could not add to schedule",
+        "REMOVED": "Removed from schedule",
+        "REMOVE_ERROR": "Could not remove from schedule"
+      }
+    },
+
+    "STATUS": {
+      "PENDING": "Pending",
+      "CONFIRMED": "Confirmed",
+      "READY": "Ready",
+      "COMPLETED": "Completed",
+      "REJECTED": "Rejected",
+      "CANCELLED": "Cancelled"
+    },
+
+    "STATUS_DESC": {
+      "PENDING": "Awaiting confirmation",
+      "CONFIRMED": "Being prepared",
+      "READY": "Ready for pickup",
+      "COMPLETED": "All done",
+      "REJECTED": "Declined by staff",
+      "CANCELLED": "Cancelled by customer"
+    },
+
+    "REJECT_MODAL": {
+      "HEADING": "Reject order",
+      "DESCRIPTION": "Please provide a reason for rejecting this order. The customer will see this message.",
+      "PLACEHOLDER": "e.g., We are out of fresh croissants...",
+      "CANCEL": "Cancel",
+      "CONFIRM": "Confirm reject"
+    },
+
+    "TOAST": {
+      "REJECTED": "Order with id: {{id}} was rejected",
+      "CONFIRMED": "Order with id: {{id}} was confirmed",
+      "READY": "Order with id: {{id}} is ready"
+    }
+  },
+
+  "AUTH": {
+    "SESSION_EXPIRED": "Your session has expired. Please log in again."
+  }
+}

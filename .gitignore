@@ -1,0 +1,34 @@
+## --- .NET (C#) Игнорирование ---
+# Папки сборки и бинарники
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+b囊in/
+obj/
+
+# Служебные файлы Rider и Visual Studio
+.idea/
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## --- Frontend (Node.js / React / Vue) Игнорирование ---
+# Зависимости
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Папки сборки фронтенда
+dist/
+build/
+.next/
+out/
+
+## --- Системные файлы и Docker ---
+.DS_Store
+Thumbs.db
+*.log

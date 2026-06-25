@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+    <data name="ItemNotFound" xml:space="preserve">
+        <value>Menu item not found</value>
+    </data>
+    <data name="ItemUnavailable" xml:space="preserve">
+        <value>This item is unavailable</value>
+    </data>
+    <data name="OrderCreated" xml:space="preserve">
+        <value>Order has been placed</value>
+    </data>
+    <data name="MenuItemNotFound" xml:space="preserve">
+        <value>Menu item not found</value>
+    </data>
+    <data name="MenuItemInvalidData" xml:space="preserve">
+        <value>Invalid menu item data</value>
+    </data>
+</root>

@@ -1,0 +1,88 @@
+<nav class="fixed top-0 w-full z-50 transition-all duration-300 bg-cream border-b border-gray-200"
+     [class.shadow-sm]="isScrolled">
+
+  <div class="max-w-screen-2xl mx-auto px-8 h-20 grid grid-cols-3 items-center">
+    <a routerLink="/menu" class="flex items-center gap-3 justify-self-start hover:opacity-80 transition-opacity">
+      <img [src]="tenantConfig?.logoUrl ?? '/marigold-mark.svg'" class="h-9" alt="Logo" />
+      <span class="text-2xl font-serif tracking-tight text-heading">{{ tenantConfig?.name ?? ('NAV.TITLE' | translate) }}</span>
+    </a>
+
+    <div class="flex items-center gap-10 justify-self-center">
+
+      <a routerLink="/menu"
+         #rlaMenu="routerLinkActive"
+         routerLinkActive
+         class="inline-flex items-center gap-2 pb-1.5 text-base font-medium border-b-2 transition-all duration-200 hover:text-heading"
+         [ngClass]="rlaMenu.isActive
+           ? 'text-heading border-brand'
+           : 'text-gray-500 border-transparent'">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+        </svg>
+        {{ 'NAV.MENU' | translate }}
+      </a>
+
+      @if (authService.isAuthenticated() && authService.getUserRole() === 'Customer') {
+        <a routerLink="/orders"
+           #rlaOrders="routerLinkActive"
+           routerLinkActive
+           class="inline-flex items-center gap-2 pb-1.5 text-base font-medium border-b-2 transition-all duration-200 hover:text-heading"
+           [ngClass]="rlaOrders.isActive
+             ? 'text-heading border-brand'
+             : 'text-gray-500 border-transparent'">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 12h6m-6 4h4" />
+          </svg>
+          {{ 'NAV.MY_ORDERS' | translate }}
+        </a>
+      }
+
+      @if (authService.isAuthenticated() && authService.getUserRole() === 'Cafe') {
+        <a routerLink="/cafe-panel"
+           #rlaCafe="routerLinkActive"
+           routerLinkActive
+           class="inline-flex items-center gap-2 pb-1.5 text-base font-medium border-b-2 transition-all duration-200 hover:text-heading"
+           [ngClass]="rlaCafe.isActive
+             ? 'text-heading border-brand'
+             : 'text-gray-500 border-transparent'">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M3 7h18M3 12h18M3 17h18" />
+          </svg>
+          {{ 'NAV.CAFE_PANEL' | translate }}
+        </a>
+      }
+    </div>
+
+    <div class="flex items-center gap-3 justify-self-end">
+
+      <div class="flex items-center bg-gray-100 rounded-full p-1 shadow-inner">
+        @for (lang of ['en', 'pl']; track lang) {
+          <button type="button"
+                  (click)="switchLang(lang)"
+                  class="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide transition-all duration-200"
+                  [ngClass]="currentLang === lang
+                    ? 'bg-white text-heading shadow-sm'
+                    : 'text-gray-500 hover:text-heading'">
+            {{ lang }}
+          </button>
+        }
+      </div>
+
+      @if (authService.isAuthenticated()) {
+
+        <button type="button" (click)="authService.logout()"
+                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-base font-medium text-heading bg-white border border-gray-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 hover:border-red-200 transition-all duration-200">
+          Hi, {{ authService.getUserName() ?? 'there' }}
+          <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+        </button>
+
+      }
+    </div>
+  </div>
+</nav>

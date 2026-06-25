@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+    <data name="ItemNotFound" xml:space="preserve">
+        <value>Nie znaleziono pozycji menu </value>
+    </data>
+    <data name="ItemUnavailable" xml:space="preserve">
+        <value>Ta pozycja jest niedostepna </value>
+    </data>
+    <data name="OrderCreated" xml:space="preserve">
+        <value>Zamwienie zostalo zlozone </value>
+    </data>
+    <data name="MenuItemNotFound" xml:space="preserve">
+        <value>Nie znaleziono pozycji menu</value>
+    </data>
+    <data name="MenuItemInvalidData" xml:space="preserve">
+        <value>Nieprawidlowe dane pozycji menu</value>
+    </data>
+    <data name="ScheduleInvalidData" xml:space="preserve">
+        <value>Nieprawidlowe dane harmonogramu lub pozycja jest juz zaplanowana na ten dzien</value>
+    </data>
+    <data name="ScheduleNotFound" xml:space="preserve">
+        <value>Nie znaleziono wpisu harmonogramu</value>
+    </data>
+</root>

@@ -1,0 +1,113 @@
+﻿services:
+  lunch-postgres:
+   image: postgres:16
+   environment:
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
+   ports:
+     - "5432:5432"
+   volumes:
+    - postgres_data:/var/lib/postgresql/data
+   healthcheck:
+    test: ["CMD-SHELL", "pg_isready -U postgres"]
+    interval: 5s
+    timeout: 5s
+    retries: 5
+  
+  lunch-rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  identity.api:
+    image: identity.api
+    build:
+      context: .
+      dockerfile: Identity.API/Dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=lunch-postgres;Port=5432;Database=LunchOrdering_Identity;Username=postgres;Password=postgres
+      - RabbitMq__Host=lunch-rabbitmq
+      - JwtSettings__Secret=MySuperSecretKeyThatIsVeryLongAndSecureForLunchOrderingSystem
+      - Jwt__ExpirationInMinutes=60
+    depends_on:
+      lunch-postgres:
+        condition: service_healthy
+      lunch-rabbitmq:
+        condition: service_started
+
+  menu.api:
+    image: menu.api
+    build:
+      context: .
+      dockerfile: Menu.API/Dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=lunch-postgres;Port=5432;Database=LunchOrdering_Menu;Username=postgres;Password=postgres
+      - RabbitMq__Host=lunch-rabbitmq
+    volumes:
+      - ./Menu.API/credentials.json:/app/credentials.json:ro
+      - ./Menu.API/token.json:/app/token.json
+    depends_on:
+      lunch-postgres:
+        condition: service_healthy
+      lunch-rabbitmq:
+        condition: service_healthy
+
+  orders.api:
+    image: orders.api
+    build:
+      context: .
+      dockerfile: Orders.API/Dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=lunch-postgres;Port=5432;Database=LunchOrdering_Orders;Username=postgres;Password=postgres
+      - RabbitMq__Host=lunch-rabbitmq
+    depends_on:
+      lunch-postgres:
+        condition: service_healthy
+      lunch-rabbitmq:
+        condition: service_healthy
+
+  notifications.api:
+    image: notifications.api
+    build:
+      context: .
+      dockerfile: Notifications.API/Dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=lunch-postgres;Port=5432;Database=LunchOrdering_Notifications;Username=postgres;Password=postgres
+      - RabbitMq__Host=lunch-rabbitmq
+    depends_on:
+      lunch-postgres:
+        condition: service_healthy
+      lunch-rabbitmq:
+        condition: service_healthy
+
+  gateway:
+    image: gateway
+    build:
+      context: .
+      dockerfile: Gateway/Dockerfile
+    ports:
+      - "5000:8080"
+    depends_on:
+      - identity.api
+      - menu.api
+      - notifications.api
+      - orders.api
+
+  frontend:
+    image: lunch-frontend
+    build:
+      context: ./lunch-ordering-system
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - gateway
+
+volumes:
+  postgres_data:

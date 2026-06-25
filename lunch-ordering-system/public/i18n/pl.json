@@ -1,0 +1,257 @@
+{
+  "LANGUAGE": "Polski",
+
+  "NAV": {
+    "TITLE": "Zamawianie lunchów",
+    "MENU": "Menu",
+    "MY_ORDERS": "Moje zamówienia",
+    "CAFE_PANEL": "Panel kawiarni"
+  },
+
+  "LOGIN": {
+    "EYEBROW": "Witaj ponownie",
+    "HEADING": "Zaloguj się, aby zamawiać",
+    "TAB_CUSTOMER": "Klient",
+    "TAB_CAFE": "Kawiarnia",
+    "EMAIL": "Adres e-mail",
+    "PASSWORD": "Hasło",
+    "SUBMIT": "Zaloguj się",
+    "NO_ACCOUNT": "Nie masz konta?",
+    "SIGN_UP": "Zarejestruj się",
+    "SUCCESS": "Witaj ponownie!",
+    "ERROR_ROLE": "To nie jest konto {{role}}. Zmień zakładkę i spróbuj ponownie.",
+    "ERROR_CREDENTIALS": "Nieprawidłowy adres e-mail lub hasło."
+  },
+
+  "REGISTER": {
+    "EYEBROW": "Nowy tutaj",
+    "HEADING": "Zarejestruj się, aby zamawiać",
+    "DISPLAY_NAME": "Nazwa wyświetlana",
+    "EMAIL": "Adres e-mail",
+    "PASSWORD": "Hasło",
+    "SUBMIT": "Zarejestruj się",
+    "ALREADY_HAVE_ACCOUNT": "Masz już konto?",
+    "SIGN_IN": "Zaloguj się",
+    "VALIDATION": {
+      "DISPLAY_NAME": "Minimum 2 znaki",
+      "EMAIL": "Podaj prawidłowy adres e-mail",
+      "PASSWORD": "Minimum 6 znaków"
+    },
+    "SUCCESS": "Witaj!",
+    "ERROR": "Nie udało się utworzyć konta. Spróbuj inny adres e-mail."
+  },
+
+  "MENU": {
+    "EYEBROW": "Dzisiejsze menu",
+    "HEADING": "Co na lunch?",
+    "SUBHEADING": "Wybierz kilka pozycji — odbiór przy ladzie, zazwyczaj 12 minut od potwierdzenia.",
+    "ALL": "Wszystkie",
+    "NEW_ITEM": "Nowa pozycja",
+    "SOLD_OUT": "Wyprzedane",
+    "MARK_SOLD_OUT": "Oznacz jako wyprzedane",
+    "MARK_AVAILABLE": "Oznacz jako dostępne",
+    "EDIT_ITEM": "Edytuj pozycję",
+    "DELETE_ITEM": "Usuń pozycję",
+    "ADD_TO_CART": "Dodaj do koszyka",
+
+    "ADD_MODAL": {
+      "EYEBROW": "Menu",
+      "HEADING": "Dodaj nową pozycję",
+      "DESCRIPTION": "Wypełnij szczegóły. Możesz oznaczyć jako wyprzedane, gdy zabraknie.",
+      "NAME": "Nazwa",
+      "NAME_PLACEHOLDER": "Czarna kawa",
+      "DESCRIPTION_LABEL": "Opis",
+      "DESCRIPTION_PLACEHOLDER": "Świeżo parzona, bez cukru...",
+      "CATEGORY": "Kategoria",
+      "CATEGORY_PLACEHOLDER": "Wybierz kategorię",
+      "PRICE": "Cena",
+      "PRICE_NOTE": "(w groszach, np. 1500 = 15,00 zł)",
+      "PHOTO_URL": "URL zdjęcia",
+      "PHOTO_NOTE": "(opcjonalne)",
+      "AVAILABLE": "Dostępne teraz",
+      "CANCEL": "Anuluj",
+      "SAVE": "Zapisz pozycję",
+      "VALIDATION": {
+        "NAME_REQUIRED": "Nazwa jest wymagana",
+        "DESCRIPTION_REQUIRED": "Opis jest wymagany",
+        "CATEGORY_REQUIRED": "Wybierz kategorię",
+        "PRICE_REQUIRED": "Cena musi wynosić 0 lub więcej"
+      }
+    },
+
+    "EDIT_MODAL": {
+      "EYEBROW": "Menu",
+      "HEADING": "Edytuj pozycję",
+      "DESCRIPTION": "Zaktualizuj szczegóły — zmiany dotyczą tylko nowych zamówień, poprzednie zachowują oryginalny stan.",
+      "NAME": "Nazwa",
+      "DESCRIPTION_LABEL": "Opis",
+      "CATEGORY": "Kategoria",
+      "CATEGORY_PLACEHOLDER": "Wybierz kategorię",
+      "PRICE": "Cena",
+      "PRICE_NOTE": "(w groszach)",
+      "PHOTO_URL": "URL zdjęcia",
+      "PHOTO_NOTE": "(opcjonalne)",
+      "AVAILABLE": "Dostępne teraz",
+      "CANCEL": "Anuluj",
+      "SAVE": "Zapisz zmiany"
+    },
+
+    "DELETE_MODAL": {
+      "HEADING": "Usunąć \"{{name}}\"?",
+      "DESCRIPTION": "Pozycja zostanie trwale usunięta z menu. Poprzednie zamówienia zachowują swój stan, ale klienci nie będą już mogli jej zamawiać.",
+      "CANCEL": "Anuluj",
+      "CONFIRM": "Tak, usuń"
+    },
+
+    "CART": {
+      "EYEBROW": "Twój koszyk",
+      "HEADING": "Gotowy do zamówienia?",
+      "TOTAL": "Suma",
+      "PLACE_ORDER": "Złóż zamówienie"
+    },
+
+    "TOAST": {
+      "ITEM_ADDED_TO_CART": "Dodano do koszyka",
+      "LOGIN_REQUIRED": "Zaloguj się, aby dodawać pozycje do koszyka",
+      "ORDER_PLACED": "Zamówienie złożone",
+      "ORDER_FAILED": "Nie udało się złożyć zamówienia. Spróbuj ponownie.",
+      "ITEM_ADDED": "Pozycja została dodana",
+      "ITEM_ADD_ERROR": "Błąd podczas dodawania pozycji",
+      "ITEM_UPDATED": "Pozycja została zaktualizowana",
+      "ITEM_UPDATE_ERROR": "Błąd podczas aktualizacji pozycji",
+      "ITEM_DELETED": "Pozycja została usunięta",
+      "ITEM_DELETE_ERROR": "Nie udało się usunąć pozycji",
+      "MARKED_SOLD_OUT": "Oznaczono jako wyprzedane",
+      "MARKED_AVAILABLE": "Oznaczono jako dostępne",
+      "AVAILABILITY_ERROR": "Nie udało się zmienić dostępności"
+    }
+  },
+
+  "ORDERS": {
+    "EYEBROW": "Twoje konto",
+    "HEADING": "Moje zamówienia",
+    "SUBHEADING": "Wszystkie Twoje zamówienia, najnowsze na górze.",
+    "EMPTY": "Brak zamówień.",
+    "BROWSE_MENU": "Przeglądaj menu",
+    "WHAT_YOU_GOT": "Twoje pozycje",
+    "ITEM_REF": "Pozycja #{{id}}",
+    "TOTAL": "Suma",
+    "COMPLETE": "Odbierz",
+    "CANCEL": "Anuluj",
+    "TITLE_NOT_READY": "Zamówienie nie jest jeszcze gotowe do odbioru",
+    "TITLE_COMPLETE": "Oznacz jako odebrane",
+    "TITLE_CANCEL_DISABLED": "Zamówienie można anulować tylko gdy jest oczekujące",
+    "TITLE_CANCEL": "Anuluj zamówienie",
+
+    "STATUS": {
+      "PENDING": "Oczekujące",
+      "CONFIRMED": "Potwierdzone",
+      "READY": "Gotowe",
+      "COMPLETED": "Odebrane",
+      "REJECTED": "Odrzucone",
+      "CANCELLED": "Anulowane"
+    },
+
+    "TOAST": {
+      "COMPLETED": "Zamówienie o id: {{id}} zostało odebrane",
+      "COMPLETE_ERROR": "Nie udało się zaktualizować zamówienia",
+      "CANCELLED": "Zamówienie o id: {{id}} zostało anulowane",
+      "CANCEL_ERROR": "Nie udało się anulować zamówienia"
+    }
+  },
+
+  "CAFE_PANEL": {
+    "EYEBROW": "Dla personelu",
+    "HEADING": "Panel kawiarni",
+    "SUBHEADING": "Zarządzaj dzisiejszymi zamówieniami i potwierdzaj je na bieżąco.",
+    "EMPTY": "Brak zamówień.",
+    "CONFIRM": "Potwierdź",
+    "REJECT": "Odrzuć",
+    "READY": "Gotowe",
+    "TAB_ORDERS": "Zamówienia",
+    "TAB_SCHEDULE": "Harmonogram",
+    "TAB_PARSING": "Parsowanie",
+
+    "PARSING": {
+      "HEADING": "Parsowanie menu",
+      "DESCRIPTION": "Wybierz źródło, z którego chcesz załadować pozycje menu. Przejrzyj i edytuj je przed zapisaniem do bazy danych.",
+      "GDRIVE_LABEL": "Google Drive",
+      "FOLDER_PLACEHOLDER": "Identyfikator folderu Google Drive",
+      "PARSE": "Parsuj",
+      "PARSING": "Parsowanie…",
+      "FB_LABEL": "Facebook",
+      "FB_PLACEHOLDER": "URL posta na Facebooku",
+      "PARSE_FB": "Parsuj",
+      "PARSING_FB": "Parsowanie…",
+      "ITEMS_FOUND": "Znaleziono {{count}} pozycji — sprawdź przed zapisaniem",
+      "CLEAR": "Wyczyść",
+      "SAVE": "Zapisz do menu",
+      "PRICE": "Cena (grosze)",
+      "NAME_PLACEHOLDER": "Nazwa pozycji",
+      "DESC_PLACEHOLDER": "Opis",
+      "TOAST": {
+        "SAVED": "Pozycje menu zostały zapisane",
+        "SAVE_ERROR": "Nie udało się zapisać pozycji menu",
+        "ERROR": "Błąd podczas parsowania"
+      }
+    },
+
+    "SCHEDULE": {
+      "EMPTY_DAY": "Nic nie zaplanowano",
+      "ADD_PLACEHOLDER": "Dodaj pozycję…",
+      "ADD": "Dodaj",
+      "REMOVE": "Usuń z harmonogramu",
+      "DAYS": {
+        "0": "Poniedziałek",
+        "1": "Wtorek",
+        "2": "Środa",
+        "3": "Czwartek",
+        "4": "Piątek",
+        "5": "Sobota",
+        "6": "Niedziela"
+      },
+      "TOAST": {
+        "ADDED": "Dodano do harmonogramu",
+        "ADD_ERROR": "Nie udało się dodać do harmonogramu",
+        "REMOVED": "Usunięto z harmonogramu",
+        "REMOVE_ERROR": "Nie udało się usunąć z harmonogramu"
+      }
+    },
+
+    "STATUS": {
+      "PENDING": "Oczekujące",
+      "CONFIRMED": "Potwierdzone",
+      "READY": "Gotowe",
+      "COMPLETED": "Zakończone",
+      "REJECTED": "Odrzucone",
+      "CANCELLED": "Anulowane"
+    },
+
+    "STATUS_DESC": {
+      "PENDING": "Oczekuje na potwierdzenie",
+      "CONFIRMED": "W trakcie przygotowania",
+      "READY": "Gotowe do odbioru",
+      "COMPLETED": "Zakończone",
+      "REJECTED": "Odrzucone przez obsługę",
+      "CANCELLED": "Anulowane przez klienta"
+    },
+
+    "REJECT_MODAL": {
+      "HEADING": "Odrzuć zamówienie",
+      "DESCRIPTION": "Podaj powód odrzucenia zamówienia. Klient zobaczy tę wiadomość.",
+      "PLACEHOLDER": "np. Zabrakło nam świeżych croissantów...",
+      "CANCEL": "Anuluj",
+      "CONFIRM": "Potwierdź odrzucenie"
+    },
+
+    "TOAST": {
+      "REJECTED": "Zamówienie o id: {{id}} zostało odrzucone",
+      "CONFIRMED": "Zamówienie o id: {{id}} zostało potwierdzone",
+      "READY": "Zamówienie o id: {{id}} jest gotowe"
+    }
+  },
+
+  "AUTH": {
+    "SESSION_EXPIRED": "Twoja sesja wygasła. Zaloguj się ponownie."
+  }
+}
