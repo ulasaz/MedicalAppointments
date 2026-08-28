@@ -1,0 +1,264 @@
+<main class="w-full min-h-screen bg-gray-50 pt-8 pb-12 px-4 sm:px-6">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6 items-start">
+
+    <app-doctor-sidebar />
+
+    <!-- Main content -->
+    <div class="space-y-6 min-w-0">
+
+      <!-- Banner: same blood-cell imagery as the rest of the app, darkened like the hero. -->
+      <div class="relative rounded-3xl overflow-hidden h-32 sm:h-36">
+        <img src="/images/bg/top_img.jpg" alt="" class="absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black/60"></div>
+        <div class="relative z-10 h-full flex items-center px-6 sm:px-8">
+          <div>
+            <p class="text-xs font-semibold tracking-widest uppercase text-white/70">{{ 'DOCTOR_DASHBOARD.EYEBROW' | translate }}</p>
+            <h1 class="mt-1 text-2xl sm:text-3xl font-bold text-white">{{ 'DOCTOR_DASHBOARD.HEADING' | translate }}</h1>
+          </div>
+        </div>
+      </div>
+
+      @if (hasProfile === false) {
+        <div class="p-4 rounded-2xl border border-amber-300 bg-amber-50 flex items-center justify-between gap-4">
+          <p class="text-sm text-amber-800">{{ 'DOCTOR_DASHBOARD.PROFILE_PROMPT' | translate }}</p>
+          <a routerLink="/doctor-setup"
+             class="px-4 py-2 text-sm font-medium text-white bg-gray-900 hover:bg-gray-700 rounded-full shrink-0">
+            {{ 'DOCTOR_DASHBOARD.PROFILE_PROMPT_BUTTON' | translate }}
+          </a>
+        </div>
+      } @else if (isLoading) {
+        <p class="text-center text-gray-500 py-16">{{ 'DOCTOR_DASHBOARD.LOADING' | translate }}</p>
+      } @else {
+
+        <!-- Stat cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div class="bg-white rounded-3xl shadow-xl p-6 flex items-center gap-4">
+            <span class="w-14 h-14 shrink-0 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+              </svg>
+            </span>
+            <div>
+              <p class="text-2xl font-bold text-gray-900 leading-none">{{ totalPatientsCount }}</p>
+              <p class="text-xs text-gray-500 mt-1">{{ 'DOCTOR_DASHBOARD.STATS.TOTAL_PATIENTS' | translate }}</p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-3xl shadow-xl p-6 flex items-center gap-4">
+            <span class="w-14 h-14 shrink-0 rounded-full bg-teal-50 text-teal-600 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+              </svg>
+            </span>
+            <div>
+              <p class="text-2xl font-bold text-gray-900 leading-none">{{ todayPatientsCount }}</p>
+              <p class="text-xs text-gray-500 mt-1">{{ 'DOCTOR_DASHBOARD.STATS.TODAY_PATIENTS' | translate }}</p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-3xl shadow-xl p-6 flex items-center gap-4">
+            <span class="w-14 h-14 shrink-0 rounded-full bg-fuchsia-50 text-fuchsia-600 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3.75 18.75V7.5a2.25 2.25 0 012.25-2.25h12a2.25 2.25 0 012.25 2.25v11.25m-16.5 0A2.25 2.25 0 006 21h12a2.25 2.25 0 002.25-2.25m-16.5 0V11.25A2.25 2.25 0 016 9h12a2.25 2.25 0 012.25 2.25v7.5" />
+              </svg>
+            </span>
+            <div>
+              <p class="text-2xl font-bold text-gray-900 leading-none">{{ todayAppointments.length }}</p>
+              <p class="text-xs text-gray-500 mt-1">{{ 'DOCTOR_DASHBOARD.STATS.TODAY_APPOINTMENTS' | translate }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Patients summary / Today's appointments / Next patient -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+          <div class="bg-white rounded-3xl shadow-xl p-6">
+            <h3 class="font-semibold text-gray-900 mb-6">{{ 'DOCTOR_DASHBOARD.SUMMARY_HEADING' | translate }}</h3>
+            <div class="flex flex-col items-center">
+              <div class="relative w-36 h-36 rounded-full" [style.background]="patientDonutBackground">
+                <div class="absolute inset-3 rounded-full bg-white flex flex-col items-center justify-center">
+                  <span class="text-2xl font-bold text-gray-900">{{ totalPatientsCount }}</span>
+                  <span class="text-[10px] uppercase tracking-wide text-gray-400">{{ 'DOCTOR_DASHBOARD.TOTAL_LABEL' | translate }}</span>
+                </div>
+              </div>
+              <div class="mt-6 w-full space-y-2 text-sm">
+                <div class="flex items-center justify-between">
+                  <span class="inline-flex items-center gap-2 text-gray-600">
+                    <span class="w-2.5 h-2.5 rounded-full bg-teal-400"></span>
+                    {{ 'DOCTOR_DASHBOARD.NEW_PATIENTS' | translate }}
+                  </span>
+                  <span class="font-medium text-gray-900">{{ newPatientsCount }}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="inline-flex items-center gap-2 text-gray-600">
+                    <span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span>
+                    {{ 'DOCTOR_DASHBOARD.RETURNING_PATIENTS' | translate }}
+                  </span>
+                  <span class="font-medium text-gray-900">{{ returningPatientsCount }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-3xl shadow-xl p-6">
+            <h3 class="font-semibold text-gray-900 mb-4">{{ 'DOCTOR_DASHBOARD.TODAY_HEADING' | translate }}</h3>
+            @if (todayAppointments.length === 0) {
+              <p class="text-sm text-gray-500">{{ 'DOCTOR_DASHBOARD.EMPTY_TODAY' | translate }}</p>
+            } @else {
+              <div class="space-y-4">
+                @for (appointment of todayAppointments; track appointment.id) {
+                  <a [routerLink]="['/appointments', appointment.id]" class="flex items-center gap-3 group">
+                    <span class="w-9 h-9 shrink-0 rounded-full bg-linear-to-br from-fuchsia-400 to-teal-400 text-white text-xs font-semibold flex items-center justify-center">
+                      {{ initials(appointment.patientName) }}
+                    </span>
+                    <span class="min-w-0 flex-1">
+                      <span class="block text-sm font-medium text-gray-900 truncate group-hover:text-rose-600 transition-colors">{{ appointment.patientName }}</span>
+                      <span class="block text-xs text-gray-500">
+                        {{ ('APPOINTMENTS.VISIT_TYPE.' + appointment.visitType) | translate }}
+                        @if (appointment.serviceName) { — {{ appointment.serviceName }} }
+                      </span>
+                    </span>
+                    <span class="text-xs font-medium text-gray-600 shrink-0">{{ appointment.startTime | date:'shortTime' }}</span>
+                  </a>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="bg-white rounded-3xl shadow-xl p-6">
+            <h3 class="font-semibold text-gray-900 mb-4">{{ 'DOCTOR_DASHBOARD.NEXT_PATIENT_HEADING' | translate }}</h3>
+            @if (nextAppointment; as next) {
+              <div class="flex items-center gap-3">
+                <span class="w-12 h-12 shrink-0 rounded-full bg-linear-to-br from-rose-400 to-fuchsia-400 text-white text-sm font-semibold flex items-center justify-center">
+                  {{ initials(next.patientName) }}
+                </span>
+                <div class="min-w-0">
+                  <p class="font-medium text-gray-900 truncate">{{ next.patientName }}</p>
+                  <p class="text-xs text-gray-500">{{ next.startTime | date:'EEE d MMM, HH:mm' }}</p>
+                </div>
+              </div>
+              <div class="mt-4 pt-4 border-t border-gray-100 space-y-2 text-sm">
+                <div class="flex items-center justify-between">
+                  <span class="text-gray-500">{{ 'APPOINTMENT_DETAIL.VISIT_TYPE' | translate }}</span>
+                  <span class="font-medium text-gray-900">{{ ('APPOINTMENTS.VISIT_TYPE.' + next.visitType) | translate }}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-gray-500">{{ 'APPOINTMENT_DETAIL.PRICE' | translate }}</span>
+                  <span class="font-medium text-gray-900">{{ next.priceCents | price:' zł' }}</span>
+                </div>
+              </div>
+              <a [routerLink]="['/appointments', next.id]"
+                 class="mt-4 inline-flex text-sm font-medium text-rose-500 hover:text-rose-600">
+                {{ 'APPOINTMENTS.VIEW_DETAILS' | translate }} →
+              </a>
+            } @else {
+              <p class="text-sm text-gray-500">{{ 'DOCTOR_DASHBOARD.NO_NEXT_PATIENT' | translate }}</p>
+            }
+          </div>
+        </div>
+
+        <!-- Reviews / Appointment requests / Calendar -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+          <div class="bg-white rounded-3xl shadow-xl p-6">
+            <h3 class="font-semibold text-gray-900 mb-4">{{ 'DOCTOR_DASHBOARD.REVIEWS_HEADING' | translate }}</h3>
+            @if (reviews.length === 0) {
+              <p class="text-sm text-gray-500">{{ 'DOCTOR_PROFILE.NO_REVIEWS' | translate }}</p>
+            } @else {
+              <div class="space-y-3">
+                @for (bucket of reviewBuckets; track bucket.label) {
+                  <div>
+                    <div class="flex items-center justify-between text-xs text-gray-500 mb-1">
+                      <span>{{ ('DOCTOR_DASHBOARD.REVIEW_BUCKET.' + bucket.label) | translate }}</span>
+                      <span>{{ bucket.count }}</span>
+                    </div>
+                    <div class="h-2 rounded-full bg-gray-100 overflow-hidden">
+                      <div class="h-full rounded-full bg-linear-to-r from-rose-400 to-teal-400" [style.width.%]="bucket.pct"></div>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="bg-white rounded-3xl shadow-xl p-6">
+            <h3 class="font-semibold text-gray-900 mb-4">{{ 'DOCTOR_DASHBOARD.REQUESTS_HEADING' | translate }}</h3>
+            @if (pending.length === 0) {
+              <p class="text-sm text-gray-500">{{ 'DOCTOR_DASHBOARD.EMPTY_PENDING' | translate }}</p>
+            } @else {
+              <div class="space-y-4">
+                @for (appointment of pending; track appointment.id) {
+                  <div class="flex items-center gap-3">
+                    <span class="w-9 h-9 shrink-0 rounded-full bg-linear-to-br from-rose-400 to-fuchsia-400 text-white text-xs font-semibold flex items-center justify-center">
+                      {{ initials(appointment.patientName) }}
+                    </span>
+                    <span class="min-w-0 flex-1">
+                      <span class="block text-sm font-medium text-gray-900 truncate">{{ appointment.patientName }}</span>
+                      <span class="block text-xs text-gray-500">{{ appointment.startTime | date:'d MMM, HH:mm' }}</span>
+                    </span>
+                    <div class="flex items-center gap-1.5 shrink-0">
+                      <button type="button" (click)="confirm(appointment)" [disabled]="processingId === appointment.id"
+                              [attr.aria-label]="'DOCTOR_DASHBOARD.CONFIRM_BUTTON' | translate"
+                              class="w-8 h-8 rounded-full bg-teal-50 text-teal-600 hover:bg-teal-100 flex items-center justify-center disabled:opacity-40 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>
+                      </button>
+                      <button type="button" (click)="reject(appointment)" [disabled]="processingId === appointment.id"
+                              [attr.aria-label]="'DOCTOR_DASHBOARD.REJECT_BUTTON' | translate"
+                              class="w-8 h-8 rounded-full bg-rose-50 text-rose-500 hover:bg-rose-100 flex items-center justify-center disabled:opacity-40 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="bg-white rounded-3xl shadow-xl p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-semibold text-gray-900">{{ 'DOCTOR_DASHBOARD.CALENDAR_HEADING' | translate }}</h3>
+              <div class="flex items-center gap-1">
+                <button type="button" (click)="shiftCalendarMonth(-1)" class="w-6 h-6 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                  </svg>
+                </button>
+                <button type="button" (click)="shiftCalendarMonth(1)" class="w-6 h-6 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <p class="text-xs font-medium text-gray-500 mb-3 capitalize">{{ calendarLabel }}</p>
+            <div class="grid grid-cols-7 gap-y-2 text-center">
+              @for (wd of calendarWeekdays; track wd) {
+                <span class="text-[10px] font-medium text-gray-400 uppercase">{{ wd }}</span>
+              }
+              @for (cell of calendarCells; track $index) {
+                @if (cell.day === null) {
+                  <span></span>
+                } @else {
+                  <span class="relative flex items-center justify-center w-7 h-7 mx-auto rounded-full text-xs"
+                        [class.bg-rose-500]="cell.isToday"
+                        [class.text-white]="cell.isToday"
+                        [class.font-semibold]="cell.isToday"
+                        [class.text-gray-700]="!cell.isToday">
+                    {{ cell.day }}
+                    @if (cell.hasAppointment && !cell.isToday) {
+                      <span class="absolute bottom-0.5 w-1 h-1 rounded-full bg-teal-400"></span>
+                    }
+                  </span>
+                }
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</main>

@@ -1,0 +1,31 @@
+:host {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.spline-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.spline-viewer {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.spline-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+}

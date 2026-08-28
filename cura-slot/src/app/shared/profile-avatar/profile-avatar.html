@@ -1,0 +1,28 @@
+<div class="flex flex-wrap items-center gap-5">
+  <div class="w-20 h-20 shrink-0 rounded-full p-1 bg-linear-to-br from-rose-300 via-fuchsia-200 to-teal-300">
+    @if (previewUrl) {
+      <img [src]="previewUrl" alt="" class="w-full h-full rounded-full object-cover">
+    } @else if (photoUrl) {
+      <img [src]="photoUrl" alt="" class="w-full h-full rounded-full object-cover">
+    } @else {
+      <div class="w-full h-full rounded-full bg-linear-to-br from-rose-500 via-fuchsia-500 to-teal-500 text-white flex items-center justify-center text-xl font-bold">
+        {{ initials }}
+      </div>
+    }
+  </div>
+
+  <div>
+    <div class="flex items-center gap-3">
+      <label class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 border border-gray-200 rounded-full hover:bg-gray-50 cursor-pointer transition-colors">
+        {{ 'PROFILE_AVATAR.UPLOAD_BUTTON' | translate }}
+        <input type="file" accept="image/png,image/jpeg" class="hidden" (change)="onFileSelected($event)">
+      </label>
+      @if (canRemove && !previewUrl) {
+        <button type="button" (click)="removePhoto()" class="text-xs font-medium text-gray-500 hover:text-red-600 transition-colors">
+          {{ 'PROFILE_AVATAR.REMOVE_BUTTON' | translate }}
+        </button>
+      }
+    </div>
+    <p class="text-xs text-gray-500 mt-2">{{ (persisted ? 'PROFILE_AVATAR.HINT_PERSISTED' : 'PROFILE_AVATAR.HINT') | translate }}</p>
+  </div>
+</div>

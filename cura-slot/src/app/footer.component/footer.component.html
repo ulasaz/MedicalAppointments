@@ -1,0 +1,47 @@
+<footer class="relative w-full bg-gray-900 text-gray-300 overflow-hidden">
+  <!-- Same ambient rose->teal bloom used in the hero, so the footer bookends the page
+       with the same palette instead of ending on a flat dark slab. -->
+  <div class="pointer-events-none absolute inset-x-0 top-0 flex justify-center" aria-hidden="true">
+    <div class="w-208 max-w-[95vw] h-72 -translate-y-1/2 rounded-full blur-3xl opacity-20
+                bg-linear-to-br from-rose-400/55 via-fuchsia-300/25 to-teal-300/45"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6 pt-16 pb-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+      <div class="md:col-span-2 max-w-sm">
+        <a routerLink="/main" class="text-xl font-semibold tracking-tight text-white">
+          {{ 'NAV.TITLE' | translate }}
+        </a>
+        <p class="mt-3 text-sm text-gray-400">{{ 'FOOTER.TAGLINE' | translate }}</p>
+
+        <div class="mt-5 flex items-center gap-3">
+          <span class="w-9 h-9 rounded-full bg-white/10 text-gray-300 flex items-center justify-center text-xs font-bold hover:bg-white/20 hover:text-white transition-colors cursor-default">f</span>
+          <span class="w-9 h-9 rounded-full bg-white/10 text-gray-300 flex items-center justify-center text-xs font-bold hover:bg-white/20 hover:text-white transition-colors cursor-default">in</span>
+          <span class="w-9 h-9 rounded-full bg-white/10 text-gray-300 flex items-center justify-center text-xs font-bold hover:bg-white/20 hover:text-white transition-colors cursor-default">𝕏</span>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-semibold text-white tracking-wide uppercase">{{ 'FOOTER.PATIENTS.HEADING' | translate }}</h3>
+        <ul class="mt-4 space-y-3 text-sm">
+          <li><a routerLink="/doctors/search" class="hover:text-white transition-colors">{{ 'FOOTER.PATIENTS.FIND_DOCTORS' | translate }}</a></li>
+          <li><a routerLink="/login" class="hover:text-white transition-colors">{{ 'FOOTER.PATIENTS.SIGN_IN' | translate }}</a></li>
+          <li><a routerLink="/register" class="hover:text-white transition-colors">{{ 'FOOTER.PATIENTS.REGISTER' | translate }}</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-semibold text-white tracking-wide uppercase">{{ 'FOOTER.CONTACT.HEADING' | translate }}</h3>
+        <ul class="mt-4 space-y-3 text-sm">
+          <li><a href="mailto:support@curaslot.com" class="hover:text-white transition-colors">{{ 'FOOTER.CONTACT.EMAIL' | translate }}</a></li>
+          <li><a href="tel:+15551234567" class="hover:text-white transition-colors">{{ 'FOOTER.CONTACT.PHONE' | translate }}</a></li>
+          <li class="text-gray-400">{{ 'FOOTER.CONTACT.ADDRESS' | translate }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-6 border-t border-white/10 text-xs text-gray-500 text-center">
+      {{ 'FOOTER.COPYRIGHT' | translate:{ year } }}
+    </div>
+  </div>
+</footer>

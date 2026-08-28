@@ -1,0 +1,86 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+  <div>
+    <label class="text-sm text-gray-700 block mb-1">{{ 'DOCTOR_PROFILE.FORM.FULL_NAME' | translate }}</label>
+    <input
+      type="text"
+      formControlName="fullName"
+      class="w-full px-3 py-2 text-gray-900 bg-white border border-gray-300 focus:outline-none focus:border-gray-500"
+    />
+  </div>
+
+  <div>
+    <label class="text-sm text-gray-700 block mb-1">{{ 'DOCTOR_PROFILE.FORM.SPECIALIZATION' | translate }}</label>
+    <input
+      type="text"
+      formControlName="specialization"
+      class="w-full px-3 py-2 text-gray-900 bg-white border border-gray-300 focus:outline-none focus:border-gray-500"
+    />
+  </div>
+
+  <div>
+    <label class="text-sm text-gray-700 block mb-1">{{ 'DOCTOR_PROFILE.FORM.CITY' | translate }}</label>
+    <input
+      type="text"
+      formControlName="city"
+      class="w-full px-3 py-2 text-gray-900 bg-white border border-gray-300 focus:outline-none focus:border-gray-500"
+    />
+  </div>
+
+  <div>
+    <label class="text-sm text-gray-700 block mb-1">{{ 'DOCTOR_PROFILE.FORM.DESCRIPTION' | translate }}</label>
+    <textarea
+      formControlName="description"
+      rows="4"
+      class="w-full px-3 py-2 text-gray-900 bg-white border border-gray-300 focus:outline-none focus:border-gray-500"
+    ></textarea>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div>
+      <label class="text-sm text-gray-700 block mb-1">{{ 'DOCTOR_PROFILE.FORM.PRICE_STATIONARY' | translate }}</label>
+      <input
+        type="number"
+        min="0"
+        step="0.01"
+        formControlName="priceStationary"
+        [placeholder]="'DOCTOR_PROFILE.FORM.PRICE_PLACEHOLDER' | translate"
+        class="w-full px-3 py-2 text-gray-900 bg-white border border-gray-300 focus:outline-none focus:border-gray-500"
+      />
+    </div>
+    <div>
+      <label class="text-sm text-gray-700 block mb-1">{{ 'DOCTOR_PROFILE.FORM.PRICE_ONLINE' | translate }}</label>
+      <input
+        type="number"
+        min="0"
+        step="0.01"
+        formControlName="priceOnline"
+        [placeholder]="'DOCTOR_PROFILE.FORM.PRICE_PLACEHOLDER' | translate"
+        class="w-full px-3 py-2 text-gray-900 bg-white border border-gray-300 focus:outline-none focus:border-gray-500"
+      />
+    </div>
+  </div>
+  <p class="text-xs text-gray-500">{{ 'DOCTOR_PROFILE.FORM.PRICE_HINT' | translate }}</p>
+
+  <label class="flex items-center gap-2 text-sm text-gray-700">
+    <input type="checkbox" formControlName="isActive" />
+    {{ 'DOCTOR_PROFILE.FORM.IS_ACTIVE' | translate }}
+  </label>
+
+  <div class="flex gap-3">
+    <button
+      type="submit"
+      [disabled]="form.invalid || isSaving"
+      class="px-4 py-2 text-white text-sm font-medium bg-gray-900 hover:bg-gray-700
+             disabled:bg-gray-300 disabled:cursor-not-allowed">
+      {{ submitLabelKey | translate }}
+    </button>
+    @if (showCancel) {
+      <button
+        type="button"
+        (click)="cancel.emit()"
+        class="px-4 py-2 text-gray-700 text-sm font-medium border border-gray-300 hover:bg-gray-50">
+        {{ 'DOCTOR_PROFILE.FORM.CANCEL' | translate }}
+      </button>
+    }
+  </div>
+</form>

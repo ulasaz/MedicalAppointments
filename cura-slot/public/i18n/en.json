@@ -1,0 +1,600 @@
+{
+  "LANGUAGE": "English",
+  "PROFILE_AVATAR": {
+    "UPLOAD_BUTTON": "Upload new photo",
+    "REMOVE_BUTTON": "Remove photo",
+    "HINT": "At least 800×800px recommended. JPG or PNG. Preview only for now — photo storage is coming soon.",
+    "HINT_PERSISTED": "JPG or PNG, up to 2MB."
+  },
+  "NAV": {
+    "TITLE": "CuraSlot",
+    "DOCTORS": "Doctors",
+    "APPOINTMENTS": "My appointments",
+    "DASHBOARD": "Dashboard",
+    "MY_PROFILE": "My profile",
+    "MY_SCHEDULE": "My schedule",
+    "COMPLETE_PROFILE": "Complete your profile",
+    "ADMIN": "Admin",
+    "TOP_RATED": "Top rated",
+    "LOGOUT": "Log out",
+    "SIGN_IN": "Sign in",
+    "SIGN_OUT": "Sign out",
+    "LANGUAGE": "Language"
+  },
+  "FOOTER": {
+    "TAGLINE": "Book appointments with top-rated doctors, effortlessly and securely.",
+    "PATIENTS": {
+      "HEADING": "For Patients",
+      "FIND_DOCTORS": "Find Doctors",
+      "SIGN_IN": "Sign In",
+      "REGISTER": "Create Account"
+    },
+    "CONTACT": {
+      "HEADING": "Contact",
+      "EMAIL": "support@curaslot.com",
+      "PHONE": "+1 (555) 123-4567",
+      "ADDRESS": "123 Health St, Wellness City"
+    },
+    "COPYRIGHT": "© {{year}} CuraSlot. All rights reserved."
+  },
+  "CENTER_BADGE": {
+    "CHOOSE": "Choose a medical center"
+  },
+  "LOGIN": {
+    "EYEBROW": "Welcome back",
+    "HEADING": "Sign in to CuraSlot",
+    "SUBHEADING": "Enter your credentials to access your account",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "FORGOT_PASSWORD": "Forgot password?",
+    "OR_CONTINUE_WITH": "Or continue with",
+    "SUBMIT": "Sign in",
+    "NO_ACCOUNT": "Don't have an account?",
+    "SIGN_UP": "Sign up",
+    "SUCCESS": "Welcome back!",
+    "ERROR_CREDENTIALS": "Invalid email or password.",
+    "ERROR_DEACTIVATED": "This account has been deactivated. Contact an administrator."
+  },
+  "REGISTER": {
+    "EYEBROW": "New here",
+    "HEADING": "Create your CuraSlot account",
+    "SUBHEADING": "Set up your account to start booking or managing appointments.",
+    "DISPLAY_NAME": "Display name",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "ROLE_LABEL": "I am a",
+    "ROLE_PATIENT": "Patient",
+    "ROLE_DOCTOR": "Doctor",
+    "OR_CONTINUE_WITH": "Or sign up with",
+    "SUBMIT": "Sign up",
+    "ALREADY_HAVE_ACCOUNT": "Already have an account?",
+    "SIGN_IN": "Sign in",
+    "VALIDATION": {
+      "DISPLAY_NAME": "At least 2 characters",
+      "EMAIL": "Enter a valid email",
+      "PASSWORD": "At least 6 characters"
+    },
+    "SUCCESS": "Welcome!",
+    "ERROR": "Could not create account. Try a different email."
+  },
+  "HOME": {
+    "TITLE": "Find Your Specialist",
+    "SUBHEADING": "Book appointments with top-rated doctors effortlessly.",
+    "CTA": "Book an Appointment",
+    "STATS": {
+      "DOCTORS": { "VALUE": "500+", "LABEL": "Verified Doctors" },
+      "APPOINTMENTS": { "VALUE": "50K+", "LABEL": "Appointments Booked" },
+      "SATISFACTION": { "VALUE": "4.9/5", "LABEL": "Average Patient Rating" },
+      "SPECIALTIES": { "VALUE": "20+", "LABEL": "Medical Specialties" }
+    },
+    "ABOUT": {
+      "EYEBROW": "About us",
+      "HEADING_PREFIX": "What Makes Us",
+      "HEADING_HIGHLIGHT": "Special",
+      "DESCRIPTION": "At CuraSlot, we're dedicated to providing compassionate, high-quality access to healthcare for our community.",
+      "FEATURE1": {
+        "TITLE": "Patient-Centered Care",
+        "DESCRIPTION": "We believe in personalized care, focusing on your needs and preferences to provide the best possible experience."
+      },
+      "FEATURE2": {
+        "TITLE": "Verified Specialists",
+        "DESCRIPTION": "Every doctor on our platform is vetted and credentialed, so you can book with confidence."
+      },
+      "FEATURE3": {
+        "TITLE": "Simple Online Booking",
+        "DESCRIPTION": "Find the right specialist and book your appointment in minutes, no phone calls required."
+      }
+    },
+    "WHY_CHOOSE": {
+      "EYEBROW": "Why choose us",
+      "HEADING_PREFIX": "Why Choose",
+      "HEADING_HIGHLIGHT": "CuraSlot",
+      "DESCRIPTION": "We make finding and booking the right doctor simple, fast and stress-free.",
+      "POINT1": "Verified Medical Professionals",
+      "POINT2": "Online & In-Person Visits",
+      "POINT3": "95% Patient Satisfaction Rate",
+      "POINT4": "Secure, Instant Booking",
+      "CTA": "Book Appointment Now",
+      "CARD": {
+        "TITLE": "Available Doctors",
+        "SUBTITLE": "Select a specialist",
+        "FIND_BUTTON": "Find a doctor"
+      }
+    },
+    "SERVICES": {
+      "HEADING": "Our services",
+      "SUBHEADING": "Comprehensive care across every specialty, in one place.",
+      "DERMATOLOGY": {
+        "TITLE": "Dermatology & Skin Care",
+        "DESCRIPTION": "Skin, hair and nail care from experienced dermatologists, from checkups to treatment.",
+        "CTA": "Make an appointment"
+      },
+      "DENTAL": {
+        "TITLE": "Dental Care & Implants",
+        "DESCRIPTION": "From routine cleanings to implants, backed by top-rated dental specialists.",
+        "CTA": "Make an appointment"
+      },
+      "CARDIOLOGY": {
+        "TITLE": "Cardiology Diagnostics",
+        "DESCRIPTION": "Heart health screenings and diagnostics with experienced cardiologists.",
+        "CTA": "Make an appointment"
+      },
+      "PEDIATRICS": {
+        "TITLE": "Pediatrics & Family",
+        "DESCRIPTION": "Caring, family-focused pediatric specialists for every stage of childhood.",
+        "CTA": "Make an appointment"
+      },
+      "GYNECOLOGY": {
+        "TITLE": "Gynecology & Women's Health",
+        "DESCRIPTION": "Confidential, attentive care from experienced gynecologists at every life stage.",
+        "CTA": "Make an appointment"
+      },
+      "ORTHOPEDICS": {
+        "TITLE": "Orthopedics & Joint Care",
+        "DESCRIPTION": "Diagnosis and treatment for joints, bones and mobility, from sprains to implants.",
+        "CTA": "Make an appointment"
+      },
+      "NEUROLOGY": {
+        "TITLE": "Neurology & Brain Health",
+        "DESCRIPTION": "Specialist care for headaches, nerve conditions and long-term brain health.",
+        "CTA": "Make an appointment"
+      },
+      "GENETICS": {
+        "TITLE": "Genetic Testing",
+        "DESCRIPTION": "Advanced screening to understand your health risks and plan ahead with confidence.",
+        "CTA": "Make an appointment"
+      }
+    },
+    "MEET_DOCTORS": {
+      "EYEBROW": "Meet our team",
+      "HEADING": "Expert Doctors",
+      "SUBHEADING": "Compassionate specialists dedicated to your health.",
+      "DOCTOR1": {
+        "NAME": "Dr. Priya Sharma",
+        "ROLE": "Head of Cardiology",
+        "BIO": "Specializes in advanced cardiac diagnostics and long-term heart health."
+      },
+      "DOCTOR2": {
+        "NAME": "Dr. Eleanor Whitfield",
+        "ROLE": "Family & Pediatric Care",
+        "BIO": "Dedicated to compassionate care for patients of every age."
+      },
+      "DOCTOR3": {
+        "NAME": "Dr. Amara Johnson",
+        "ROLE": "Dermatology & Skin Care",
+        "BIO": "Focused on skin health, from routine checks to advanced treatment."
+      }
+    }
+  },
+  "DOCTORS": {
+    "EYEBROW": "Find care",
+    "HEADING": "Browse doctors",
+    "LOADING": "Loading doctors…",
+    "EMPTY": "No doctors available right now.",
+    "ALL_CATEGORIES": "All specializations",
+    "RATING": "★ {{rating}} ({{count}} reviews)",
+    "FROM_PRICE": "from {{price}}",
+    "SEARCH_PLACEHOLDER": "Search by name…",
+    "FILTERS": "Filters",
+    "ALL_CITIES": "All cities",
+    "AVAILABILITY_LABEL": "Availability",
+    "AVAILABILITY_ANY": "Any time",
+    "AVAILABILITY_TODAY": "Today",
+    "AVAILABILITY_WEEK": "This week",
+    "SORT_LABEL": "Sort by",
+    "SORT_NAME": "Name",
+    "SORT_RATING": "Rating",
+    "SORT_PRICE": "Price",
+    "VIEW_PROFILE": "View profile",
+    "NO_MATCHES": "No doctors match your search.",
+    "COLUMN_DOCTOR": "Doctor",
+    "COLUMN_CITY": "City",
+    "COLUMN_RATING": "Rating",
+    "COLUMN_PRICE": "From",
+    "COLUMN_TREATMENTS": "Treatments",
+    "NEXT_SLOT": "Next available",
+    "NO_SLOTS": "No upcoming availability",
+    "CHECKING_SLOTS": "Checking…",
+    "SLOT_TODAY": "Today",
+    "SLOT_TOMORROW": "Tomorrow"
+  },
+  "DOCTOR_PROFILE": {
+    "EYEBROW": "Doctor profile",
+    "HEADING": "Doctor profile",
+    "BACK": "← Back to doctors",
+    "BACK_TO_DASHBOARD": "← Back to dashboard",
+    "LOADING": "Loading profile…",
+    "NOT_FOUND": "Doctor profile not found.",
+    "STATUS_ACTIVE": "Accepting patients",
+    "STATUS_INACTIVE": "Not currently accepting patients",
+    "RATING": "★ {{rating}} ({{count}} reviews)",
+    "NO_REVIEWS": "No reviews yet",
+    "EDIT": "Edit",
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "EDIT_HEADING": "Edit Profile",
+    "ACCEPTING_LABEL": "Accepting patients",
+    "ACCEPTING_HINT": "Toggle off if you're not taking new bookings right now.",
+    "SECTIONS": {
+      "PERSONAL_INFO": "Personal Info",
+      "LOCATION": "Location",
+      "BIO": "Bio",
+      "BIO_EMPTY": "You haven't added a bio yet.",
+      "CONDITIONS": "Conditions treated",
+      "CONDITIONS_EMPTY": "No conditions listed yet."
+    },
+    "CONDITIONS_PLACEHOLDER": "e.g. Ból biodra",
+    "CONDITIONS_ADD": "Add",
+    "CONDITIONS_REMOVE": "Remove",
+    "FORM": {
+      "FULL_NAME": "Full name",
+      "SPECIALIZATION": "Specialization",
+      "CITY": "City",
+      "DESCRIPTION": "Description",
+      "IS_ACTIVE": "Accepting patients",
+      "PRICE_STATIONARY": "Stationary visit price",
+      "PRICE_ONLINE": "Online visit price",
+      "PRICE_PLACEHOLDER": "e.g. 150",
+      "PRICE_HINT": "Leave a price blank if you don't offer that visit type.",
+      "SAVE": "Save changes",
+      "CANCEL": "Cancel"
+    },
+    "TOAST": {
+      "SAVED": "Profile updated",
+      "SAVE_ERROR": "Could not update profile",
+      "PHOTO_SAVED": "Photo updated",
+      "PHOTO_REMOVED": "Photo removed",
+      "PHOTO_ERROR": "Could not update photo. Please try again."
+    },
+    "BOOKING": {
+      "HEADING": "Book an appointment",
+      "SERVICE_LABEL": "What are you booking?",
+      "GENERAL_VISIT": "General visit",
+      "VISIT_TYPE_LABEL": "Visit type",
+      "VISIT_TYPE": {
+        "Stationary": "In person",
+        "Online": "Online"
+      },
+      "NO_VISIT_TYPES": "This doctor hasn't set up pricing yet, so booking isn't available.",
+      "SIGN_IN_PROMPT": "Sign in as a patient to book an appointment with this doctor.",
+      "PATIENTS_ONLY": "Only patients can book appointments.",
+      "DATE_LABEL": "Date",
+      "LOADING_SLOTS": "Loading available times…",
+      "NO_SLOTS": "No available times on this date.",
+      "DURATION_LABEL": "Duration",
+      "BOOKED_LABEL": "Already booked",
+      "BOOK_BUTTON": "Book",
+      "SUCCESS": "Appointment booked! You'll see it in your appointment history.",
+      "ERROR_INVALID": "This booking isn't valid. Please check your selections and try again.",
+      "ERROR_CONFLICT": "This slot is no longer available, or the doctor isn't accepting bookings right now. Please pick another time.",
+      "ERROR_GENERIC": "Something went wrong while booking. Please try again."
+    },
+    "REVIEWS": {
+      "HEADING": "Patient reviews",
+      "LOADING": "Loading reviews…",
+      "EMPTY": "No reviews yet."
+    }
+  },
+  "DOCTOR_SCHEDULE": {
+    "HEADING": "My schedule",
+    "SUBHEADING": "Pick the dates you're open for appointments.",
+    "LOADING": "Loading schedule…",
+    "EMPTY_DAY": "No working hours set for this date yet.",
+    "SELECT_DAY_PROMPT": "Select a date on the calendar to manage its working hours.",
+    "TODAY_BUTTON": "Today",
+    "START_LABEL": "Start",
+    "END_LABEL": "End",
+    "WINDOW_VISIT_TYPES_LABEL": "Visit types",
+    "ADD_BUTTON": "Add window",
+    "DELETE": "Remove",
+    "TOAST": {
+      "ADDED": "Working hours added",
+      "DELETED": "Working hours removed"
+    },
+    "ERROR_OVERLAP": "This window overlaps with an existing one on that date.",
+    "ERROR_INVALID": "Start time must be before end time, and the date can't be in the past.",
+    "ERROR_GENERIC": "Something went wrong. Please try again.",
+    "TREATMENTS": {
+      "HEADING": "Treatments",
+      "SUBHEADING": "Visit types you offer patients, and their price.",
+      "ADD_BUTTON": "Add new",
+      "EMPTY": "You haven't set up any visit types yet.",
+      "PRICE_LABEL": "Price (zł)",
+      "PRICE_PLACEHOLDER": "e.g. 150",
+      "SAVE_BUTTON": "Save",
+      "CANCEL_BUTTON": "Cancel",
+      "ALL_ADDED": "Both visit types are already set up.",
+      "TOAST": {
+        "ADDED": "Treatment added",
+        "REMOVED": "Treatment removed",
+        "ERROR": "Could not update treatments. Please try again."
+      }
+    },
+    "SERVICES": {
+      "HEADING": "Services",
+      "SUBHEADING": "Custom procedures you offer, like a lab analysis or a pre-op qualification.",
+      "ADD_BUTTON": "Add new",
+      "EMPTY": "You haven't added any custom services yet.",
+      "ADD_HEADING": "New service",
+      "EDIT_HEADING": "Edit service",
+      "NAME_LABEL": "Service name",
+      "NAME_PLACEHOLDER": "e.g. Kwalifikacja do operacji",
+      "DESCRIPTION_LABEL": "Description (optional)",
+      "DESCRIPTION_PLACEHOLDER": "What does this service involve?",
+      "PRICE_LABEL": "Price (zł)",
+      "PRICE_PLACEHOLDER": "e.g. 150",
+      "VISIT_TYPES_LABEL": "Available as",
+      "SAVE_BUTTON": "Save",
+      "CANCEL_BUTTON": "Cancel",
+      "TOAST": {
+        "ADDED": "Service added",
+        "UPDATED": "Service updated",
+        "REMOVED": "Service removed",
+        "ERROR": "Could not update services. Please try again."
+      }
+    }
+  },
+  "PATIENT_PROFILE": {
+    "HEADING": "My profile",
+    "EDIT_HEADING": "Edit Profile",
+    "LOADING": "Loading profile…",
+    "NAME_LABEL": "Full name",
+    "EMAIL_LABEL": "Email",
+    "ROLE_LABEL": "Account type",
+    "EDIT": "Edit",
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "SECTIONS": {
+      "PERSONAL_INFO": "Personal Info"
+    },
+    "TOAST": {
+      "SAVED": "Profile updated",
+      "SAVE_ERROR": "Could not update profile. Please try again."
+    },
+    "APPOINTMENTS_LINK": "View my appointments"
+  },
+  "APPOINTMENTS": {
+    "EYEBROW": "Your visits",
+    "HEADING": "My appointments",
+    "LOADING": "Loading your appointments…",
+    "UPCOMING_HEADING": "Upcoming",
+    "PAST_HEADING": "Past",
+    "EMPTY_UPCOMING": "You have no upcoming appointments.",
+    "EMPTY_PAST": "No past appointments yet.",
+    "VIEW_DETAILS": "View details",
+    "CANCEL_BUTTON": "Cancel",
+    "CANCELLING": "Cancelling…",
+    "STATUS": {
+      "Pending": "Pending confirmation",
+      "Confirmed": "Confirmed",
+      "Cancelled": "Cancelled",
+      "Rejected": "Rejected",
+      "Completed": "Completed"
+    },
+    "VISIT_TYPE": {
+      "Stationary": "In person",
+      "Online": "Online"
+    },
+    "TOAST": {
+      "CANCELLED": "Appointment cancelled",
+      "CANCEL_CONFLICT": "This appointment's status just changed — refreshing the list.",
+      "CANCEL_ERROR": "Could not cancel appointment. Please try again."
+    },
+    "REVIEW": {
+      "LEAVE_BUTTON": "Leave a review",
+      "COMMENT_PLACEHOLDER": "How was your visit? (optional)",
+      "SUBMIT_BUTTON": "Submit review",
+      "TOAST": {
+        "SUBMITTED": "Review submitted"
+      },
+      "ERROR_CONFLICT": "This appointment has already been reviewed.",
+      "ERROR_GENERIC": "Could not submit your review. Please try again."
+    }
+  },
+  "APPOINTMENT_DETAIL": {
+    "EYEBROW": "Appointment",
+    "BACK": "Back to my appointments",
+    "LOADING": "Loading appointment…",
+    "NOT_FOUND": "Appointment not found.",
+    "FORBIDDEN": "You don't have access to this appointment.",
+    "HEADING": "Appointment details",
+    "DOCTOR": "Doctor",
+    "SERVICE": "Service",
+    "WHEN": "When",
+    "VISIT_TYPE": "Visit type",
+    "STATUS": "Status",
+    "PRICE": "Price",
+    "PAID": "Paid — no further action needed.",
+    "PAY_NOW_BUTTON": "Pay now",
+    "PAY_IN_OFFICE": "Pay in office at the time of your visit."
+  },
+  "CHECKOUT": {
+    "BACK": "Back to appointment",
+    "LOADING": "Preparing payment…",
+    "NOT_PAYABLE": "This appointment can't be paid for online.",
+    "HEADING": "Pay for your visit",
+    "AMOUNT_DUE": "Amount due",
+    "PAY_BUTTON": "Pay",
+    "PAYING": "Processing…",
+    "ERROR_INIT": "Could not start the payment. Please try again.",
+    "ERROR_PAYMENT": "Payment failed. Please try again."
+  },
+  "PAYMENT_SUCCESS": {
+    "LOADING": "Confirming your payment…",
+    "HEADING": "Payment successful",
+    "MESSAGE": "Your payment has been received.",
+    "VIEW_APPOINTMENT_BUTTON": "View appointment",
+    "FAILED_HEADING": "Payment not confirmed",
+    "FAILED_MESSAGE": "We couldn't confirm your payment. If money was charged, it will be reconciled automatically — otherwise please try again.",
+    "BACK_BUTTON": "Back to appointment",
+    "ERROR_CONFIRM": "Could not confirm your payment. Please refresh this page."
+  },
+  "DOCTOR_PROFILE_SETUP": {
+    "HEADING": "Complete your doctor profile",
+    "SUBHEADING": "Patients won't be able to find or book you until you finish this.",
+    "SUBMIT": "Create profile",
+    "SUCCESS": "Profile created! You can now be found in search.",
+    "ERROR_CONFLICT": "You already have a doctor profile.",
+    "ERROR_GENERIC": "Could not create your profile. Please try again."
+  },
+  "DOCTOR_DASHBOARD": {
+    "EYEBROW": "Doctor panel",
+    "HEADING": "Dashboard",
+    "LOADING": "Loading appointments…",
+    "PROFILE_PROMPT": "You haven't set up your doctor profile yet — patients can't find or book you until you do.",
+    "PROFILE_PROMPT_BUTTON": "Complete profile",
+    "PENDING_HEADING": "Pending",
+    "CONFIRMED_HEADING": "Confirmed",
+    "HISTORY_HEADING": "History",
+    "EMPTY_PENDING": "No pending requests.",
+    "EMPTY_CONFIRMED": "No confirmed appointments.",
+    "EMPTY_HISTORY": "No past appointments yet.",
+    "EMPTY_TODAY": "No appointments today.",
+    "CONFIRM_BUTTON": "Confirm",
+    "REJECT_BUTTON": "Reject",
+    "COMPLETE_BUTTON": "Mark as completed",
+    "STATS": {
+      "TOTAL_PATIENTS": "Total Patients",
+      "TODAY_PATIENTS": "Today's Patients",
+      "TODAY_APPOINTMENTS": "Today's Appointments"
+    },
+    "SUMMARY_HEADING": "Patients Summary",
+    "NEW_PATIENTS": "New Patients",
+    "RETURNING_PATIENTS": "Returning Patients",
+    "TOTAL_LABEL": "Total",
+    "TODAY_HEADING": "Today's Appointments",
+    "NEXT_PATIENT_HEADING": "Next Patient",
+    "NO_NEXT_PATIENT": "No upcoming confirmed appointments.",
+    "REVIEWS_HEADING": "Patient Reviews",
+    "REQUESTS_HEADING": "Appointment Requests",
+    "CALENDAR_HEADING": "Calendar",
+    "REVIEW_BUCKET": {
+      "Excellent": "Excellent",
+      "Great": "Great",
+      "Good": "Good",
+      "Average": "Average"
+    },
+    "TOAST": {
+      "CONFIRMED": "Appointment confirmed",
+      "REJECTED": "Appointment rejected",
+      "COMPLETED": "Appointment marked as completed",
+      "CONFLICT": "This appointment's status just changed — refreshing the list.",
+      "ACTION_ERROR": "Could not update appointment. Please try again."
+    }
+  },
+  "AUTH": {
+    "SESSION_EXPIRED": "Your session has expired. Please log in again."
+  },
+  "ADMIN": {
+    "EYEBROW": "Admin panel",
+    "HEADING": "Admin panel",
+    "LOADING": "Loading…",
+    "VIEWING_CENTER": "Viewing center:",
+    "TABS": {
+      "USERS": "Users",
+      "DOCTORS": "Doctors",
+      "REVIEWS": "Reviews",
+      "CENTERS": "Medical centers",
+      "BRANDING": "Branding"
+    },
+    "STATS": {
+      "TOTAL_APPOINTMENTS": "Total appointments",
+      "PENDING": "Pending",
+      "TOTAL_REVIEWS": "Total reviews",
+      "AVERAGE_RATING": "Average rating"
+    },
+    "SEARCH_PLACEHOLDER": "Search by name or email…",
+    "DOCTOR_SEARCH_PLACEHOLDER": "Search by name, specialization or city…",
+    "ALL_ROLES": "All roles",
+    "ALL_STATUSES": "All",
+    "TABLE": {
+      "EMAIL": "Email",
+      "NAME": "Name",
+      "ROLE": "Role",
+      "CREATED": "Joined",
+      "STATUS": "Status",
+      "DOCTOR": "Doctor",
+      "SPECIALIZATION": "Specialization",
+      "CITY": "City"
+    },
+    "STATUS_ACTIVE": "Active",
+    "STATUS_INACTIVE": "Deactivated",
+    "ACTIVATE_BUTTON": "Activate",
+    "DEACTIVATE_BUTTON": "Deactivate",
+    "NO_USERS": "No users match your search.",
+    "NO_DOCTORS": "No doctors match your search.",
+    "NO_REVIEWS": "No reviews yet.",
+    "DELETE_REVIEW_BUTTON": "Delete",
+    "TOAST": {
+      "ACTIVATED": "Account activated",
+      "DEACTIVATED": "Account deactivated",
+      "DOCTOR_ACTIVATED": "Doctor listing activated",
+      "DOCTOR_DEACTIVATED": "Doctor listing deactivated",
+      "REVIEW_DELETED": "Review deleted",
+      "ERROR": "Could not complete this action. Please try again."
+    },
+    "CENTERS": {
+      "SUBHEADING": "Every medical center on the platform, each with its own doctors, patients and appointments.",
+      "NEW_CENTER": "New center",
+      "CANCEL": "Cancel",
+      "NAME": "Name",
+      "SLUG": "Slug",
+      "COLOR": "Primary color",
+      "ADMIN_NAME": "Center admin name",
+      "ADMIN_EMAIL": "Center admin email",
+      "ADMIN_PASSWORD": "Center admin password",
+      "CREATE": "Create center",
+      "NONE": "No medical centers yet.",
+      "PUBLIC_LINK": "Public link",
+      "VIEW_DATA": "View data",
+      "TOAST": {
+        "CREATED": "Medical center created"
+      }
+    },
+    "BRANDING": {
+      "SUBHEADING": "Rebrand your medical center's name, font, button shape, and hero image or video used across the app.",
+      "PUBLIC_LINK": "Your center's public link — share it so patients land directly on your doctors",
+      "COPY_LINK": "Copy link",
+      "LINK_COPIED": "Copied!",
+      "FONT": "Font",
+      "BUTTON_SHAPE": "Button shape",
+      "RADIUS_PILL": "Pill",
+      "RADIUS_ROUNDED": "Rounded",
+      "RADIUS_SHARP": "Sharp",
+      "BANNER_IMAGE": "Hero image",
+      "BANNER_IMAGE_HINT": "Shown behind the homepage title instead of the default animation.",
+      "UPLOAD_BANNER": "Upload image",
+      "REMOVE_BANNER": "Remove",
+      "BANNER_VIDEO": "Hero video",
+      "BANNER_VIDEO_HINT": "A hosted video URL (mp4). Takes priority over the hero image when set.",
+      "PREVIEW": "Preview",
+      "PREVIEW_BUTTON": "Book appointment",
+      "SAVE": "Save branding",
+      "TOAST": {
+        "SAVED": "Branding updated",
+        "BANNER_UPDATED": "Hero image updated",
+        "BANNER_REMOVED": "Hero image removed"
+      }
+    }
+  }
+}

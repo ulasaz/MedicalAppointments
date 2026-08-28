@@ -1,0 +1,32 @@
+<main class="w-full min-h-screen pt-28 px-6 pb-12">
+  <div class="max-w-md mx-auto">
+
+    <a [routerLink]="['/appointments', appointmentId]" class="text-sm text-gray-500 hover:text-gray-900">
+      {{ 'CHECKOUT.BACK' | translate }}
+    </a>
+
+    @if (isLoading) {
+      <p class="text-center text-gray-500 mt-8">{{ 'CHECKOUT.LOADING' | translate }}</p>
+    } @else if (notPayable) {
+      <p class="text-center text-gray-500 mt-8">{{ 'CHECKOUT.NOT_PAYABLE' | translate }}</p>
+    } @else if (appointment) {
+      <div class="mt-6">
+        <h1 class="text-2xl font-semibold text-gray-900">{{ 'CHECKOUT.HEADING' | translate }}</h1>
+        <p class="text-sm text-gray-600 mt-1">
+          {{ 'CHECKOUT.AMOUNT_DUE' | translate }}: <span class="font-medium text-gray-900">{{ appointment.priceCents | price:' zł' }}</span>
+        </p>
+
+        <div id="payment-element" class="mt-6"></div>
+
+        <button
+          type="button"
+          (click)="pay()"
+          [disabled]="isPaying"
+          class="mt-6 w-full px-4 py-2 text-white text-sm font-medium bg-gray-900 hover:bg-gray-700
+                 disabled:bg-gray-300 disabled:cursor-not-allowed">
+          {{ (isPaying ? 'CHECKOUT.PAYING' : 'CHECKOUT.PAY_BUTTON') | translate }}
+        </button>
+      </div>
+    }
+  </div>
+</main>

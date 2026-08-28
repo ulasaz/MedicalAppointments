@@ -1,0 +1,68 @@
+<main class="w-full min-h-screen bg-gray-50 pt-28 px-4 sm:px-6 pb-12">
+  <div class="max-w-2xl mx-auto space-y-6">
+
+    @if (isLoading) {
+      <div class="bg-white rounded-3xl shadow-xl p-8">
+        <p class="text-center text-gray-500">{{ 'PATIENT_PROFILE.LOADING' | translate }}</p>
+      </div>
+    } @else if (profile) {
+
+      <div class="bg-white rounded-3xl shadow-xl p-6 sm:p-8">
+        <h1 class="text-2xl font-semibold text-gray-900 mb-6">{{ 'PATIENT_PROFILE.EDIT_HEADING' | translate }}</h1>
+
+        <app-profile-avatar [initials]="initials(profile.displayName)" />
+
+        <div class="mt-8 p-5 rounded-2xl bg-gray-50">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="font-semibold text-gray-900">{{ 'PATIENT_PROFILE.SECTIONS.PERSONAL_INFO' | translate }}</h2>
+            @if (!isEditingName) {
+              <button type="button" (click)="startEditName()"
+                      class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-100 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" />
+                </svg>
+                {{ 'PATIENT_PROFILE.EDIT' | translate }}
+              </button>
+            } @else {
+              <button type="button" (click)="cancelEditName()" class="text-xs font-medium text-gray-500 hover:text-gray-900">
+                {{ 'PATIENT_PROFILE.CANCEL' | translate }}
+              </button>
+            }
+          </div>
+
+          @if (!isEditingName) {
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <p class="text-xs text-gray-500">{{ 'PATIENT_PROFILE.NAME_LABEL' | translate }}</p>
+                <p class="text-sm text-gray-900 mt-0.5">{{ profile.displayName }}</p>
+              </div>
+              <div>
+                <p class="text-xs text-gray-500">{{ 'PATIENT_PROFILE.EMAIL_LABEL' | translate }}</p>
+                <p class="text-sm text-gray-900 mt-0.5">{{ profile.email }}</p>
+              </div>
+            </div>
+          } @else {
+            <div class="flex flex-col sm:flex-row gap-3">
+              <input type="text" [(ngModel)]="formDisplayName" [placeholder]="'PATIENT_PROFILE.NAME_LABEL' | translate"
+                     class="flex-1 px-3 py-2 text-sm text-gray-900 bg-white border border-gray-300 rounded-xl focus:outline-none focus:border-gray-500">
+              <button type="button" (click)="saveName()" [disabled]="isSavingName"
+                      class="px-4 py-2 text-sm font-medium text-white bg-gray-900 hover:bg-gray-700 rounded-xl disabled:bg-gray-300 shrink-0">
+                {{ 'PATIENT_PROFILE.SAVE' | translate }}
+              </button>
+            </div>
+          }
+
+          <span class="inline-flex items-center mt-4 px-2.5 py-1 rounded-full text-xs font-medium bg-fuchsia-50 text-fuchsia-600">
+            {{ profile.role }}
+          </span>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl shadow-xl p-6 sm:p-8">
+        <a routerLink="/appointments" class="inline-flex items-center gap-1.5 text-sm font-medium text-rose-500 hover:text-rose-600">
+          {{ 'PATIENT_PROFILE.APPOINTMENTS_LINK' | translate }} →
+        </a>
+      </div>
+    }
+  </div>
+</main>

@@ -1,0 +1,160 @@
+<main class="w-full min-h-screen bg-gray-50">
+  <div class="relative w-full h-40 sm:h-48 overflow-hidden">
+    <img src="/images/bg/top_img.jpg" alt="" class="absolute inset-0 w-full h-full object-cover">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="absolute inset-0 flex items-end">
+      <div class="max-w-3xl mx-auto w-full px-4 sm:px-6 pb-6">
+        <p class="text-xs font-semibold tracking-widest uppercase text-white/70">{{ 'APPOINTMENTS.EYEBROW' | translate }}</p>
+        <h1 class="mt-1 text-2xl sm:text-3xl font-bold text-white">{{ 'APPOINTMENTS.HEADING' | translate }}</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 pt-6 pb-12">
+
+    @if (isLoading) {
+      <div class="bg-white rounded-3xl shadow-xl p-8">
+        <p class="text-center text-gray-500">{{ 'APPOINTMENTS.LOADING' | translate }}</p>
+      </div>
+    } @else {
+
+      <div class="inline-flex items-center gap-1 p-1 rounded-full bg-gray-100 mb-6">
+        <button type="button" (click)="selectTab('upcoming')"
+                class="px-4 py-2 text-sm font-medium rounded-full transition-colors"
+                [class.bg-gray-900]="activeTab === 'upcoming'"
+                [class.text-white]="activeTab === 'upcoming'"
+                [class.text-gray-600]="activeTab !== 'upcoming'">
+          {{ 'APPOINTMENTS.UPCOMING_HEADING' | translate }}
+          <span class="ml-1 opacity-70">({{ upcoming.length }})</span>
+        </button>
+        <button type="button" (click)="selectTab('past')"
+                class="px-4 py-2 text-sm font-medium rounded-full transition-colors"
+                [class.bg-gray-900]="activeTab === 'past'"
+                [class.text-white]="activeTab === 'past'"
+                [class.text-gray-600]="activeTab !== 'past'">
+          {{ 'APPOINTMENTS.PAST_HEADING' | translate }}
+          <span class="ml-1 opacity-70">({{ past.length }})</span>
+        </button>
+      </div>
+
+      @if (visibleAppointments.length === 0) {
+        <div class="bg-white rounded-3xl shadow-xl p-10 text-center">
+          <p class="text-sm text-gray-500">
+            {{ (activeTab === 'upcoming' ? 'APPOINTMENTS.EMPTY_UPCOMING' : 'APPOINTMENTS.EMPTY_PAST') | translate }}
+          </p>
+        </div>
+      } @else {
+        <div class="space-y-4">
+          @for (appointment of visibleAppointments; track appointment.id) {
+            <div class="bg-white rounded-3xl shadow-xl p-5 sm:p-6">
+              <div class="flex items-start justify-between gap-4">
+                <a [routerLink]="['/appointments', appointment.id]" class="flex items-start gap-3 min-w-0 group">
+                  <span class="w-11 h-11 shrink-0 rounded-full bg-linear-to-br from-rose-400 via-fuchsia-400 to-teal-400 text-white text-sm font-semibold flex items-center justify-center">
+                    {{ initials(appointment.doctorName) }}
+                  </span>
+                  <span class="min-w-0">
+                    <span class="block text-sm font-semibold text-gray-900 truncate group-hover:text-rose-600 transition-colors">
+                      {{ appointment.doctorName }}
+                    </span>
+                    @if (appointment.serviceName) {
+                      <span class="block text-xs text-gray-500 mt-0.5">{{ appointment.serviceName }}</span>
+                    }
+                    <span class="block text-sm text-gray-600 mt-0.5">
+                      {{ appointment.startTime | date:'medium' }} – {{ appointment.endTime | date:'shortTime' }}
+                    </span>
+                    <span class="inline-flex items-center gap-2 mt-2">
+                      <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-medium"
+                            [class.bg-teal-50]="appointment.visitType === 'Online'"
+                            [class.text-teal-700]="appointment.visitType === 'Online'"
+                            [class.bg-fuchsia-50]="appointment.visitType === 'Stationary'"
+                            [class.text-fuchsia-700]="appointment.visitType === 'Stationary'">
+                        {{ ('APPOINTMENTS.VISIT_TYPE.' + appointment.visitType) | translate }}
+                      </span>
+                      <span class="text-xs text-gray-500">{{ appointment.priceCents | price:' zł' }}</span>
+                    </span>
+                  </span>
+                </a>
+
+                <div class="flex flex-col items-end gap-2 shrink-0">
+                  <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-medium" [class]="statusBadgeClasses(appointment.status)">
+                    {{ ('APPOINTMENTS.STATUS.' + appointment.status) | translate }}
+                  </span>
+                  @if (isCancellable(appointment)) {
+                    <button
+                      type="button"
+                      (click)="cancel(appointment)"
+                      [disabled]="cancellingId === appointment.id"
+                      class="text-xs font-medium text-gray-500 hover:text-rose-600 disabled:text-gray-300 transition-colors">
+                      {{ (cancellingId === appointment.id ? 'APPOINTMENTS.CANCELLING' : 'APPOINTMENTS.CANCEL_BUTTON') | translate }}
+                    </button>
+                  } @else if (appointment.status === 'Completed' && !appointment.hasReview && reviewingAppointmentId !== appointment.id) {
+                    <button
+                      type="button"
+                      (click)="startReview(appointment)"
+                      class="text-xs font-medium text-rose-500 hover:text-rose-600 transition-colors">
+                      {{ 'APPOINTMENTS.REVIEW.LEAVE_BUTTON' | translate }}
+                    </button>
+                  }
+                </div>
+              </div>
+
+              @if (appointment.hasReview) {
+                <div class="mt-4 pt-4 border-t border-gray-100 flex items-start gap-3">
+                  <div class="flex gap-0.5 text-sm shrink-0" aria-hidden="true">
+                    @for (star of [1, 2, 3, 4, 5]; track star) {
+                      <span
+                        [class.text-amber-400]="star <= (appointment.reviewRating || 0)"
+                        [class.text-gray-200]="star > (appointment.reviewRating || 0)">★</span>
+                    }
+                  </div>
+                  @if (appointment.reviewComment) {
+                    <p class="text-sm text-gray-600">{{ appointment.reviewComment }}</p>
+                  }
+                </div>
+              }
+
+              @if (reviewingAppointmentId === appointment.id) {
+                <div class="mt-4 pt-4 border-t border-gray-100 space-y-3">
+                  <div class="flex gap-1">
+                    @for (star of [1, 2, 3, 4, 5]; track star) {
+                      <button
+                        type="button"
+                        (click)="reviewRating = star"
+                        [class.text-amber-400]="star <= reviewRating"
+                        [class.text-gray-200]="star > reviewRating"
+                        class="text-2xl leading-none transition-colors">
+                        ★
+                      </button>
+                    }
+                  </div>
+                  <textarea
+                    [(ngModel)]="reviewComment"
+                    rows="2"
+                    [placeholder]="'APPOINTMENTS.REVIEW.COMMENT_PLACEHOLDER' | translate"
+                    class="w-full px-3 py-2 text-sm text-gray-900 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-gray-400"
+                  ></textarea>
+                  <div class="flex gap-2">
+                    <button
+                      type="button"
+                      (click)="submitReview(appointment)"
+                      [disabled]="isSubmittingReview"
+                      class="px-4 py-2 text-sm font-medium text-white bg-gray-900 hover:bg-gray-700 rounded-full transition-colors
+                             disabled:bg-gray-300 disabled:cursor-not-allowed">
+                      {{ 'APPOINTMENTS.REVIEW.SUBMIT_BUTTON' | translate }}
+                    </button>
+                    <button
+                      type="button"
+                      (click)="cancelReview()"
+                      class="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 hover:bg-gray-50 rounded-full transition-colors">
+                      {{ 'DOCTOR_PROFILE.FORM.CANCEL' | translate }}
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+    }
+  </div>
+</main>

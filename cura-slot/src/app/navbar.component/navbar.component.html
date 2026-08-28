@@ -1,0 +1,60 @@
+<nav class="w-full fixed top-0 left-0 z-50 pt-6 px-6 flex justify-between items-center">
+  <!-- Logo island: same glass treatment as the login form's card
+       (bg-white/40 backdrop-blur-lg shadow-xl shadow-black/20 border-white/40) -->
+  <div class="shrink-0 h-14 flex items-center bg-white/40 backdrop-blur-lg rounded-full shadow-[0_0_20px_rgba(0,0,0,0.18)] border border-white/40 px-5">
+    <a routerLink="/main" class="text-lg font-semibold tracking-tight text-gray-900 transition-colors">
+      {{ 'NAV.TITLE' | translate }}
+    </a>
+  </div>
+
+  <!-- Navigation island: true mathematical center, independent of the outer islands' widths -->
+  <div class="hidden md:flex absolute top-6 left-1/2 -translate-x-1/2 h-14 items-center gap-6 bg-white/40 backdrop-blur-lg rounded-full shadow-[0_0_20px_rgba(0,0,0,0.18)] border border-white/40 px-6">
+    <a routerLink="/doctors/search"
+       routerLinkActive="bg-gray-900/5 text-gray-900"
+       [routerLinkActiveOptions]="{ exact: false }"
+       class="text-sm font-medium text-gray-700 px-3 py-1.5 rounded-full hover:text-gray-900 hover:bg-gray-900/5 transition-colors duration-200">
+      {{ 'NAV.DOCTORS' | translate }}
+    </a>
+
+    <a [routerLink]="getAppointmentsLink()"
+       routerLinkActive="bg-gray-900/5 text-gray-900"
+       class="text-sm font-medium text-gray-700 px-3 py-1.5 rounded-full hover:text-gray-900 hover:bg-gray-900/5 transition-colors duration-200">
+      {{ 'NAV.APPOINTMENTS' | translate }}
+    </a>
+
+    <a [routerLink]="getProfileLink()"
+       routerLinkActive="bg-gray-900/5 text-gray-900"
+       class="text-sm font-medium text-gray-700 px-3 py-1.5 rounded-full hover:text-gray-900 hover:bg-gray-900/5 transition-colors duration-200">
+      {{ 'NAV.MY_PROFILE' | translate }}
+    </a>
+
+    <a routerLink="/doctors/search"
+       [queryParams]="{ sort: 'rating' }"
+       class="text-sm font-medium text-gray-700 px-3 py-1.5 rounded-full hover:text-gray-900 hover:bg-gray-900/5 transition-colors duration-200">
+      {{ 'NAV.TOP_RATED' | translate }}
+    </a>
+  </div>
+
+  <!-- Action island -->
+  <div class="shrink-0 h-14 flex items-center gap-2 bg-white/40 backdrop-blur-lg rounded-full shadow-[0_0_20px_rgba(0,0,0,0.18)] border border-white/40 px-3">
+    <app-language-switcher />
+
+    @if (authService.isAuthenticated()) {
+      <button type="button" (click)="authService.logout()"
+              class="flex items-center gap-2 px-4 py-2 rounded-full font-medium text-sm bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3.75H6a2.25 2.25 0 00-2.25 2.25v12A2.25 2.25 0 006 20.25h2.25M15 16.5l4.5-4.5m0 0L15 7.5m4.5 4.5H9" />
+        </svg>
+        {{ 'NAV.SIGN_OUT' | translate }}
+      </button>
+    } @else {
+      <a routerLink="/login"
+         class="flex items-center gap-2 px-4 py-2 rounded-full font-medium text-sm bg-gray-900 text-white hover:bg-gray-800 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 -scale-x-100" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3.75H6a2.25 2.25 0 00-2.25 2.25v12A2.25 2.25 0 006 20.25h2.25M15 16.5l4.5-4.5m0 0L15 7.5m4.5 4.5H9" />
+        </svg>
+        {{ 'NAV.SIGN_IN' | translate }}
+      </a>
+    }
+  </div>
+</nav>

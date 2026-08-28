@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+body {
+  background-color: #ffffff;
+  color: #1f2937;
+  font-family: var(--brand-font, 'Inter', system-ui, -apple-system, sans-serif);
+}
+
+:root {
+  --brand-primary: #f43f5e;
+  --brand-primary-hover: color-mix(in srgb, #f43f5e 85%, black);
+  --brand-primary-light: color-mix(in srgb, #f43f5e 12%, white);
+  --brand-ring: color-mix(in srgb, #f43f5e 40%, transparent);
+  --brand-font: 'Inter', system-ui, sans-serif;
+  --brand-radius: 9999px;
+}
+
+/* Per-medical-center accent, set at runtime by TenantService from the active center's
+   branding (color/font/button radius). Falls back to the defaults above until a tenant
+   is resolved. */
+.brand-bg { background-color: var(--brand-primary); }
+.brand-bg-hover:hover { background-color: var(--brand-primary-hover); }
+.brand-text { color: var(--brand-primary); }
+.brand-border { border-color: var(--brand-primary); }
+.brand-ring-focus:focus { outline: none; box-shadow: 0 0 0 3px var(--brand-ring); }
+.brand-radius { border-radius: var(--brand-radius); }

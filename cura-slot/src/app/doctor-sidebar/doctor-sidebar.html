@@ -1,0 +1,73 @@
+<aside class="bg-white rounded-3xl shadow-xl p-6 lg:sticky lg:top-8">
+  <div class="flex flex-col items-center text-center">
+    <div class="w-20 h-20 rounded-full p-1 bg-linear-to-br from-rose-300 via-fuchsia-200 to-teal-300">
+      @if (doctorsService.ownProfile(); as profile) {
+        @if (profile.hasPhoto) {
+          <img [src]="doctorsService.photoUrl(profile.id)" alt=""
+               class="w-full h-full rounded-full object-cover">
+        } @else {
+          <div class="w-full h-full rounded-full bg-linear-to-br from-rose-500 via-fuchsia-500 to-teal-500 text-white flex items-center justify-center text-xl font-bold">
+            {{ initials(profile.fullName) }}
+          </div>
+        }
+      } @else {
+        <div class="w-full h-full rounded-full bg-linear-to-br from-rose-500 via-fuchsia-500 to-teal-500 text-white flex items-center justify-center text-xl font-bold">
+          {{ initials(doctorsService.ownProfile()?.fullName) }}
+        </div>
+      }
+    </div>
+    <h2 class="mt-4 font-semibold text-gray-900">{{ doctorsService.ownProfile()?.fullName }}</h2>
+    <p class="text-xs text-gray-500 mt-0.5">{{ doctorsService.ownProfile()?.specialization }}</p>
+  </div>
+
+  <nav class="mt-8 space-y-1">
+    <a routerLink="/doctor-dashboard"
+       routerLinkActive="bg-rose-50 text-rose-600"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:bg-gray-50 font-medium text-sm transition-colors">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+      </svg>
+      {{ 'NAV.DASHBOARD' | translate }}
+    </a>
+    <a routerLink="/doctor-schedule"
+       routerLinkActive="bg-rose-50 text-rose-600"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:bg-gray-50 font-medium text-sm transition-colors">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3.75 18.75V7.5a2.25 2.25 0 012.25-2.25h12a2.25 2.25 0 012.25 2.25v11.25m-16.5 0A2.25 2.25 0 006 21h12a2.25 2.25 0 002.25-2.25m-16.5 0V11.25A2.25 2.25 0 016 9h12a2.25 2.25 0 012.25 2.25v7.5" />
+      </svg>
+      {{ 'NAV.MY_SCHEDULE' | translate }}
+    </a>
+    @if (doctorsService.ownProfile(); as profile) {
+      <a [routerLink]="['/doctors', profile.id]"
+         routerLinkActive="bg-rose-50 text-rose-600"
+         class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:bg-gray-50 font-medium text-sm transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+        </svg>
+        {{ 'NAV.MY_PROFILE' | translate }}
+      </a>
+    } @else {
+      <a routerLink="/doctor-setup"
+         routerLinkActive="bg-rose-50 text-rose-600"
+         class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:bg-gray-50 font-medium text-sm transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+        </svg>
+        {{ 'NAV.MY_PROFILE' | translate }}
+      </a>
+    }
+  </nav>
+
+  <div class="mt-6 pt-6 border-t border-gray-100 flex items-center justify-between">
+    <span class="text-xs text-gray-500">{{ 'NAV.LANGUAGE' | translate }}</span>
+    <app-language-switcher />
+  </div>
+
+  <button type="button" (click)="authService.logout()"
+          class="mt-4 w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:bg-gray-50 font-medium text-sm transition-colors">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3.75H6a2.25 2.25 0 00-2.25 2.25v12A2.25 2.25 0 006 20.25h2.25M15 16.5l4.5-4.5m0 0L15 7.5m4.5 4.5H9" />
+    </svg>
+    {{ 'NAV.SIGN_OUT' | translate }}
+  </button>
+</aside>

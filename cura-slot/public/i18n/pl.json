@@ -1,0 +1,600 @@
+{
+  "LANGUAGE": "Polski",
+  "PROFILE_AVATAR": {
+    "UPLOAD_BUTTON": "Wgraj nowe zdjęcie",
+    "REMOVE_BUTTON": "Usuń zdjęcie",
+    "HINT": "Zalecane min. 800×800px. JPG lub PNG. Na razie tylko podgląd — zapisywanie zdjęć wkrótce.",
+    "HINT_PERSISTED": "JPG lub PNG, maks. 2MB."
+  },
+  "NAV": {
+    "TITLE": "CuraSlot",
+    "DOCTORS": "Lekarze",
+    "APPOINTMENTS": "Moje wizyty",
+    "DASHBOARD": "Panel",
+    "MY_PROFILE": "Mój profil",
+    "MY_SCHEDULE": "Mój grafik",
+    "COMPLETE_PROFILE": "Uzupełnij profil",
+    "ADMIN": "Admin",
+    "TOP_RATED": "Najlepiej oceniani",
+    "LOGOUT": "Wyloguj",
+    "SIGN_IN": "Zaloguj się",
+    "SIGN_OUT": "Wyloguj się",
+    "LANGUAGE": "Język"
+  },
+  "FOOTER": {
+    "TAGLINE": "Umawiaj wizyty u najlepiej ocenianych lekarzy — łatwo i bezpiecznie.",
+    "PATIENTS": {
+      "HEADING": "Dla pacjentów",
+      "FIND_DOCTORS": "Znajdź lekarza",
+      "SIGN_IN": "Zaloguj się",
+      "REGISTER": "Załóż konto"
+    },
+    "CONTACT": {
+      "HEADING": "Kontakt",
+      "EMAIL": "support@curaslot.com",
+      "PHONE": "+48 555 123 456",
+      "ADDRESS": "ul. Zdrowa 123, Warszawa"
+    },
+    "COPYRIGHT": "© {{year}} CuraSlot. Wszelkie prawa zastrzeżone."
+  },
+  "CENTER_BADGE": {
+    "CHOOSE": "Wybierz placówkę medyczną"
+  },
+  "LOGIN": {
+    "EYEBROW": "Witaj ponownie",
+    "HEADING": "Zaloguj się do CuraSlot",
+    "SUBHEADING": "Wprowadź dane logowania, aby uzyskać dostęp do konta",
+    "EMAIL": "Adres e-mail",
+    "PASSWORD": "Hasło",
+    "FORGOT_PASSWORD": "Nie pamiętasz hasła?",
+    "OR_CONTINUE_WITH": "Lub kontynuuj przez",
+    "SUBMIT": "Zaloguj się",
+    "NO_ACCOUNT": "Nie masz konta?",
+    "SIGN_UP": "Zarejestruj się",
+    "SUCCESS": "Witaj ponownie!",
+    "ERROR_CREDENTIALS": "Nieprawidłowy adres e-mail lub hasło.",
+    "ERROR_DEACTIVATED": "To konto zostało dezaktywowane. Skontaktuj się z administratorem."
+  },
+  "REGISTER": {
+    "EYEBROW": "Nowy tutaj",
+    "HEADING": "Utwórz konto CuraSlot",
+    "SUBHEADING": "Skonfiguruj konto, aby zacząć umawiać lub zarządzać wizytami.",
+    "DISPLAY_NAME": "Nazwa wyświetlana",
+    "EMAIL": "Adres e-mail",
+    "PASSWORD": "Hasło",
+    "ROLE_LABEL": "Jestem",
+    "ROLE_PATIENT": "Pacjentem",
+    "ROLE_DOCTOR": "Lekarzem",
+    "OR_CONTINUE_WITH": "Lub zarejestruj się przez",
+    "SUBMIT": "Zarejestruj się",
+    "ALREADY_HAVE_ACCOUNT": "Masz już konto?",
+    "SIGN_IN": "Zaloguj się",
+    "VALIDATION": {
+      "DISPLAY_NAME": "Minimum 2 znaki",
+      "EMAIL": "Podaj prawidłowy adres e-mail",
+      "PASSWORD": "Minimum 6 znaków"
+    },
+    "SUCCESS": "Witaj!",
+    "ERROR": "Nie udało się utworzyć konta. Spróbuj inny adres e-mail."
+  },
+  "HOME": {
+    "TITLE": "Znajdź swojego specjalistę",
+    "SUBHEADING": "Umawiaj wizyty u najlepiej ocenianych lekarzy bez wysiłku.",
+    "CTA": "Umów wizytę",
+    "STATS": {
+      "DOCTORS": { "VALUE": "500+", "LABEL": "Zweryfikowanych lekarzy" },
+      "APPOINTMENTS": { "VALUE": "50 tys.+", "LABEL": "Umówionych wizyt" },
+      "SATISFACTION": { "VALUE": "4,9/5", "LABEL": "Średnia ocena pacjentów" },
+      "SPECIALTIES": { "VALUE": "20+", "LABEL": "Specjalizacji medycznych" }
+    },
+    "ABOUT": {
+      "EYEBROW": "O nas",
+      "HEADING_PREFIX": "Co Nas",
+      "HEADING_HIGHLIGHT": "Wyróżnia",
+      "DESCRIPTION": "W CuraSlot zapewniamy troskliwy i wysokiej jakości dostęp do opieki zdrowotnej dla naszej społeczności.",
+      "FEATURE1": {
+        "TITLE": "Opieka skoncentrowana na pacjencie",
+        "DESCRIPTION": "Wierzymy w spersonalizowaną opiekę, skupioną na Twoich potrzebach i preferencjach."
+      },
+      "FEATURE2": {
+        "TITLE": "Zweryfikowani specjaliści",
+        "DESCRIPTION": "Każdy lekarz na naszej platformie jest zweryfikowany, dzięki czemu możesz umawiać wizyty z pełnym zaufaniem."
+      },
+      "FEATURE3": {
+        "TITLE": "Proste rezerwacje online",
+        "DESCRIPTION": "Znajdź odpowiedniego specjalistę i umów wizytę w kilka minut, bez telefonów."
+      }
+    },
+    "WHY_CHOOSE": {
+      "EYEBROW": "Dlaczego my",
+      "HEADING_PREFIX": "Dlaczego warto wybrać",
+      "HEADING_HIGHLIGHT": "CuraSlot",
+      "DESCRIPTION": "Sprawiamy, że znalezienie i umówienie wizyty u odpowiedniego lekarza jest proste, szybkie i bezstresowe.",
+      "POINT1": "Zweryfikowani specjaliści medyczni",
+      "POINT2": "Wizyty online i stacjonarne",
+      "POINT3": "95% wskaźnik satysfakcji pacjentów",
+      "POINT4": "Bezpieczna, natychmiastowa rezerwacja",
+      "CTA": "Umów wizytę teraz",
+      "CARD": {
+        "TITLE": "Dostępni lekarze",
+        "SUBTITLE": "Wybierz specjalistę",
+        "FIND_BUTTON": "Znajdź lekarza"
+      }
+    },
+    "SERVICES": {
+      "HEADING": "Nasze usługi",
+      "SUBHEADING": "Kompleksowa opieka w każdej specjalizacji, w jednym miejscu.",
+      "DERMATOLOGY": {
+        "TITLE": "Dermatologia i pielęgnacja skóry",
+        "DESCRIPTION": "Opieka nad skórą, włosami i paznokciami — od badań po leczenie, z doświadczonymi dermatologami.",
+        "CTA": "Umów wizytę"
+      },
+      "DENTAL": {
+        "TITLE": "Stomatologia i implanty",
+        "DESCRIPTION": "Od rutynowych przeglądów po implanty, z najlepiej ocenianymi stomatologami.",
+        "CTA": "Umów wizytę"
+      },
+      "CARDIOLOGY": {
+        "TITLE": "Diagnostyka kardiologiczna",
+        "DESCRIPTION": "Badania i diagnostyka serca z doświadczonymi kardiologami.",
+        "CTA": "Umów wizytę"
+      },
+      "PEDIATRICS": {
+        "TITLE": "Pediatria i zdrowie rodziny",
+        "DESCRIPTION": "Troskliwi specjaliści pediatrii na każdym etapie dzieciństwa.",
+        "CTA": "Umów wizytę"
+      },
+      "GYNECOLOGY": {
+        "TITLE": "Ginekologia i zdrowie kobiety",
+        "DESCRIPTION": "Dyskretna i troskliwa opieka doświadczonych ginekologów na każdym etapie życia.",
+        "CTA": "Umów wizytę"
+      },
+      "ORTHOPEDICS": {
+        "TITLE": "Ortopedia i zdrowie stawów",
+        "DESCRIPTION": "Diagnostyka i leczenie stawów, kości i narządu ruchu — od skręceń po implanty.",
+        "CTA": "Umów wizytę"
+      },
+      "NEUROLOGY": {
+        "TITLE": "Neurologia i zdrowie mózgu",
+        "DESCRIPTION": "Specjalistyczna opieka przy bólach głowy, schorzeniach nerwowych i zdrowiu mózgu.",
+        "CTA": "Umów wizytę"
+      },
+      "GENETICS": {
+        "TITLE": "Badania genetyczne",
+        "DESCRIPTION": "Zaawansowane badania przesiewowe, by poznać ryzyko zdrowotne i planować z wyprzedzeniem.",
+        "CTA": "Umów wizytę"
+      }
+    },
+    "MEET_DOCTORS": {
+      "EYEBROW": "Poznaj nasz zespół",
+      "HEADING": "Nasi specjaliści",
+      "SUBHEADING": "Zaangażowani specjaliści dbający o Twoje zdrowie.",
+      "DOCTOR1": {
+        "NAME": "Dr Priya Sharma",
+        "ROLE": "Kierownik Kardiologii",
+        "BIO": "Specjalizuje się w zaawansowanej diagnostyce kardiologicznej i długoterminowym zdrowiu serca."
+      },
+      "DOCTOR2": {
+        "NAME": "Dr Eleanor Whitfield",
+        "ROLE": "Pediatria i medycyna rodzinna",
+        "BIO": "Zapewnia troskliwą opiekę pacjentom w każdym wieku."
+      },
+      "DOCTOR3": {
+        "NAME": "Dr Amara Johnson",
+        "ROLE": "Dermatologia i pielęgnacja skóry",
+        "BIO": "Skupia się na zdrowiu skóry — od badań po zaawansowane leczenie."
+      }
+    }
+  },
+  "DOCTORS": {
+    "EYEBROW": "Znajdź opiekę",
+    "HEADING": "Przeglądaj lekarzy",
+    "LOADING": "Ładowanie lekarzy…",
+    "EMPTY": "Brak dostępnych lekarzy.",
+    "ALL_CATEGORIES": "Wszystkie specjalizacje",
+    "RATING": "★ {{rating}} ({{count}} opinii)",
+    "FROM_PRICE": "od {{price}}",
+    "SEARCH_PLACEHOLDER": "Szukaj po imieniu i nazwisku…",
+    "FILTERS": "Filtry",
+    "ALL_CITIES": "Wszystkie miasta",
+    "AVAILABILITY_LABEL": "Dostępność",
+    "AVAILABILITY_ANY": "Dowolny termin",
+    "AVAILABILITY_TODAY": "Dziś",
+    "AVAILABILITY_WEEK": "W tym tygodniu",
+    "SORT_LABEL": "Sortuj",
+    "SORT_NAME": "Nazwa",
+    "SORT_RATING": "Ocena",
+    "SORT_PRICE": "Cena",
+    "VIEW_PROFILE": "Zobacz profil",
+    "NO_MATCHES": "Żaden lekarz nie pasuje do wyszukiwania.",
+    "COLUMN_DOCTOR": "Lekarz",
+    "COLUMN_CITY": "Miasto",
+    "COLUMN_RATING": "Ocena",
+    "COLUMN_PRICE": "Od",
+    "COLUMN_TREATMENTS": "Rodzaj wizyty",
+    "NEXT_SLOT": "Najbliższy termin",
+    "NO_SLOTS": "Brak dostępnych terminów",
+    "CHECKING_SLOTS": "Sprawdzanie…",
+    "SLOT_TODAY": "Dziś",
+    "SLOT_TOMORROW": "Jutro"
+  },
+  "DOCTOR_PROFILE": {
+    "EYEBROW": "Profil lekarza",
+    "HEADING": "Profil lekarza",
+    "BACK": "← Wróć do lekarzy",
+    "BACK_TO_DASHBOARD": "← Wróć do panelu",
+    "LOADING": "Ładowanie profilu…",
+    "NOT_FOUND": "Nie znaleziono profilu lekarza.",
+    "STATUS_ACTIVE": "Przyjmuje pacjentów",
+    "STATUS_INACTIVE": "Obecnie nie przyjmuje pacjentów",
+    "RATING": "★ {{rating}} ({{count}} opinii)",
+    "NO_REVIEWS": "Brak opinii",
+    "EDIT": "Edytuj",
+    "SAVE": "Zapisz",
+    "CANCEL": "Anuluj",
+    "EDIT_HEADING": "Edytuj profil",
+    "ACCEPTING_LABEL": "Przyjmuje pacjentów",
+    "ACCEPTING_HINT": "Wyłącz, jeśli obecnie nie przyjmujesz nowych rezerwacji.",
+    "SECTIONS": {
+      "PERSONAL_INFO": "Dane osobowe",
+      "LOCATION": "Lokalizacja",
+      "BIO": "O mnie",
+      "BIO_EMPTY": "Nie dodałeś jeszcze opisu.",
+      "CONDITIONS": "Leczone choroby",
+      "CONDITIONS_EMPTY": "Nie dodano jeszcze żadnych chorób."
+    },
+    "CONDITIONS_PLACEHOLDER": "np. Ból biodra",
+    "CONDITIONS_ADD": "Dodaj",
+    "CONDITIONS_REMOVE": "Usuń",
+    "FORM": {
+      "FULL_NAME": "Imię i nazwisko",
+      "SPECIALIZATION": "Specjalizacja",
+      "CITY": "Miasto",
+      "DESCRIPTION": "Opis",
+      "IS_ACTIVE": "Przyjmuje pacjentów",
+      "PRICE_STATIONARY": "Cena wizyty stacjonarnej",
+      "PRICE_ONLINE": "Cena wizyty online",
+      "PRICE_PLACEHOLDER": "np. 150",
+      "PRICE_HINT": "Zostaw puste, jeśli nie oferujesz tego rodzaju wizyty.",
+      "SAVE": "Zapisz zmiany",
+      "CANCEL": "Anuluj"
+    },
+    "TOAST": {
+      "SAVED": "Profil zaktualizowany",
+      "SAVE_ERROR": "Nie udało się zaktualizować profilu",
+      "PHOTO_SAVED": "Zdjęcie zaktualizowane",
+      "PHOTO_REMOVED": "Zdjęcie usunięte",
+      "PHOTO_ERROR": "Nie udało się zaktualizować zdjęcia. Spróbuj ponownie."
+    },
+    "BOOKING": {
+      "HEADING": "Umów wizytę",
+      "SERVICE_LABEL": "Co chcesz zarezerwować?",
+      "GENERAL_VISIT": "Zwykła wizyta",
+      "VISIT_TYPE_LABEL": "Rodzaj wizyty",
+      "VISIT_TYPE": {
+        "Stationary": "Stacjonarnie",
+        "Online": "Online"
+      },
+      "NO_VISIT_TYPES": "Ten lekarz nie ustawił jeszcze cen, więc rezerwacja nie jest dostępna.",
+      "SIGN_IN_PROMPT": "Zaloguj się jako pacjent, aby umówić wizytę u tego lekarza.",
+      "PATIENTS_ONLY": "Tylko pacjenci mogą umawiać wizyty.",
+      "DATE_LABEL": "Data",
+      "LOADING_SLOTS": "Ładowanie dostępnych terminów…",
+      "NO_SLOTS": "Brak dostępnych terminów tego dnia.",
+      "DURATION_LABEL": "Czas trwania",
+      "BOOKED_LABEL": "Zajęte",
+      "BOOK_BUTTON": "Zarezerwuj",
+      "SUCCESS": "Wizyta zarezerwowana! Zobaczysz ją w historii wizyt.",
+      "ERROR_INVALID": "Ta rezerwacja jest nieprawidłowa. Sprawdź wybrane opcje i spróbuj ponownie.",
+      "ERROR_CONFLICT": "Ten termin nie jest już dostępny albo lekarz nie przyjmuje obecnie pacjentów. Wybierz inny termin.",
+      "ERROR_GENERIC": "Coś poszło nie tak podczas rezerwacji. Spróbuj ponownie."
+    },
+    "REVIEWS": {
+      "HEADING": "Opinie pacjentów",
+      "LOADING": "Ładowanie opinii…",
+      "EMPTY": "Brak opinii."
+    }
+  },
+  "DOCTOR_SCHEDULE": {
+    "HEADING": "Mój grafik",
+    "SUBHEADING": "Wybierz daty, w które przyjmujesz pacjentów.",
+    "LOADING": "Ładowanie grafiku…",
+    "EMPTY_DAY": "Brak ustawionych godzin pracy dla tej daty.",
+    "SELECT_DAY_PROMPT": "Wybierz datę w kalendarzu, aby zarządzać godzinami pracy.",
+    "TODAY_BUTTON": "Dziś",
+    "START_LABEL": "Początek",
+    "END_LABEL": "Koniec",
+    "WINDOW_VISIT_TYPES_LABEL": "Rodzaje wizyt",
+    "ADD_BUTTON": "Dodaj przedział",
+    "DELETE": "Usuń",
+    "TOAST": {
+      "ADDED": "Dodano godziny pracy",
+      "DELETED": "Usunięto godziny pracy"
+    },
+    "ERROR_OVERLAP": "Ten przedział pokrywa się z istniejącym w tej dacie.",
+    "ERROR_INVALID": "Godzina rozpoczęcia musi być wcześniejsza niż zakończenia, a data nie może być w przeszłości.",
+    "ERROR_GENERIC": "Coś poszło nie tak. Spróbuj ponownie.",
+    "TREATMENTS": {
+      "HEADING": "Rodzaje wizyt",
+      "SUBHEADING": "Rodzaje wizyt, które oferujesz pacjentom, wraz z ceną.",
+      "ADD_BUTTON": "Dodaj nowy",
+      "EMPTY": "Nie masz jeszcze skonfigurowanych rodzajów wizyt.",
+      "PRICE_LABEL": "Cena (zł)",
+      "PRICE_PLACEHOLDER": "np. 150",
+      "SAVE_BUTTON": "Zapisz",
+      "CANCEL_BUTTON": "Anuluj",
+      "ALL_ADDED": "Oba rodzaje wizyt są już skonfigurowane.",
+      "TOAST": {
+        "ADDED": "Dodano rodzaj wizyty",
+        "REMOVED": "Usunięto rodzaj wizyty",
+        "ERROR": "Nie udało się zaktualizować. Spróbuj ponownie."
+      }
+    },
+    "SERVICES": {
+      "HEADING": "Usługi",
+      "SUBHEADING": "Własne procedury, które oferujesz, np. konkretna analiza lub kwalifikacja do operacji.",
+      "ADD_BUTTON": "Dodaj nową",
+      "EMPTY": "Nie dodano jeszcze żadnych własnych usług.",
+      "ADD_HEADING": "Nowa usługa",
+      "EDIT_HEADING": "Edytuj usługę",
+      "NAME_LABEL": "Nazwa usługi",
+      "NAME_PLACEHOLDER": "np. Kwalifikacja do operacji",
+      "DESCRIPTION_LABEL": "Opis (opcjonalnie)",
+      "DESCRIPTION_PLACEHOLDER": "Na czym polega ta usługa?",
+      "PRICE_LABEL": "Cena (zł)",
+      "PRICE_PLACEHOLDER": "np. 150",
+      "VISIT_TYPES_LABEL": "Dostępna jako",
+      "SAVE_BUTTON": "Zapisz",
+      "CANCEL_BUTTON": "Anuluj",
+      "TOAST": {
+        "ADDED": "Dodano usługę",
+        "UPDATED": "Zaktualizowano usługę",
+        "REMOVED": "Usunięto usługę",
+        "ERROR": "Nie udało się zaktualizować usług. Spróbuj ponownie."
+      }
+    }
+  },
+  "PATIENT_PROFILE": {
+    "HEADING": "Mój profil",
+    "EDIT_HEADING": "Edytuj profil",
+    "LOADING": "Ładowanie profilu…",
+    "NAME_LABEL": "Imię i nazwisko",
+    "EMAIL_LABEL": "Adres e-mail",
+    "ROLE_LABEL": "Typ konta",
+    "EDIT": "Edytuj",
+    "SAVE": "Zapisz",
+    "CANCEL": "Anuluj",
+    "SECTIONS": {
+      "PERSONAL_INFO": "Dane osobowe"
+    },
+    "TOAST": {
+      "SAVED": "Profil zaktualizowany",
+      "SAVE_ERROR": "Nie udało się zaktualizować profilu. Spróbuj ponownie."
+    },
+    "APPOINTMENTS_LINK": "Zobacz moje wizyty"
+  },
+  "APPOINTMENTS": {
+    "EYEBROW": "Twoje wizyty",
+    "HEADING": "Moje wizyty",
+    "LOADING": "Ładowanie Twoich wizyt…",
+    "UPCOMING_HEADING": "Nadchodzące",
+    "PAST_HEADING": "Przeszłe",
+    "EMPTY_UPCOMING": "Nie masz nadchodzących wizyt.",
+    "EMPTY_PAST": "Brak przeszłych wizyt.",
+    "VIEW_DETAILS": "Zobacz szczegóły",
+    "CANCEL_BUTTON": "Anuluj",
+    "CANCELLING": "Anulowanie…",
+    "STATUS": {
+      "Pending": "Oczekuje na potwierdzenie",
+      "Confirmed": "Potwierdzona",
+      "Cancelled": "Anulowana",
+      "Rejected": "Odrzucona",
+      "Completed": "Zakończona"
+    },
+    "VISIT_TYPE": {
+      "Stationary": "Stacjonarnie",
+      "Online": "Online"
+    },
+    "TOAST": {
+      "CANCELLED": "Wizyta anulowana",
+      "CANCEL_CONFLICT": "Status tej wizyty właśnie się zmienił — odświeżanie listy.",
+      "CANCEL_ERROR": "Nie udało się anulować wizyty. Spróbuj ponownie."
+    },
+    "REVIEW": {
+      "LEAVE_BUTTON": "Zostaw opinię",
+      "COMMENT_PLACEHOLDER": "Jak minęła wizyta? (opcjonalnie)",
+      "SUBMIT_BUTTON": "Wyślij opinię",
+      "TOAST": {
+        "SUBMITTED": "Opinia wysłana"
+      },
+      "ERROR_CONFLICT": "Ta wizyta została już oceniona.",
+      "ERROR_GENERIC": "Nie udało się wysłać opinii. Spróbuj ponownie."
+    }
+  },
+  "APPOINTMENT_DETAIL": {
+    "EYEBROW": "Wizyta",
+    "BACK": "Wróć do moich wizyt",
+    "LOADING": "Wczytywanie wizyty…",
+    "NOT_FOUND": "Nie znaleziono wizyty.",
+    "FORBIDDEN": "Nie masz dostępu do tej wizyty.",
+    "HEADING": "Szczegóły wizyty",
+    "DOCTOR": "Lekarz",
+    "SERVICE": "Usługa",
+    "WHEN": "Termin",
+    "VISIT_TYPE": "Typ wizyty",
+    "STATUS": "Status",
+    "PRICE": "Cena",
+    "PAID": "Opłacono — nie musisz nic więcej robić.",
+    "PAY_NOW_BUTTON": "Zapłać teraz",
+    "PAY_IN_OFFICE": "Zapłata w gabinecie podczas wizyty."
+  },
+  "CHECKOUT": {
+    "BACK": "Wróć do wizyty",
+    "LOADING": "Przygotowywanie płatności…",
+    "NOT_PAYABLE": "Za tę wizytę nie można zapłacić online.",
+    "HEADING": "Zapłać za wizytę",
+    "AMOUNT_DUE": "Kwota do zapłaty",
+    "PAY_BUTTON": "Zapłać",
+    "PAYING": "Przetwarzanie…",
+    "ERROR_INIT": "Nie udało się rozpocząć płatności. Spróbuj ponownie.",
+    "ERROR_PAYMENT": "Płatność nie powiodła się. Spróbuj ponownie."
+  },
+  "PAYMENT_SUCCESS": {
+    "LOADING": "Potwierdzanie płatności…",
+    "HEADING": "Płatność zakończona sukcesem",
+    "MESSAGE": "Twoja płatność została odebrana.",
+    "VIEW_APPOINTMENT_BUTTON": "Zobacz wizytę",
+    "FAILED_HEADING": "Nie potwierdzono płatności",
+    "FAILED_MESSAGE": "Nie udało się potwierdzić Twojej płatności. Jeśli środki zostały pobrane, zostanie to automatycznie uzgodnione — w przeciwnym razie spróbuj ponownie.",
+    "BACK_BUTTON": "Wróć do wizyty",
+    "ERROR_CONFIRM": "Nie udało się potwierdzić płatności. Odśwież tę stronę."
+  },
+  "DOCTOR_PROFILE_SETUP": {
+    "HEADING": "Uzupełnij profil lekarza",
+    "SUBHEADING": "Pacjenci nie znajdą Cię ani nie umówią wizyty, dopóki tego nie zrobisz.",
+    "SUBMIT": "Utwórz profil",
+    "SUCCESS": "Profil utworzony! Możesz teraz być widoczny w wyszukiwarce.",
+    "ERROR_CONFLICT": "Masz już profil lekarza.",
+    "ERROR_GENERIC": "Nie udało się utworzyć profilu. Spróbuj ponownie."
+  },
+  "DOCTOR_DASHBOARD": {
+    "EYEBROW": "Panel lekarza",
+    "HEADING": "Panel",
+    "LOADING": "Ładowanie wizyt…",
+    "PROFILE_PROMPT": "Nie masz jeszcze uzupełnionego profilu lekarza — pacjenci nie znajdą Cię ani nie umówią wizyty, dopóki tego nie zrobisz.",
+    "PROFILE_PROMPT_BUTTON": "Uzupełnij profil",
+    "PENDING_HEADING": "Oczekujące",
+    "CONFIRMED_HEADING": "Potwierdzone",
+    "HISTORY_HEADING": "Historia",
+    "EMPTY_PENDING": "Brak oczekujących próśb.",
+    "EMPTY_CONFIRMED": "Brak potwierdzonych wizyt.",
+    "EMPTY_HISTORY": "Brak przeszłych wizyt.",
+    "EMPTY_TODAY": "Brak wizyt na dziś.",
+    "CONFIRM_BUTTON": "Potwierdź",
+    "REJECT_BUTTON": "Odrzuć",
+    "COMPLETE_BUTTON": "Oznacz jako zakończoną",
+    "STATS": {
+      "TOTAL_PATIENTS": "Wszyscy pacjenci",
+      "TODAY_PATIENTS": "Pacjenci dzisiaj",
+      "TODAY_APPOINTMENTS": "Wizyty dzisiaj"
+    },
+    "SUMMARY_HEADING": "Podsumowanie pacjentów",
+    "NEW_PATIENTS": "Nowi pacjenci",
+    "RETURNING_PATIENTS": "Powracający pacjenci",
+    "TOTAL_LABEL": "Razem",
+    "TODAY_HEADING": "Dzisiejsze wizyty",
+    "NEXT_PATIENT_HEADING": "Następny pacjent",
+    "NO_NEXT_PATIENT": "Brak nadchodzących potwierdzonych wizyt.",
+    "REVIEWS_HEADING": "Opinie pacjentów",
+    "REQUESTS_HEADING": "Prośby o wizyty",
+    "CALENDAR_HEADING": "Kalendarz",
+    "REVIEW_BUCKET": {
+      "Excellent": "Doskonałe",
+      "Great": "Świetne",
+      "Good": "Dobre",
+      "Average": "Przeciętne"
+    },
+    "TOAST": {
+      "CONFIRMED": "Wizyta potwierdzona",
+      "REJECTED": "Wizyta odrzucona",
+      "COMPLETED": "Wizyta oznaczona jako zakończona",
+      "CONFLICT": "Status tej wizyty właśnie się zmienił — odświeżanie listy.",
+      "ACTION_ERROR": "Nie udało się zaktualizować wizyty. Spróbuj ponownie."
+    }
+  },
+  "AUTH": {
+    "SESSION_EXPIRED": "Twoja sesja wygasła. Zaloguj się ponownie."
+  },
+  "ADMIN": {
+    "EYEBROW": "Panel administratora",
+    "HEADING": "Panel administratora",
+    "LOADING": "Ładowanie…",
+    "VIEWING_CENTER": "Wyświetlana placówka:",
+    "TABS": {
+      "USERS": "Użytkownicy",
+      "DOCTORS": "Lekarze",
+      "REVIEWS": "Opinie",
+      "CENTERS": "Placówki medyczne",
+      "BRANDING": "Wygląd"
+    },
+    "STATS": {
+      "TOTAL_APPOINTMENTS": "Wszystkie wizyty",
+      "PENDING": "Oczekujące",
+      "TOTAL_REVIEWS": "Wszystkie opinie",
+      "AVERAGE_RATING": "Średnia ocena"
+    },
+    "SEARCH_PLACEHOLDER": "Szukaj po imieniu lub e-mailu…",
+    "DOCTOR_SEARCH_PLACEHOLDER": "Szukaj po imieniu, specjalizacji lub mieście…",
+    "ALL_ROLES": "Wszystkie role",
+    "ALL_STATUSES": "Wszystkie",
+    "TABLE": {
+      "EMAIL": "Adres e-mail",
+      "NAME": "Imię i nazwisko",
+      "ROLE": "Rola",
+      "CREATED": "Dołączył(a)",
+      "STATUS": "Status",
+      "DOCTOR": "Lekarz",
+      "SPECIALIZATION": "Specjalizacja",
+      "CITY": "Miasto"
+    },
+    "STATUS_ACTIVE": "Aktywne",
+    "STATUS_INACTIVE": "Dezaktywowane",
+    "ACTIVATE_BUTTON": "Aktywuj",
+    "DEACTIVATE_BUTTON": "Dezaktywuj",
+    "NO_USERS": "Brak użytkowników pasujących do wyszukiwania.",
+    "NO_DOCTORS": "Brak lekarzy pasujących do wyszukiwania.",
+    "NO_REVIEWS": "Brak opinii.",
+    "DELETE_REVIEW_BUTTON": "Usuń",
+    "TOAST": {
+      "ACTIVATED": "Konto aktywowane",
+      "DEACTIVATED": "Konto dezaktywowane",
+      "DOCTOR_ACTIVATED": "Profil lekarza aktywowany",
+      "DOCTOR_DEACTIVATED": "Profil lekarza dezaktywowany",
+      "REVIEW_DELETED": "Opinia usunięta",
+      "ERROR": "Nie udało się wykonać tej akcji. Spróbuj ponownie."
+    },
+    "CENTERS": {
+      "SUBHEADING": "Wszystkie placówki medyczne na platformie, każda z własnymi lekarzami, pacjentami i wizytami.",
+      "NEW_CENTER": "Nowa placówka",
+      "CANCEL": "Anuluj",
+      "NAME": "Nazwa",
+      "SLUG": "Slug",
+      "COLOR": "Kolor główny",
+      "ADMIN_NAME": "Imię i nazwisko administratora",
+      "ADMIN_EMAIL": "E-mail administratora",
+      "ADMIN_PASSWORD": "Hasło administratora",
+      "CREATE": "Utwórz placówkę",
+      "NONE": "Brak placówek medycznych.",
+      "PUBLIC_LINK": "Link publiczny",
+      "VIEW_DATA": "Zobacz dane",
+      "TOAST": {
+        "CREATED": "Placówka medyczna utworzona"
+      }
+    },
+    "BRANDING": {
+      "SUBHEADING": "Zmień nazwę placówki, czcionkę, kształt przycisków oraz zdjęcie lub wideo w tle strony głównej.",
+      "PUBLIC_LINK": "Publiczny link Twojej placówki — udostępnij go, aby pacjenci trafiali prosto do Twoich lekarzy",
+      "COPY_LINK": "Kopiuj link",
+      "LINK_COPIED": "Skopiowano!",
+      "FONT": "Czcionka",
+      "BUTTON_SHAPE": "Kształt przycisków",
+      "RADIUS_PILL": "Owalne",
+      "RADIUS_ROUNDED": "Zaokrąglone",
+      "RADIUS_SHARP": "Ostre",
+      "BANNER_IMAGE": "Zdjęcie w tle",
+      "BANNER_IMAGE_HINT": "Wyświetlane za tytułem strony głównej zamiast domyślnej animacji.",
+      "UPLOAD_BANNER": "Prześlij zdjęcie",
+      "REMOVE_BANNER": "Usuń",
+      "BANNER_VIDEO": "Wideo w tle",
+      "BANNER_VIDEO_HINT": "Link do hostowanego wideo (mp4). Ma priorytet nad zdjęciem w tle, jeśli jest ustawiony.",
+      "PREVIEW": "Podgląd",
+      "PREVIEW_BUTTON": "Umów wizytę",
+      "SAVE": "Zapisz wygląd",
+      "TOAST": {
+        "SAVED": "Wygląd zaktualizowany",
+        "BANNER_UPDATED": "Zdjęcie w tle zaktualizowane",
+        "BANNER_REMOVED": "Zdjęcie w tle usunięte"
+      }
+    }
+  }
+}

@@ -1,0 +1,278 @@
+<!-- Page banner: same blood-cell imagery as the home hero, darkened like the hero
+     video overlay, so this page reads as part of the same visual system instead of
+     dropping straight into a plain white toolbar. -->
+<div class="relative w-full h-56 sm:h-64 overflow-hidden">
+  <img src="/images/bg/top_img.jpg" alt="" class="absolute inset-0 w-full h-full object-cover">
+  <div class="absolute inset-0 bg-black/60"></div>
+  <div class="absolute inset-0 flex items-end">
+    <div class="max-w-6xl mx-auto w-full px-4 sm:px-6 pb-8">
+      <p class="text-xs font-semibold tracking-widest uppercase text-white/70">{{ 'DOCTORS.EYEBROW' | translate }}</p>
+      <h1 class="mt-1 text-3xl sm:text-4xl font-bold text-white">{{ 'DOCTORS.HEADING' | translate }}</h1>
+    </div>
+  </div>
+</div>
+
+<main class="w-full min-h-screen bg-gray-50 pt-8 px-4 sm:px-6 pb-16">
+  <div class="max-w-6xl mx-auto">
+
+    @if (isLoading) {
+      <p class="text-center text-gray-500 py-16">{{ 'DOCTORS.LOADING' | translate }}</p>
+    } @else if (doctors.length === 0 && hasLoaded) {
+      <p class="text-center text-gray-500 py-16">{{ 'DOCTORS.EMPTY' | translate }}</p>
+    } @else {
+      <div class="bg-white/70 backdrop-blur-md border border-white/60 rounded-3xl shadow-xl overflow-hidden">
+
+        <!-- Header: count + search + filters -->
+        <div class="flex flex-wrap items-center justify-between gap-4 p-6 border-b border-gray-100">
+          <div class="flex items-center gap-3">
+            <span class="w-11 h-11 shrink-0 rounded-full bg-linear-to-br from-rose-400 via-fuchsia-400 to-teal-400 text-white flex items-center justify-center shadow">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+              </svg>
+            </span>
+            <div>
+              <p class="text-2xl font-bold text-gray-900 leading-none">{{ filteredDoctors.length }}</p>
+              <p class="text-xs text-gray-500 mt-0.5">{{ 'DOCTORS.HEADING' | translate }}</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="relative">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+              </svg>
+              <input type="text" [(ngModel)]="nameQuery"
+                     [placeholder]="'DOCTORS.SEARCH_PLACEHOLDER' | translate"
+                     class="pl-9 pr-4 py-2 text-sm rounded-full border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-300 w-48 sm:w-56">
+            </div>
+
+            <button type="button" (click)="toggleFilters()"
+                    class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm transition-colors"
+                    [class.bg-gray-900]="showFilters"
+                    [class.text-white]="showFilters"
+                    [class.border-gray-900]="showFilters"
+                    [class.bg-white]="!showFilters"
+                    [class.text-gray-600]="!showFilters"
+                    [class.border-gray-200]="!showFilters">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m9 12h3.75M16.5 18a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0H7.5m3-6h9.75M10.5 12a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0m-3.75 0H7.5" />
+              </svg>
+              {{ 'DOCTORS.FILTERS' | translate }}
+              @if (cityFilter || sortBy !== 'name' || availabilityFilter !== 'any') {
+                <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+              }
+            </button>
+          </div>
+        </div>
+
+        @if (showFilters) {
+          <div class="flex flex-wrap items-center gap-6 px-6 py-4 border-b border-gray-100 bg-gray-50/60">
+            <div>
+              <p class="text-xs font-medium text-gray-500 mb-2">{{ 'DOCTORS.COLUMN_CITY' | translate }}</p>
+              <div class="flex flex-wrap gap-1.5">
+                <button type="button" (click)="selectCity(null)"
+                        class="px-3 py-1 text-xs rounded-full border transition-colors"
+                        [class.bg-gray-900]="!cityFilter" [class.text-white]="!cityFilter" [class.border-gray-900]="!cityFilter"
+                        [class.border-gray-200]="cityFilter" [class.text-gray-600]="cityFilter">
+                  {{ 'DOCTORS.ALL_CITIES' | translate }}
+                </button>
+                @for (city of cities; track city) {
+                  <button type="button" (click)="selectCity(city)"
+                          class="px-3 py-1 text-xs rounded-full border transition-colors"
+                          [class.bg-gray-900]="cityFilter === city" [class.text-white]="cityFilter === city" [class.border-gray-900]="cityFilter === city"
+                          [class.border-gray-200]="cityFilter !== city" [class.text-gray-600]="cityFilter !== city">
+                    {{ city }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <div>
+              <p class="text-xs font-medium text-gray-500 mb-2">{{ 'DOCTORS.AVAILABILITY_LABEL' | translate }}</p>
+              <div class="flex flex-wrap gap-1.5">
+                <button type="button" (click)="setAvailabilityFilter('any')"
+                        class="px-3 py-1 text-xs rounded-full border transition-colors"
+                        [class.bg-gray-900]="availabilityFilter === 'any'" [class.text-white]="availabilityFilter === 'any'" [class.border-gray-900]="availabilityFilter === 'any'"
+                        [class.border-gray-200]="availabilityFilter !== 'any'" [class.text-gray-600]="availabilityFilter !== 'any'">
+                  {{ 'DOCTORS.AVAILABILITY_ANY' | translate }}
+                </button>
+                <button type="button" (click)="setAvailabilityFilter('today')"
+                        class="px-3 py-1 text-xs rounded-full border transition-colors"
+                        [class.bg-gray-900]="availabilityFilter === 'today'" [class.text-white]="availabilityFilter === 'today'" [class.border-gray-900]="availabilityFilter === 'today'"
+                        [class.border-gray-200]="availabilityFilter !== 'today'" [class.text-gray-600]="availabilityFilter !== 'today'">
+                  {{ 'DOCTORS.AVAILABILITY_TODAY' | translate }}
+                </button>
+                <button type="button" (click)="setAvailabilityFilter('week')"
+                        class="px-3 py-1 text-xs rounded-full border transition-colors"
+                        [class.bg-gray-900]="availabilityFilter === 'week'" [class.text-white]="availabilityFilter === 'week'" [class.border-gray-900]="availabilityFilter === 'week'"
+                        [class.border-gray-200]="availabilityFilter !== 'week'" [class.text-gray-600]="availabilityFilter !== 'week'">
+                  {{ 'DOCTORS.AVAILABILITY_WEEK' | translate }}
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <p class="text-xs font-medium text-gray-500 mb-2">{{ 'DOCTORS.SORT_LABEL' | translate }}</p>
+              <div class="flex flex-wrap gap-1.5">
+                <button type="button" (click)="setSort('name')"
+                        class="px-3 py-1 text-xs rounded-full border transition-colors"
+                        [class.bg-gray-900]="sortBy === 'name'" [class.text-white]="sortBy === 'name'" [class.border-gray-900]="sortBy === 'name'"
+                        [class.border-gray-200]="sortBy !== 'name'" [class.text-gray-600]="sortBy !== 'name'">
+                  {{ 'DOCTORS.SORT_NAME' | translate }}
+                </button>
+                <button type="button" (click)="setSort('rating')"
+                        class="px-3 py-1 text-xs rounded-full border transition-colors"
+                        [class.bg-gray-900]="sortBy === 'rating'" [class.text-white]="sortBy === 'rating'" [class.border-gray-900]="sortBy === 'rating'"
+                        [class.border-gray-200]="sortBy !== 'rating'" [class.text-gray-600]="sortBy !== 'rating'">
+                  {{ 'DOCTORS.SORT_RATING' | translate }}
+                </button>
+                <button type="button" (click)="setSort('price')"
+                        class="px-3 py-1 text-xs rounded-full border transition-colors"
+                        [class.bg-gray-900]="sortBy === 'price'" [class.text-white]="sortBy === 'price'" [class.border-gray-900]="sortBy === 'price'"
+                        [class.border-gray-200]="sortBy !== 'price'" [class.text-gray-600]="sortBy !== 'price'">
+                  {{ 'DOCTORS.SORT_PRICE' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- Specialization pills -->
+        <div class="flex flex-wrap gap-2 px-6 py-4 border-b border-gray-100">
+          <button type="button" (click)="selectCategory(null)"
+                  class="px-3.5 py-1.5 text-sm rounded-full border transition-colors"
+                  [class.bg-gray-900]="selectedCategory === null"
+                  [class.text-white]="selectedCategory === null"
+                  [class.border-gray-900]="selectedCategory === null"
+                  [class.border-gray-200]="selectedCategory !== null"
+                  [class.text-gray-600]="selectedCategory !== null"
+                  [class.hover:border-gray-400]="selectedCategory !== null">
+            {{ 'DOCTORS.ALL_CATEGORIES' | translate }}
+          </button>
+          @for (category of categories; track category.specialization) {
+            <button type="button" (click)="selectCategory(category.specialization)"
+                    class="px-3.5 py-1.5 text-sm rounded-full border transition-colors"
+                    [class.bg-gray-900]="selectedCategory === category.specialization"
+                    [class.text-white]="selectedCategory === category.specialization"
+                    [class.border-gray-900]="selectedCategory === category.specialization"
+                    [class.border-gray-200]="selectedCategory !== category.specialization"
+                    [class.text-gray-600]="selectedCategory !== category.specialization"
+                    [class.hover:border-gray-400]="selectedCategory !== category.specialization">
+              {{ category.specialization }}
+            </button>
+          }
+        </div>
+
+        @if (filteredDoctors.length === 0) {
+          <p class="text-center text-gray-500 py-16">{{ 'DOCTORS.NO_MATCHES' | translate }}</p>
+        } @else {
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="text-left text-xs uppercase tracking-wide text-gray-400 border-b border-gray-100">
+                  <th class="py-3 px-6 font-medium">{{ 'DOCTORS.COLUMN_DOCTOR' | translate }}</th>
+                  <th class="py-3 px-4 font-medium">{{ 'DOCTORS.COLUMN_CITY' | translate }}</th>
+                  <th class="py-3 px-4 font-medium">{{ 'DOCTORS.COLUMN_RATING' | translate }}</th>
+                  <th class="py-3 px-4 font-medium">{{ 'DOCTORS.COLUMN_PRICE' | translate }}</th>
+                  <th class="py-3 px-4 font-medium">{{ 'DOCTORS.COLUMN_TREATMENTS' | translate }}</th>
+                  <th class="py-3 px-6"></th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (doctor of filteredDoctors; track doctor.id) {
+                  <tr class="border-b border-gray-50 hover:bg-rose-50/50 transition-colors">
+                    <td class="pt-3 pb-1 px-6">
+                      <a [routerLink]="['/doctors', doctor.id]" class="flex items-center gap-3 group">
+                        @if (doctor.hasPhoto) {
+                          <img [src]="doctor.id | doctorPhotoUrl" alt=""
+                               class="w-10 h-10 shrink-0 rounded-full object-cover">
+                        } @else {
+                          <span class="w-10 h-10 shrink-0 rounded-full text-white text-sm font-semibold flex items-center justify-center bg-linear-to-br"
+                                [class]="avatarTone(doctor)">
+                            {{ initials(doctor.fullName) }}
+                          </span>
+                        }
+                        <span>
+                          <span class="block font-medium text-gray-900 group-hover:text-rose-600 transition-colors">{{ doctor.fullName }}</span>
+                          <span class="block text-xs text-gray-500">{{ doctor.specialization }}</span>
+                        </span>
+                      </a>
+                    </td>
+                    <td class="pt-3 pb-1 px-4 text-gray-600">{{ doctor.city }}</td>
+                    <td class="pt-3 pb-1 px-4 text-gray-600">
+                      @if (doctor.reviewCount) {
+                        {{ 'DOCTORS.RATING' | translate: { rating: doctor.averageRating!.toFixed(1), count: doctor.reviewCount } }}
+                      } @else {
+                        <span class="text-gray-300">—</span>
+                      }
+                    </td>
+                    <td class="pt-3 pb-1 px-4 text-gray-600">
+                      @if (startingPriceCents(doctor); as priceCents) {
+                        {{ priceCents | price:' zł' }}
+                      } @else {
+                        <span class="text-gray-300">—</span>
+                      }
+                    </td>
+                    <td class="pt-3 pb-1 px-4">
+                      @if (visitTypes(doctor).length === 0) {
+                        <span class="text-gray-300">—</span>
+                      } @else {
+                        <div class="flex flex-wrap gap-1.5">
+                          @for (type of visitTypes(doctor); track type) {
+                            <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-medium"
+                                  [class.bg-teal-50]="type === 'Online'"
+                                  [class.text-teal-700]="type === 'Online'"
+                                  [class.bg-fuchsia-50]="type === 'Stationary'"
+                                  [class.text-fuchsia-700]="type === 'Stationary'">
+                              {{ 'APPOINTMENTS.VISIT_TYPE.' + type | translate }}
+                            </span>
+                          }
+                        </div>
+                      }
+                    </td>
+                    <td class="pt-3 pb-1 px-6 text-right">
+                      <a [routerLink]="['/doctors', doctor.id]"
+                         class="text-rose-500 hover:text-rose-600 text-sm font-medium whitespace-nowrap">
+                        {{ 'DOCTORS.VIEW_PROFILE' | translate }} →
+                      </a>
+                    </td>
+                  </tr>
+                  <tr class="border-b border-gray-50 last:border-0 hover:bg-rose-50/50 transition-colors">
+                    <td colspan="6" class="pt-1 pb-4 px-6">
+                      <div class="flex flex-wrap items-center pl-13">
+                        @if (nearestSlots[doctor.id] === undefined) {
+                          <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gray-100 text-gray-400 text-xs font-medium animate-pulse">
+                            {{ 'DOCTORS.CHECKING_SLOTS' | translate }}
+                          </div>
+                        } @else if (nearestSlots[doctor.id] === null) {
+                          <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gray-100 text-gray-500 text-xs font-medium">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                            {{ 'DOCTORS.NO_SLOTS' | translate }}
+                          </div>
+                        } @else {
+                          <div class="inline-flex items-center gap-2.5">
+                            <div class="inline-flex items-stretch rounded-xl overflow-hidden shadow-sm ring-1 ring-black/5">
+                              <div class="flex items-center justify-center brand-bg text-white px-3 py-2">
+                                <span class="text-xs font-bold uppercase leading-none whitespace-nowrap">{{ slotDayShort(doctor.id) }}</span>
+                              </div>
+                              <div class="flex items-center justify-center bg-white px-3 py-2">
+                                <span class="text-sm font-bold text-gray-800 whitespace-nowrap">{{ slotTime(doctor.id) }}</span>
+                              </div>
+                            </div>
+                            <span class="text-xs text-gray-500">{{ 'DOCTORS.NEXT_SLOT' | translate }}</span>
+                          </div>
+                        }
+                      </div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</main>

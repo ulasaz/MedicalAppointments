@@ -1,0 +1,160 @@
+<main class="relative w-full min-h-screen flex items-center justify-center px-6 pt-28 pb-12 overflow-hidden bg-gray-900">
+  <app-spline-background />
+
+  <div class="relative z-10 max-w-sm w-full bg-white/40 backdrop-blur-lg rounded-3xl shadow-xl shadow-black/20 border border-white/40 p-8 sm:p-10">
+
+    <app-center-badge />
+
+    <div class="mx-auto w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center mb-6">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3M4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 15.75a4.125 4.125 0 100-8.25 4.125 4.125 0 000 8.25z" />
+      </svg>
+    </div>
+
+    <h1 class="text-2xl font-semibold text-gray-900 text-center">
+      {{ 'REGISTER.HEADING' | translate }}
+    </h1>
+    <p class="text-sm text-gray-500 text-center mt-2 mb-8">
+      {{ 'REGISTER.SUBHEADING' | translate }}
+    </p>
+
+    <form [formGroup]="profileForm" (ngSubmit)="onRegister()" class="space-y-3">
+
+      <div>
+        <div class="flex border border-gray-200 rounded-xl p-1 bg-gray-50">
+          <button
+            type="button"
+            (click)="setRole('Patient')"
+            [class.bg-gray-900]="profileForm.controls.role.value === 'Patient'"
+            [class.text-white]="profileForm.controls.role.value === 'Patient'"
+            [class.text-gray-500]="profileForm.controls.role.value !== 'Patient'"
+            class="flex-1 py-2 text-sm font-medium rounded-lg transition-colors">
+            {{ 'REGISTER.ROLE_PATIENT' | translate }}
+          </button>
+
+          <button
+            type="button"
+            (click)="setRole('Doctor')"
+            [class.bg-gray-900]="profileForm.controls.role.value === 'Doctor'"
+            [class.text-white]="profileForm.controls.role.value === 'Doctor'"
+            [class.text-gray-500]="profileForm.controls.role.value !== 'Doctor'"
+            class="flex-1 py-2 text-sm font-medium rounded-lg transition-colors">
+            {{ 'REGISTER.ROLE_DOCTOR' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <div class="relative">
+        <span class="absolute inset-y-0 left-3.5 flex items-center text-gray-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+          </svg>
+        </span>
+        <input
+          type="text"
+          formControlName="displayName"
+          placeholder="{{ 'REGISTER.DISPLAY_NAME' | translate }}"
+          class="w-full pl-10 pr-3 py-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-200 rounded-xl
+                 focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-900/5"
+        />
+        @if (profileForm.controls.displayName.touched && profileForm.controls.displayName.invalid) {
+          <p class="text-xs text-red-600 mt-1">{{ 'REGISTER.VALIDATION.DISPLAY_NAME' | translate }}</p>
+        }
+      </div>
+
+      <div class="relative">
+        <span class="absolute inset-y-0 left-3.5 flex items-center text-gray-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+          </svg>
+        </span>
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="{{ 'REGISTER.EMAIL' | translate }}"
+          class="w-full pl-10 pr-3 py-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-200 rounded-xl
+                 focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-900/5"
+        />
+        @if (profileForm.controls.email.touched && profileForm.controls.email.invalid) {
+          <p class="text-xs text-red-600 mt-1">{{ 'REGISTER.VALIDATION.EMAIL' | translate }}</p>
+        }
+      </div>
+
+      <div class="relative">
+        <span class="absolute inset-y-0 left-3.5 flex items-center text-gray-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+          </svg>
+        </span>
+        <input
+          [type]="showPassword() ? 'text' : 'password'"
+          formControlName="password"
+          placeholder="{{ 'REGISTER.PASSWORD' | translate }}"
+          class="w-full pl-10 pr-10 py-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-200 rounded-xl
+                 focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-900/5"
+        />
+        <button
+          type="button"
+          (click)="showPassword.set(!showPassword())"
+          class="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-gray-600">
+          @if (showPassword()) {
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+            </svg>
+          } @else {
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          }
+        </button>
+        @if (profileForm.controls.password.touched && profileForm.controls.password.invalid) {
+          <p class="text-xs text-red-600 mt-1">{{ 'REGISTER.VALIDATION.PASSWORD' | translate }}</p>
+        }
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="profileForm.invalid"
+        class="w-full px-4 py-2.5 mt-2 text-white text-sm font-medium bg-gray-900 hover:bg-gray-700 rounded-xl transition-colors
+               disabled:bg-gray-300 disabled:cursor-not-allowed">
+        {{ 'REGISTER.SUBMIT' | translate }}
+      </button>
+    </form>
+
+    <div class="flex items-center gap-3 my-6">
+      <div class="flex-1 border-t border-dashed border-gray-200"></div>
+      <span class="text-xs text-gray-400">{{ 'REGISTER.OR_CONTINUE_WITH' | translate }}</span>
+      <div class="flex-1 border-t border-dashed border-gray-200"></div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-3">
+      <button type="button" class="flex items-center justify-center py-2.5 border border-gray-200 rounded-xl hover:bg-gray-50">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.99.66-2.25 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A10.99 10.99 0 0012 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 010-4.2V7.06H2.18a11 11 0 000 9.88l3.66-2.84z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.3 9.14 5.38 12 5.38z"/>
+        </svg>
+      </button>
+      <button type="button" class="flex items-center justify-center py-2.5 border border-gray-200 rounded-xl hover:bg-gray-50">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5" viewBox="0 0 24 24">
+          <path fill="#1877F2" d="M24 12a12 12 0 10-13.88 11.86v-8.39H7.08V12h3.04V9.36c0-3 1.79-4.66 4.53-4.66 1.31 0 2.68.24 2.68.24v2.95H15.8c-1.5 0-1.96.93-1.96 1.89V12h3.34l-.53 3.47h-2.81v8.39A12 12 0 0024 12z"/>
+        </svg>
+      </button>
+      <button type="button" class="flex items-center justify-center py-2.5 border border-gray-200 rounded-xl hover:bg-gray-50">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 text-gray-900" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M16.36 1.43c0 1.14-.46 2.24-1.2 3.05-.82.89-2.15 1.58-3.29 1.49-.15-1.11.43-2.28 1.16-3.03.83-.86 2.24-1.5 3.33-1.51zM20.5 17.34c-.44 1-.65 1.45-1.22 2.34-.79 1.24-1.9 2.79-3.29 2.8-1.23.01-1.55-.8-3.22-.79-1.67.01-2.02.81-3.25.8-1.38-.01-2.44-1.4-3.23-2.64-2.22-3.48-2.45-7.56-1.08-9.73.97-1.55 2.5-2.46 3.94-2.46 1.47 0 2.39.81 3.6.81 1.18 0 1.89-.81 3.6-.81 1.28 0 2.64.7 3.61 1.9-3.17 1.74-2.66 6.26.14 7.78z"/>
+        </svg>
+      </button>
+    </div>
+
+    <p class="text-center text-sm text-gray-500 mt-6">
+      {{ 'REGISTER.ALREADY_HAVE_ACCOUNT' | translate }}
+      <a routerLink="/login" class="font-medium text-gray-900 hover:underline">
+        {{ 'REGISTER.SIGN_IN' | translate }}
+      </a>
+    </p>
+  </div>
+</main>

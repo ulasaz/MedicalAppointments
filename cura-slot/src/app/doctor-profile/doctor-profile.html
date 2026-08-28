@@ -1,0 +1,582 @@
+@if (isOwner) {
+  <main class="w-full min-h-screen bg-gray-50 pt-8 px-4 sm:px-6 pb-12">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6 items-start">
+      <app-doctor-sidebar />
+
+      <div class="w-full">
+        @if (isLoading) {
+          <div class="bg-white rounded-3xl shadow-xl p-8">
+            <p class="text-center text-gray-500">{{ 'DOCTOR_PROFILE.LOADING' | translate }}</p>
+          </div>
+        } @else if (notFound) {
+          <div class="bg-white rounded-3xl shadow-xl p-8">
+            <p class="text-center text-gray-500">{{ 'DOCTOR_PROFILE.NOT_FOUND' | translate }}</p>
+          </div>
+        } @else if (doctor) {
+          <div class="grid grid-cols-1 xl:grid-cols-[1fr_360px] gap-6 items-start">
+
+          <div class="bg-white rounded-3xl shadow-xl p-6 sm:p-8">
+            <h1 class="text-2xl font-semibold text-gray-900 mb-6">{{ 'DOCTOR_PROFILE.EDIT_HEADING' | translate }}</h1>
+
+            <app-profile-avatar
+              [initials]="initials(doctor.fullName)"
+              [photoUrl]="doctorPhotoUrl"
+              [canRemove]="!!doctor.hasPhoto"
+              [persisted]="true"
+              (fileSelected)="onPhotoSelected($event)"
+              (photoRemoved)="onPhotoRemoved()" />
+
+            <div class="mt-8 pt-6 border-t border-gray-100 flex items-center justify-between">
+              <div>
+                <p class="text-sm font-medium text-gray-900">{{ 'DOCTOR_PROFILE.ACCEPTING_LABEL' | translate }}</p>
+                <p class="text-xs text-gray-500 mt-0.5">{{ 'DOCTOR_PROFILE.ACCEPTING_HINT' | translate }}</p>
+              </div>
+              <button type="button" role="switch" [attr.aria-checked]="doctor.isActive"
+                      (click)="toggleActive()" [disabled]="isTogglingActive"
+                      class="relative w-11 h-6 rounded-full transition-colors shrink-0 disabled:opacity-50"
+                      [class.bg-teal-500]="doctor.isActive"
+                      [class.bg-gray-200]="!doctor.isActive">
+                <span class="absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform"
+                      [class.translate-x-5]="doctor.isActive"></span>
+              </button>
+            </div>
+
+            <!-- Personal Info -->
+            <div class="mt-6 p-5 rounded-2xl bg-gray-50">
+              <div class="flex items-center justify-between mb-4">
+                <h2 class="font-semibold text-gray-900">{{ 'DOCTOR_PROFILE.SECTIONS.PERSONAL_INFO' | translate }}</h2>
+                @if (editingSection !== 'personal') {
+                  <button type="button" (click)="startEditSection('personal')"
+                          class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-100 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" />
+                    </svg>
+                    {{ 'DOCTOR_PROFILE.EDIT' | translate }}
+                  </button>
+                } @else {
+                  <button type="button" (click)="cancelEditSection()" class="text-xs font-medium text-gray-500 hover:text-gray-900">
+                    {{ 'DOCTOR_PROFILE.CANCEL' | translate }}
+                  </button>
+                }
+              </div>
+
+              @if (editingSection !== 'personal') {
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <p class="text-xs text-gray-500">{{ 'DOCTOR_PROFILE.FORM.FULL_NAME' | translate }}</p>
+                    <p class="text-sm text-gray-900 mt-0.5">{{ doctor.fullName }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-500">{{ 'DOCTOR_PROFILE.FORM.SPECIALIZATION' | translate }}</p>
+                    <p class="text-sm text-gray-900 mt-0.5">{{ doctor.specialization }}</p>
+                  </div>
+                </div>
+              } @else {
+                <div class="space-y-3">
+                  <input type="text" [(ngModel)]="formFullName" [placeholder]="'DOCTOR_PROFILE.FORM.FULL_NAME' | translate"
+                         class="w-full px-3 py-2 text-sm text-gray-900 bg-white border border-gray-300 rounded-xl focus:outline-none focus:border-gray-500">
+                  <input type="text" [(ngModel)]="formSpecialization" [placeholder]="'DOCTOR_PROFILE.FORM.SPECIALIZATION' | translate"
+                         class="w-full px-3 py-2 text-sm text-gray-900 bg-white border border-gray-300 rounded-xl focus:outline-none focus:border-gray-500">
+                  <button type="button" (click)="saveSection()" [disabled]="isSavingSection"
+                          class="px-4 py-2 text-sm font-medium text-white bg-gray-900 hover:bg-gray-700 rounded-xl disabled:bg-gray-300">
+                    {{ 'DOCTOR_PROFILE.SAVE' | translate }}
+                  </button>
+                </div>
+              }
+            </div>
+
+            <!-- Location -->
+            <div class="mt-4 p-5 rounded-2xl bg-gray-50">
+              <div class="flex items-center justify-between mb-4">
+                <h2 class="font-semibold text-gray-900">{{ 'DOCTOR_PROFILE.SECTIONS.LOCATION' | translate }}</h2>
+                @if (editingSection === 'location') {
+                  <button type="button" (click)="cancelEditSection()" class="text-xs font-medium text-gray-500 hover:text-gray-900">
+                    {{ 'DOCTOR_PROFILE.CANCEL' | translate }}
+                  </button>
+                }
+              </div>
+
+              @if (editingSection !== 'location') {
+                <div class="flex items-center justify-between gap-4">
+                  <p class="text-sm text-gray-900">{{ doctor.city }}</p>
+                  <button type="button" (click)="startEditSection('location')"
+                          class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-100 transition-colors shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" />
+                    </svg>
+                    {{ 'DOCTOR_PROFILE.EDIT' | translate }}
+                  </button>
+                </div>
+              } @else {
+                <div class="flex flex-col sm:flex-row gap-3">
+                  <input type="text" [(ngModel)]="formCity" [placeholder]="'DOCTOR_PROFILE.FORM.CITY' | translate"
+                         class="flex-1 px-3 py-2 text-sm text-gray-900 bg-white border border-gray-300 rounded-xl focus:outline-none focus:border-gray-500">
+                  <button type="button" (click)="saveSection()" [disabled]="isSavingSection"
+                          class="px-4 py-2 text-sm font-medium text-white bg-gray-900 hover:bg-gray-700 rounded-xl disabled:bg-gray-300 shrink-0">
+                    {{ 'DOCTOR_PROFILE.SAVE' | translate }}
+                  </button>
+                </div>
+              }
+            </div>
+
+            <!-- Bio -->
+            <div class="mt-4 p-5 rounded-2xl bg-gray-50">
+              <div class="flex items-center justify-between mb-4">
+                <h2 class="font-semibold text-gray-900">{{ 'DOCTOR_PROFILE.SECTIONS.BIO' | translate }}</h2>
+                @if (editingSection !== 'bio') {
+                  <button type="button" (click)="startEditSection('bio')"
+                          class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-100 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" />
+                    </svg>
+                    {{ 'DOCTOR_PROFILE.EDIT' | translate }}
+                  </button>
+                } @else {
+                  <button type="button" (click)="cancelEditSection()" class="text-xs font-medium text-gray-500 hover:text-gray-900">
+                    {{ 'DOCTOR_PROFILE.CANCEL' | translate }}
+                  </button>
+                }
+              </div>
+
+              @if (editingSection !== 'bio') {
+                <p class="text-sm text-gray-700 whitespace-pre-line">{{ doctor.description || ('DOCTOR_PROFILE.SECTIONS.BIO_EMPTY' | translate) }}</p>
+              } @else {
+                <div class="space-y-3">
+                  <textarea [(ngModel)]="formDescription" rows="5"
+                            class="w-full px-3 py-2 text-sm text-gray-900 bg-white border border-gray-300 rounded-xl focus:outline-none focus:border-gray-500"></textarea>
+                  <button type="button" (click)="saveSection()" [disabled]="isSavingSection"
+                          class="px-4 py-2 text-sm font-medium text-white bg-gray-900 hover:bg-gray-700 rounded-xl disabled:bg-gray-300">
+                    {{ 'DOCTOR_PROFILE.SAVE' | translate }}
+                  </button>
+                </div>
+              }
+            </div>
+
+            <!-- Conditions treated -->
+            <div class="mt-4 p-5 rounded-2xl bg-gray-50">
+              <div class="flex items-center justify-between mb-4">
+                <h2 class="font-semibold text-gray-900">{{ 'DOCTOR_PROFILE.SECTIONS.CONDITIONS' | translate }}</h2>
+                @if (editingSection !== 'conditions') {
+                  <button type="button" (click)="startEditSection('conditions')"
+                          class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-100 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" />
+                    </svg>
+                    {{ 'DOCTOR_PROFILE.EDIT' | translate }}
+                  </button>
+                } @else {
+                  <button type="button" (click)="cancelEditSection()" class="text-xs font-medium text-gray-500 hover:text-gray-900">
+                    {{ 'DOCTOR_PROFILE.CANCEL' | translate }}
+                  </button>
+                }
+              </div>
+
+              @if (editingSection !== 'conditions') {
+                @if (doctor.conditionsTreated && doctor.conditionsTreated.length > 0) {
+                  <div class="flex flex-wrap gap-2">
+                    @for (condition of doctor.conditionsTreated; track condition) {
+                      <span class="px-2.5 py-1 text-xs rounded-full bg-white border border-gray-200 text-gray-700">{{ condition }}</span>
+                    }
+                  </div>
+                } @else {
+                  <p class="text-sm text-gray-500">{{ 'DOCTOR_PROFILE.SECTIONS.CONDITIONS_EMPTY' | translate }}</p>
+                }
+              } @else {
+                <div class="space-y-3">
+                  <div class="flex flex-wrap gap-2">
+                    @for (condition of formConditions; track condition) {
+                      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-full bg-white border border-gray-200 text-gray-700">
+                        {{ condition }}
+                        <button type="button" (click)="removeConditionDraft(condition)" [attr.aria-label]="'DOCTOR_PROFILE.CONDITIONS_REMOVE' | translate"
+                                class="text-gray-400 hover:text-red-600">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </span>
+                    }
+                  </div>
+                  <div class="flex gap-2">
+                    <input type="text" [(ngModel)]="newConditionDraft" (keydown.enter)="$event.preventDefault(); addConditionFromDraft()"
+                           [placeholder]="'DOCTOR_PROFILE.CONDITIONS_PLACEHOLDER' | translate"
+                           class="flex-1 px-3 py-2 text-sm text-gray-900 bg-white border border-gray-300 rounded-xl focus:outline-none focus:border-gray-500">
+                    <button type="button" (click)="addConditionFromDraft()"
+                            class="px-3 py-2 text-sm font-medium text-gray-700 border border-gray-200 hover:bg-white rounded-xl shrink-0">
+                      {{ 'DOCTOR_PROFILE.CONDITIONS_ADD' | translate }}
+                    </button>
+                  </div>
+                  <button type="button" (click)="saveSection()" [disabled]="isSavingSection"
+                          class="px-4 py-2 text-sm font-medium text-white bg-gray-900 hover:bg-gray-700 rounded-xl disabled:bg-gray-300">
+                    {{ 'DOCTOR_PROFILE.SAVE' | translate }}
+                  </button>
+                </div>
+              }
+            </div>
+          </div>
+
+          <div class="bg-white rounded-3xl shadow-xl p-6 sm:p-8">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ 'DOCTOR_PROFILE.REVIEWS.HEADING' | translate }}</h2>
+
+            @if (isLoadingReviews) {
+              <p class="text-sm text-gray-500">{{ 'DOCTOR_PROFILE.REVIEWS.LOADING' | translate }}</p>
+            } @else if (reviews.length === 0) {
+              <p class="text-sm text-gray-500">{{ 'DOCTOR_PROFILE.REVIEWS.EMPTY' | translate }}</p>
+            } @else {
+              <div class="space-y-4">
+                @for (review of reviews; track review.id) {
+                  <div class="border-b border-gray-100 pb-4">
+                    <div class="flex items-center justify-between gap-4">
+                      <div class="flex gap-0.5 text-sm" aria-hidden="true">
+                        @for (star of [1, 2, 3, 4, 5]; track star) {
+                          <span
+                            [class.text-gray-900]="star <= review.rating"
+                            [class.text-gray-300]="star > review.rating">★</span>
+                        }
+                      </div>
+                      <span class="text-xs text-gray-500 shrink-0">{{ review.createdAt | date:'mediumDate' }}</span>
+                    </div>
+                    <p class="text-sm text-gray-700 mt-1">{{ review.patientName }}</p>
+                    @if (review.comment) {
+                      <p class="text-sm text-gray-600 mt-1">{{ review.comment }}</p>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+          </div>
+        }
+      </div>
+    </div>
+  </main>
+} @else {
+  <main class="w-full min-h-screen bg-gray-50">
+
+    @if (doctor) {
+      <div class="relative w-full h-44 sm:h-52 overflow-hidden">
+        <img src="/images/bg/top_img.jpg" alt="" class="absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black/60"></div>
+        <div class="absolute inset-0 flex items-end">
+          <div class="max-w-5xl mx-auto w-full px-4 sm:px-6 pb-6">
+            <p class="text-xs font-semibold tracking-widest uppercase text-white/70">{{ doctor.specialization }}</p>
+            <h1 class="mt-1 text-2xl sm:text-3xl font-bold text-white">{{ doctor.fullName }}</h1>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <div class="relative w-full h-44 sm:h-52 overflow-hidden">
+        <img src="/images/bg/top_img.jpg" alt="" class="absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black/60"></div>
+        <div class="absolute inset-0 flex items-end">
+          <div class="max-w-5xl mx-auto w-full px-4 sm:px-6 pb-6">
+            <p class="text-xs font-semibold tracking-widest uppercase text-white/70">{{ 'DOCTOR_PROFILE.EYEBROW' | translate }}</p>
+            <h1 class="mt-1 text-2xl sm:text-3xl font-bold text-white">{{ 'DOCTOR_PROFILE.HEADING' | translate }}</h1>
+          </div>
+        </div>
+      </div>
+    }
+
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 pt-6 pb-12">
+      <a routerLink="/doctors/search" class="text-sm text-gray-500 hover:text-gray-900">
+        {{ 'DOCTOR_PROFILE.BACK' | translate }}
+      </a>
+
+      @if (isLoading) {
+        <div class="mt-4 bg-white rounded-3xl shadow-xl p-8">
+          <p class="text-center text-gray-500">{{ 'DOCTOR_PROFILE.LOADING' | translate }}</p>
+        </div>
+      } @else if (notFound) {
+        <div class="mt-4 bg-white rounded-3xl shadow-xl p-8">
+          <p class="text-center text-gray-500">{{ 'DOCTOR_PROFILE.NOT_FOUND' | translate }}</p>
+        </div>
+      } @else if (doctor) {
+
+        <div class="mt-4 grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 items-start">
+
+          <!-- Left: identity + bio + reviews -->
+          <div class="space-y-6 min-w-0">
+            <div class="bg-white rounded-3xl shadow-xl p-6 sm:p-8">
+              <div class="flex flex-wrap items-start gap-5">
+                @if (doctorPhotoUrl) {
+                  <img [src]="doctorPhotoUrl" alt=""
+                       class="w-16 h-16 shrink-0 rounded-full object-cover">
+                } @else {
+                  <span class="w-16 h-16 shrink-0 rounded-full bg-linear-to-br from-rose-500 via-fuchsia-500 to-teal-500 text-white flex items-center justify-center text-lg font-bold">
+                    {{ initials(doctor.fullName) }}
+                  </span>
+                }
+                <div class="min-w-0 flex-1">
+                  <div class="flex flex-wrap items-center gap-3">
+                    <h2 class="text-xl font-semibold text-gray-900">{{ doctor.fullName }}</h2>
+                    <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-medium"
+                          [class.bg-teal-50]="doctor.isActive"
+                          [class.text-teal-700]="doctor.isActive"
+                          [class.bg-gray-100]="!doctor.isActive"
+                          [class.text-gray-500]="!doctor.isActive">
+                      {{ (doctor.isActive ? 'DOCTOR_PROFILE.STATUS_ACTIVE' : 'DOCTOR_PROFILE.STATUS_INACTIVE') | translate }}
+                    </span>
+                  </div>
+                  <p class="text-sm text-gray-600 mt-1">{{ doctor.specialization }}</p>
+
+                  <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3 text-sm text-gray-500">
+                    <span class="inline-flex items-center gap-1.5">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                      </svg>
+                      {{ doctor.city }}
+                    </span>
+                    @if (doctor.reviewCount) {
+                      <span class="inline-flex items-center gap-1">
+                        <span class="text-amber-400">★</span>
+                        {{ 'DOCTOR_PROFILE.RATING' | translate: { rating: doctor.averageRating!.toFixed(1), count: doctor.reviewCount } }}
+                      </span>
+                    } @else {
+                      <span>{{ 'DOCTOR_PROFILE.NO_REVIEWS' | translate }}</span>
+                    }
+                  </div>
+                </div>
+              </div>
+
+              @if (doctor.description) {
+                <p class="mt-6 pt-6 border-t border-gray-100 text-sm text-gray-700 whitespace-pre-line">{{ doctor.description }}</p>
+              }
+
+              @if (doctor.conditionsTreated && doctor.conditionsTreated.length > 0) {
+                <div class="mt-6 pt-6 border-t border-gray-100">
+                  <h2 class="text-sm font-semibold text-gray-900 mb-2">{{ 'DOCTOR_PROFILE.SECTIONS.CONDITIONS' | translate }}</h2>
+                  <div class="flex flex-wrap gap-2">
+                    @for (condition of doctor.conditionsTreated; track condition) {
+                      <span class="px-2.5 py-1 text-xs rounded-full bg-gray-50 border border-gray-200 text-gray-700">{{ condition }}</span>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+
+            @if (!isLoadingServices && services.length > 0) {
+              <div class="bg-white rounded-3xl shadow-xl p-6 sm:p-8">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ 'DOCTOR_SCHEDULE.SERVICES.HEADING' | translate }}</h2>
+                <div class="space-y-3">
+                  @for (service of services; track service.id) {
+                    <div class="p-3.5 rounded-xl border border-gray-100">
+                      <p class="text-sm font-medium text-gray-900">{{ service.name }}</p>
+                      @if (service.description) {
+                        <p class="text-xs text-gray-500 mt-0.5">{{ service.description }}</p>
+                      }
+                      <p class="text-xs text-gray-500 mt-0.5">{{ service.priceCents | price:' zł' }}</p>
+                      <div class="flex gap-1.5 mt-2">
+                        @for (type of service.allowedVisitTypes; track type) {
+                          <span class="px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-600">
+                            {{ ('APPOINTMENTS.VISIT_TYPE.' + type) | translate }}
+                          </span>
+                        }
+                      </div>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+              <div class="p-6 sm:p-8 pb-4">
+                <h2 class="text-lg font-semibold text-gray-900">{{ 'DOCTOR_PROFILE.SECTIONS.LOCATION' | translate }}</h2>
+                <p class="text-sm text-gray-500 mt-1">{{ doctor.city }}</p>
+              </div>
+              <iframe
+                [src]="mapUrl"
+                class="w-full h-56 border-0 block"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                [attr.title]="'DOCTOR_PROFILE.SECTIONS.LOCATION' | translate">
+              </iframe>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-xl p-6 sm:p-8">
+              <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ 'DOCTOR_PROFILE.REVIEWS.HEADING' | translate }}</h2>
+
+              @if (isLoadingReviews) {
+                <p class="text-sm text-gray-500">{{ 'DOCTOR_PROFILE.REVIEWS.LOADING' | translate }}</p>
+              } @else if (reviews.length === 0) {
+                <p class="text-sm text-gray-500">{{ 'DOCTOR_PROFILE.REVIEWS.EMPTY' | translate }}</p>
+              } @else {
+                <div class="space-y-4">
+                  @for (review of reviews; track review.id) {
+                    <div class="p-4 rounded-2xl bg-gray-50">
+                      <div class="flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-2">
+                          <span class="w-8 h-8 shrink-0 rounded-full bg-linear-to-br from-fuchsia-400 to-teal-400 text-white text-xs font-semibold flex items-center justify-center">
+                            {{ initials(review.patientName) }}
+                          </span>
+                          <span class="text-sm font-medium text-gray-900">{{ review.patientName }}</span>
+                        </div>
+                        <span class="text-xs text-gray-500 shrink-0">{{ review.createdAt | date:'mediumDate' }}</span>
+                      </div>
+                      <div class="flex gap-0.5 text-sm mt-2" aria-hidden="true">
+                        @for (star of [1, 2, 3, 4, 5]; track star) {
+                          <span
+                            [class.text-amber-400]="star <= review.rating"
+                            [class.text-gray-200]="star > review.rating">★</span>
+                        }
+                      </div>
+                      @if (review.comment) {
+                        <p class="text-sm text-gray-600 mt-2">{{ review.comment }}</p>
+                      }
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Right: booking -->
+          <div class="bg-white rounded-3xl shadow-xl p-6 sm:p-8 lg:sticky lg:top-8">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ 'DOCTOR_PROFILE.BOOKING.HEADING' | translate }}</h2>
+
+            @if (isAnonymous) {
+              <p class="text-sm text-gray-500 mb-4">{{ 'DOCTOR_PROFILE.BOOKING.SIGN_IN_PROMPT' | translate }}</p>
+              <a routerLink="/login" class="inline-flex px-5 py-2.5 text-white text-sm font-medium bg-gray-900 hover:bg-gray-700 rounded-full transition-colors">
+                {{ 'NAV.SIGN_IN' | translate }}
+              </a>
+            } @else if (!isPatient) {
+              <p class="text-sm text-gray-500">{{ 'DOCTOR_PROFILE.BOOKING.PATIENTS_ONLY' | translate }}</p>
+            } @else if (availableVisitTypes.length === 0 && services.length === 0) {
+              <p class="text-sm text-gray-500">{{ 'DOCTOR_PROFILE.BOOKING.NO_VISIT_TYPES' | translate }}</p>
+            } @else {
+              @if (services.length > 0) {
+                <div class="mb-4">
+                  <label class="text-xs font-medium text-gray-500 block mb-2">{{ 'DOCTOR_PROFILE.BOOKING.SERVICE_LABEL' | translate }}</label>
+                  <div class="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      (click)="selectService(null)"
+                      class="px-3 py-2 text-sm rounded-xl border transition-colors"
+                      [class.bg-gray-900]="!selectedServiceId"
+                      [class.text-white]="!selectedServiceId"
+                      [class.border-gray-900]="!selectedServiceId"
+                      [class.border-gray-200]="!!selectedServiceId"
+                      [class.text-gray-700]="!!selectedServiceId">
+                      {{ 'DOCTOR_PROFILE.BOOKING.GENERAL_VISIT' | translate }}
+                    </button>
+                    @for (service of services; track service.id) {
+                      <button
+                        type="button"
+                        (click)="selectService(service.id)"
+                        class="px-3 py-2 text-sm rounded-xl border transition-colors"
+                        [class.bg-gray-900]="selectedServiceId === service.id"
+                        [class.text-white]="selectedServiceId === service.id"
+                        [class.border-gray-900]="selectedServiceId === service.id"
+                        [class.border-gray-200]="selectedServiceId !== service.id"
+                        [class.text-gray-700]="selectedServiceId !== service.id">
+                        {{ service.name }} — {{ service.priceCents | price:' zł' }}
+                      </button>
+                    }
+                  </div>
+                </div>
+              }
+
+              @if (availableVisitTypes.length === 0) {
+                <p class="text-sm text-gray-500">{{ 'DOCTOR_PROFILE.BOOKING.NO_VISIT_TYPES' | translate }}</p>
+              } @else {
+              <div>
+                <label class="text-xs font-medium text-gray-500 block mb-2">{{ 'DOCTOR_PROFILE.BOOKING.VISIT_TYPE_LABEL' | translate }}</label>
+                <div class="flex flex-wrap gap-2">
+                  @for (option of availableVisitTypes; track option.type) {
+                    <button
+                      type="button"
+                      (click)="selectVisitType(option.type)"
+                      class="px-3 py-2 text-sm rounded-xl border transition-colors"
+                      [class.bg-gray-900]="selectedVisitType === option.type"
+                      [class.text-white]="selectedVisitType === option.type"
+                      [class.border-gray-900]="selectedVisitType === option.type"
+                      [class.border-gray-200]="selectedVisitType !== option.type"
+                      [class.text-gray-700]="selectedVisitType !== option.type">
+                      {{ ('APPOINTMENTS.VISIT_TYPE.' + option.type) | translate }} — {{ option.priceCents | price:' zł' }}
+                    </button>
+                  }
+                </div>
+              </div>
+
+              @if (selectedVisitType) {
+                <div class="mt-4">
+                  <label class="text-xs font-medium text-gray-500 block mb-2">{{ 'DOCTOR_PROFILE.BOOKING.DATE_LABEL' | translate }}</label>
+                  <input
+                    type="date"
+                    (change)="onDateChange($event)"
+                    class="w-full px-3 py-2 text-sm text-gray-900 bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-gray-400"
+                  />
+                </div>
+
+                <div class="mt-4">
+                  <label class="text-xs font-medium text-gray-500 block mb-2">{{ 'DOCTOR_PROFILE.BOOKING.DURATION_LABEL' | translate }}</label>
+                  <div class="flex flex-wrap gap-2">
+                    @for (duration of durationOptions; track duration) {
+                      <button
+                        type="button"
+                        (click)="selectDuration(duration)"
+                        class="px-3 py-2 text-sm rounded-xl border transition-colors"
+                        [class.bg-gray-900]="selectedDuration === duration"
+                        [class.text-white]="selectedDuration === duration"
+                        [class.border-gray-900]="selectedDuration === duration"
+                        [class.border-gray-200]="selectedDuration !== duration"
+                        [class.text-gray-700]="selectedDuration !== duration">
+                        {{ duration }} min
+                      </button>
+                    }
+                  </div>
+                </div>
+
+                @if (isLoadingSlots) {
+                  <p class="text-sm text-gray-500 mt-4">{{ 'DOCTOR_PROFILE.BOOKING.LOADING_SLOTS' | translate }}</p>
+                } @else if (hasSearchedSlots && daySlots.length === 0) {
+                  <p class="text-sm text-gray-500 mt-4">{{ 'DOCTOR_PROFILE.BOOKING.NO_SLOTS' | translate }}</p>
+                } @else if (daySlots.length > 0) {
+                  <div class="flex flex-wrap gap-2 mt-4">
+                    @for (slot of daySlots; track slot.startIso) {
+                      <button
+                        type="button"
+                        (click)="selectStartTime(slot)"
+                        [disabled]="slot.isBooked"
+                        class="px-3 py-2 text-sm rounded-xl border transition-colors disabled:hover:border-gray-200"
+                        [class.bg-gray-900]="selectedStartIso === slot.startIso"
+                        [class.text-white]="selectedStartIso === slot.startIso"
+                        [class.border-gray-900]="selectedStartIso === slot.startIso"
+                        [class.border-gray-200]="selectedStartIso !== slot.startIso && !slot.isBooked"
+                        [class.text-gray-700]="selectedStartIso !== slot.startIso && !slot.isBooked"
+                        [class.bg-gray-50]="slot.isBooked"
+                        [class.text-gray-300]="slot.isBooked"
+                        [class.border-transparent]="slot.isBooked"
+                        [class.line-through]="slot.isBooked"
+                        [class.cursor-not-allowed]="slot.isBooked">
+                        {{ slot.startIso | date:'HH:mm' }}
+                        @if (slot.isBooked) {
+                          <span class="sr-only">{{ 'DOCTOR_PROFILE.BOOKING.BOOKED_LABEL' | translate }}</span>
+                        }
+                      </button>
+                    }
+                  </div>
+                }
+
+                @if (selectedStartIso) {
+                  <button
+                    type="button"
+                    (click)="bookAppointment()"
+                    [disabled]="isBooking"
+                    class="mt-6 w-full px-4 py-2.5 text-white text-sm font-medium bg-gray-900 hover:bg-gray-700 rounded-full transition-colors
+                           disabled:bg-gray-300 disabled:cursor-not-allowed">
+                    {{ 'DOCTOR_PROFILE.BOOKING.BOOK_BUTTON' | translate }}
+                  </button>
+                }
+
+                @if (bookingSuccess) {
+                  <p class="mt-4 text-sm text-teal-700">{{ 'DOCTOR_PROFILE.BOOKING.SUCCESS' | translate }}</p>
+                }
+              }
+              }
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </main>
+}

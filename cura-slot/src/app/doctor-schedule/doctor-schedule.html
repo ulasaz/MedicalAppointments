@@ -1,0 +1,396 @@
+<main class="w-full min-h-screen bg-gray-50 pt-8 px-4 sm:px-6 pb-12">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6 items-start">
+
+    <app-doctor-sidebar />
+
+    @if (isLoading) {
+      <div class="bg-white rounded-3xl shadow-xl p-8">
+        <p class="text-center text-gray-500">{{ 'DOCTOR_SCHEDULE.LOADING' | translate }}</p>
+      </div>
+    } @else {
+      <div class="grid grid-cols-1 xl:grid-cols-[1fr_360px] gap-6 items-start min-w-0">
+
+        <!-- Calendar + working hours -->
+        <div class="bg-white rounded-3xl shadow-xl p-6 sm:p-8">
+          <h1 class="text-xl font-semibold text-gray-900 mb-1">
+            {{ 'DOCTOR_SCHEDULE.HEADING' | translate }}
+          </h1>
+          <p class="text-sm text-gray-500 mb-6">
+            {{ 'DOCTOR_SCHEDULE.SUBHEADING' | translate }}
+          </p>
+
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-base font-semibold text-gray-900">{{ currentMonth | date:'MMMM yyyy' }}</span>
+            <div class="flex items-center gap-2">
+              <button type="button" (click)="goToToday()"
+                      class="px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">
+                {{ 'DOCTOR_SCHEDULE.TODAY_BUTTON' | translate }}
+              </button>
+              <button type="button" (click)="prevMonth()"
+                      class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+              </button>
+              <button type="button" (click)="nextMonth()"
+                      class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-7 gap-1.5 text-center text-xs font-medium text-gray-400 mb-2">
+            @for (label of weekdayLabels; track label) {
+              <div>{{ label }}</div>
+            }
+          </div>
+
+          <div class="grid grid-cols-7 gap-1.5">
+            @for (day of calendarDays; track day.iso) {
+              <button
+                type="button"
+                (click)="selectDay(day)"
+                [disabled]="day.isPast"
+                class="relative aspect-square flex flex-col items-center justify-center gap-0.5 text-sm rounded-xl transition-colors
+                       disabled:cursor-not-allowed"
+                [class.bg-gray-900]="day.iso === selectedDate"
+                [class.text-white]="day.iso === selectedDate"
+                [class.bg-gray-50]="day.iso !== selectedDate && !day.isPast"
+                [class.hover:bg-gray-100]="day.iso !== selectedDate && !day.isPast"
+                [class.text-gray-900]="day.iso !== selectedDate && day.inCurrentMonth && !day.isPast"
+                [class.text-gray-300]="day.iso !== selectedDate && (!day.inCurrentMonth || day.isPast)"
+                [class.ring-2]="day.isToday && day.iso !== selectedDate"
+                [class.ring-rose-300]="day.isToday && day.iso !== selectedDate"
+                [class.font-semibold]="day.isToday">
+                {{ day.date.getDate() }}
+                @if (day.count > 0) {
+                  <span
+                    class="w-1 h-1 rounded-full"
+                    [class.bg-rose-400]="day.iso !== selectedDate"
+                    [class.bg-white]="day.iso === selectedDate"></span>
+                }
+              </button>
+            }
+          </div>
+
+          <div class="mt-8 pt-8 border-t border-gray-100">
+            @if (!selectedDate) {
+              <p class="text-sm text-gray-500">{{ 'DOCTOR_SCHEDULE.SELECT_DAY_PROMPT' | translate }}</p>
+            } @else {
+              <h2 class="text-base font-semibold text-gray-900 mb-4">{{ selectedDate }}</h2>
+
+              <div class="space-y-1 mb-6">
+                @for (window of selectedDateWindows; track window.id) {
+                  <div class="flex items-center justify-between gap-4 text-sm text-gray-700 bg-gray-50 rounded-xl px-4 py-2.5">
+                    <div class="flex items-center gap-2 flex-wrap">
+                      <span>{{ window.startTime.substring(0, 5) }}–{{ window.endTime.substring(0, 5) }}</span>
+                      @if (window.allowedVisitTypes.length < allVisitTypes.length) {
+                        @for (type of window.allowedVisitTypes; track type) {
+                          <span class="px-2 py-0.5 text-xs rounded-full bg-gray-900 text-white">
+                            {{ ('APPOINTMENTS.VISIT_TYPE.' + type) | translate }}
+                          </span>
+                        }
+                      }
+                    </div>
+                    <button
+                      type="button"
+                      (click)="deleteScheduleSlot(window)"
+                      [disabled]="deletingSlotId === window.id"
+                      class="text-xs text-gray-500 hover:text-red-600 disabled:text-gray-300">
+                      {{ 'DOCTOR_SCHEDULE.DELETE' | translate }}
+                    </button>
+                  </div>
+                }
+
+                @if (selectedDateWindows.length === 0) {
+                  <p class="text-sm text-gray-500">{{ 'DOCTOR_SCHEDULE.EMPTY_DAY' | translate }}</p>
+                }
+              </div>
+
+              <div class="flex flex-wrap items-end gap-3">
+                <div>
+                  <label class="text-xs text-gray-500 block mb-1">{{ 'DOCTOR_SCHEDULE.START_LABEL' | translate }}</label>
+                  <input
+                    type="time"
+                    [(ngModel)]="newSlotStart"
+                    class="px-3 py-2 text-sm text-gray-900 bg-white border border-gray-300 rounded-xl focus:outline-none focus:border-gray-500"
+                  />
+                </div>
+
+                <div>
+                  <label class="text-xs text-gray-500 block mb-1">{{ 'DOCTOR_SCHEDULE.END_LABEL' | translate }}</label>
+                  <input
+                    type="time"
+                    [(ngModel)]="newSlotEnd"
+                    class="px-3 py-2 text-sm text-gray-900 bg-white border border-gray-300 rounded-xl focus:outline-none focus:border-gray-500"
+                  />
+                </div>
+
+                <div>
+                  <label class="text-xs text-gray-500 block mb-1">{{ 'DOCTOR_SCHEDULE.WINDOW_VISIT_TYPES_LABEL' | translate }}</label>
+                  <div class="flex gap-2">
+                    @for (type of allVisitTypes; track type) {
+                      <button type="button" (click)="toggleNewSlotVisitType(type)"
+                              class="px-3 py-2 text-sm rounded-xl border transition-colors"
+                              [class.bg-gray-900]="newSlotVisitTypes.includes(type)"
+                              [class.text-white]="newSlotVisitTypes.includes(type)"
+                              [class.border-gray-900]="newSlotVisitTypes.includes(type)"
+                              [class.border-gray-200]="!newSlotVisitTypes.includes(type)"
+                              [class.text-gray-600]="!newSlotVisitTypes.includes(type)">
+                        {{ ('APPOINTMENTS.VISIT_TYPE.' + type) | translate }}
+                      </button>
+                    }
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  (click)="addScheduleSlot()"
+                  [disabled]="isAddingSlot"
+                  class="px-4 py-2 text-white text-sm font-medium bg-gray-900 hover:bg-gray-700 rounded-xl
+                         disabled:bg-gray-300 disabled:cursor-not-allowed">
+                  {{ 'DOCTOR_SCHEDULE.ADD_BUTTON' | translate }}
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Right column: Treatments + Services -->
+        <div class="space-y-6">
+
+        <!-- Treatments -->
+        <div class="bg-white rounded-3xl shadow-xl p-6">
+          <div class="flex items-center justify-between mb-1">
+            <h2 class="font-semibold text-gray-900">{{ 'DOCTOR_SCHEDULE.TREATMENTS.HEADING' | translate }}</h2>
+            <button type="button" (click)="startAddTreatment()"
+                    [disabled]="missingVisitTypes.length === 0 || isAddingTreatment"
+                    class="px-3.5 py-1.5 text-xs font-medium rounded-full bg-gray-900 text-white hover:bg-gray-700 transition-colors
+                           disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed">
+              + {{ 'DOCTOR_SCHEDULE.TREATMENTS.ADD_BUTTON' | translate }}
+            </button>
+          </div>
+          <p class="text-xs text-gray-500 mb-5">{{ 'DOCTOR_SCHEDULE.TREATMENTS.SUBHEADING' | translate }}</p>
+
+          <div class="space-y-3">
+            @for (treatment of treatments; track treatment.type) {
+              <div class="flex items-center justify-between gap-3 p-3.5 rounded-xl border border-gray-100">
+                <div class="flex items-center gap-3 min-w-0">
+                  <span class="w-9 h-9 shrink-0 rounded-full flex items-center justify-center"
+                        [class.bg-teal-50]="treatment.type === 'Online'"
+                        [class.text-teal-600]="treatment.type === 'Online'"
+                        [class.bg-fuchsia-50]="treatment.type === 'Stationary'"
+                        [class.text-fuchsia-600]="treatment.type === 'Stationary'">
+                    @if (treatment.type === 'Online') {
+                      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 4.5v15l-5.25-2.25M4.5 5.25h9a2.25 2.25 0 012.25 2.25v9a2.25 2.25 0 01-2.25 2.25h-9a2.25 2.25 0 01-2.25-2.25v-9a2.25 2.25 0 012.25-2.25z" />
+                      </svg>
+                    } @else {
+                      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                      </svg>
+                    }
+                  </span>
+                  <div class="min-w-0">
+                    <p class="text-sm font-medium text-gray-900 truncate">{{ ('APPOINTMENTS.VISIT_TYPE.' + treatment.type) | translate }}</p>
+                    <p class="text-xs text-gray-500">{{ treatment.priceCents | price:' zł' }}</p>
+                  </div>
+                </div>
+                <button type="button" (click)="removeTreatment(treatment)"
+                        [disabled]="removingType === treatment.type"
+                        [attr.aria-label]="'DOCTOR_SCHEDULE.DELETE' | translate"
+                        class="w-7 h-7 shrink-0 rounded-full text-gray-400 hover:bg-gray-100 hover:text-red-600 flex items-center justify-center transition-colors disabled:opacity-40">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            }
+
+            @if (treatments.length === 0 && !isAddingTreatment) {
+              <p class="text-sm text-gray-500">{{ 'DOCTOR_SCHEDULE.TREATMENTS.EMPTY' | translate }}</p>
+            }
+          </div>
+
+          @if (isAddingTreatment) {
+            <div class="mt-4 pt-4 border-t border-gray-100 space-y-3">
+              <div class="flex gap-2">
+                @for (type of missingVisitTypes; track type) {
+                  <button type="button" (click)="selectNewTreatmentType(type)"
+                          class="px-3 py-2 text-sm rounded-xl border transition-colors"
+                          [class.bg-gray-900]="newTreatmentType === type"
+                          [class.text-white]="newTreatmentType === type"
+                          [class.border-gray-900]="newTreatmentType === type"
+                          [class.border-gray-200]="newTreatmentType !== type"
+                          [class.text-gray-600]="newTreatmentType !== type">
+                    {{ ('APPOINTMENTS.VISIT_TYPE.' + type) | translate }}
+                  </button>
+                }
+              </div>
+
+              <div>
+                <label class="text-xs text-gray-500 block mb-1">{{ 'DOCTOR_SCHEDULE.TREATMENTS.PRICE_LABEL' | translate }}</label>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  [(ngModel)]="newTreatmentPrice"
+                  [placeholder]="'DOCTOR_SCHEDULE.TREATMENTS.PRICE_PLACEHOLDER' | translate"
+                  class="w-full px-3 py-2 text-sm text-gray-900 bg-white border border-gray-300 rounded-xl focus:outline-none focus:border-gray-500"
+                />
+              </div>
+
+              <div class="flex gap-2">
+                <button type="button" (click)="saveNewTreatment()"
+                        [disabled]="!newTreatmentType || newTreatmentPrice == null || isSavingTreatment"
+                        class="px-4 py-2 text-sm font-medium text-white bg-gray-900 hover:bg-gray-700 rounded-xl
+                               disabled:bg-gray-300 disabled:cursor-not-allowed">
+                  {{ 'DOCTOR_SCHEDULE.TREATMENTS.SAVE_BUTTON' | translate }}
+                </button>
+                <button type="button" (click)="cancelAddTreatment()"
+                        class="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 hover:bg-gray-50 rounded-xl">
+                  {{ 'DOCTOR_SCHEDULE.TREATMENTS.CANCEL_BUTTON' | translate }}
+                </button>
+              </div>
+            </div>
+          } @else if (missingVisitTypes.length === 0 && treatments.length > 0) {
+            <p class="mt-4 pt-4 border-t border-gray-100 text-xs text-gray-400">
+              {{ 'DOCTOR_SCHEDULE.TREATMENTS.ALL_ADDED' | translate }}
+            </p>
+          }
+        </div>
+
+        <!-- Custom services (e.g. "Kwalifikacja do operacji", a specific lab analysis) -->
+        <div class="bg-white rounded-3xl shadow-xl p-6">
+          <div class="flex items-center justify-between mb-1">
+            <h2 class="font-semibold text-gray-900">{{ 'DOCTOR_SCHEDULE.SERVICES.HEADING' | translate }}</h2>
+            <button type="button" (click)="startAddService()"
+                    [disabled]="isAddingService"
+                    class="px-3.5 py-1.5 text-xs font-medium rounded-full bg-gray-900 text-white hover:bg-gray-700 transition-colors
+                           disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed">
+              + {{ 'DOCTOR_SCHEDULE.SERVICES.ADD_BUTTON' | translate }}
+            </button>
+          </div>
+          <p class="text-xs text-gray-500 mb-5">{{ 'DOCTOR_SCHEDULE.SERVICES.SUBHEADING' | translate }}</p>
+
+          <div class="space-y-3">
+            @for (service of services; track service.id) {
+              <div class="flex items-start justify-between gap-3 p-3.5 rounded-xl border border-gray-100">
+                <div class="min-w-0">
+                  <p class="text-sm font-medium text-gray-900 truncate">{{ service.name }}</p>
+                  @if (service.description) {
+                    <p class="text-xs text-gray-500 mt-0.5">{{ service.description }}</p>
+                  }
+                  <p class="text-xs text-gray-500 mt-0.5">{{ service.priceCents | price:' zł' }}</p>
+                  <div class="flex gap-1.5 mt-2">
+                    @for (type of service.allowedVisitTypes; track type) {
+                      <span class="px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-600">
+                        {{ ('APPOINTMENTS.VISIT_TYPE.' + type) | translate }}
+                      </span>
+                    }
+                  </div>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                  <button type="button" (click)="startEditService(service)"
+                          [disabled]="isAddingService"
+                          [attr.aria-label]="'DOCTOR_PROFILE.EDIT' | translate"
+                          class="w-7 h-7 rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-700 flex items-center justify-center transition-colors disabled:opacity-40">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" />
+                    </svg>
+                  </button>
+                  <button type="button" (click)="deleteService(service)"
+                          [disabled]="deletingServiceId === service.id"
+                          [attr.aria-label]="'DOCTOR_SCHEDULE.DELETE' | translate"
+                          class="w-7 h-7 rounded-full text-gray-400 hover:bg-gray-100 hover:text-red-600 flex items-center justify-center transition-colors disabled:opacity-40">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            }
+
+            @if (services.length === 0 && !isAddingService && !isLoadingServices) {
+              <p class="text-sm text-gray-500">{{ 'DOCTOR_SCHEDULE.SERVICES.EMPTY' | translate }}</p>
+            }
+          </div>
+
+          @if (isAddingService) {
+            <div class="mt-4 pt-4 border-t border-gray-100 space-y-3">
+              <p class="text-xs font-medium text-gray-500">
+                {{ (editingServiceId ? 'DOCTOR_SCHEDULE.SERVICES.EDIT_HEADING' : 'DOCTOR_SCHEDULE.SERVICES.ADD_HEADING') | translate }}
+              </p>
+              <div>
+                <label class="text-xs text-gray-500 block mb-1">{{ 'DOCTOR_SCHEDULE.SERVICES.NAME_LABEL' | translate }}</label>
+                <input
+                  type="text"
+                  [(ngModel)]="newServiceName"
+                  [placeholder]="'DOCTOR_SCHEDULE.SERVICES.NAME_PLACEHOLDER' | translate"
+                  class="w-full px-3 py-2 text-sm text-gray-900 bg-white border border-gray-300 rounded-xl focus:outline-none focus:border-gray-500"
+                />
+              </div>
+
+              <div>
+                <label class="text-xs text-gray-500 block mb-1">{{ 'DOCTOR_SCHEDULE.SERVICES.DESCRIPTION_LABEL' | translate }}</label>
+                <textarea
+                  [(ngModel)]="newServiceDescription"
+                  rows="2"
+                  [placeholder]="'DOCTOR_SCHEDULE.SERVICES.DESCRIPTION_PLACEHOLDER' | translate"
+                  class="w-full px-3 py-2 text-sm text-gray-900 bg-white border border-gray-300 rounded-xl focus:outline-none focus:border-gray-500"
+                ></textarea>
+              </div>
+
+              <div>
+                <label class="text-xs text-gray-500 block mb-1">{{ 'DOCTOR_SCHEDULE.SERVICES.PRICE_LABEL' | translate }}</label>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  [(ngModel)]="newServicePrice"
+                  [placeholder]="'DOCTOR_SCHEDULE.SERVICES.PRICE_PLACEHOLDER' | translate"
+                  class="w-full px-3 py-2 text-sm text-gray-900 bg-white border border-gray-300 rounded-xl focus:outline-none focus:border-gray-500"
+                />
+              </div>
+
+              <div>
+                <label class="text-xs text-gray-500 block mb-1">{{ 'DOCTOR_SCHEDULE.SERVICES.VISIT_TYPES_LABEL' | translate }}</label>
+                <div class="flex gap-2">
+                  @for (type of allVisitTypes; track type) {
+                    <button type="button" (click)="toggleNewServiceVisitType(type)"
+                            class="px-3 py-2 text-sm rounded-xl border transition-colors"
+                            [class.bg-gray-900]="newServiceVisitTypes.includes(type)"
+                            [class.text-white]="newServiceVisitTypes.includes(type)"
+                            [class.border-gray-900]="newServiceVisitTypes.includes(type)"
+                            [class.border-gray-200]="!newServiceVisitTypes.includes(type)"
+                            [class.text-gray-600]="!newServiceVisitTypes.includes(type)">
+                      {{ ('APPOINTMENTS.VISIT_TYPE.' + type) | translate }}
+                    </button>
+                  }
+                </div>
+              </div>
+
+              <div class="flex gap-2">
+                <button type="button" (click)="saveService()"
+                        [disabled]="!newServiceName.trim() || newServiceVisitTypes.length === 0 || newServicePrice == null || isSavingService"
+                        class="px-4 py-2 text-sm font-medium text-white bg-gray-900 hover:bg-gray-700 rounded-xl
+                               disabled:bg-gray-300 disabled:cursor-not-allowed">
+                  {{ 'DOCTOR_SCHEDULE.SERVICES.SAVE_BUTTON' | translate }}
+                </button>
+                <button type="button" (click)="cancelAddService()"
+                        class="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 hover:bg-gray-50 rounded-xl">
+                  {{ 'DOCTOR_SCHEDULE.SERVICES.CANCEL_BUTTON' | translate }}
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+
+        </div>
+
+      </div>
+    }
+  </div>
+</main>

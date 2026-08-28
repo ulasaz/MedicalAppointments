@@ -1,0 +1,567 @@
+<!-- Page banner: same blood-cell imagery as the rest of the app, so this reads as
+     part of the same visual system instead of a bare admin toolbar. -->
+<div class="relative w-full h-44 sm:h-52 overflow-hidden">
+  <img src="/images/bg/top_img.jpg" alt="" class="absolute inset-0 w-full h-full object-cover">
+  <div class="absolute inset-0 bg-black/60"></div>
+  <div class="absolute inset-0 flex items-end">
+    <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 pb-6">
+      <p class="text-xs font-semibold tracking-widest uppercase text-white/70">{{ 'ADMIN.EYEBROW' | translate }}</p>
+      <h1 class="mt-1 text-2xl sm:text-3xl font-bold text-white">{{ 'ADMIN.HEADING' | translate }}</h1>
+    </div>
+  </div>
+</div>
+
+<main class="w-full min-h-screen bg-gray-50 pt-8 px-4 sm:px-6 pb-16">
+  <div class="max-w-7xl mx-auto space-y-6">
+
+    <!-- Center switcher (platform super-admin only): everything below — stats, doctors,
+         reviews, users, branding — reflects whichever center is picked here. -->
+    @if (isSuperAdmin) {
+      <div class="bg-white rounded-3xl shadow-xl p-4 flex flex-wrap items-center gap-3">
+        <span class="text-xs font-medium text-gray-500 shrink-0">{{ 'ADMIN.VIEWING_CENTER' | translate }}</span>
+        <select [ngModel]="tenantService.selectedTenantId()" (ngModelChange)="switchViewingCenter($event)"
+                class="px-3 py-2 text-sm rounded-xl border border-gray-200 bg-gray-50 focus:outline-none brand-ring-focus">
+          @for (center of tenantService.centers(); track center.id) {
+            <option [value]="center.id">{{ center.name }}</option>
+          }
+        </select>
+      </div>
+    }
+
+    <!-- Stat cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-white rounded-3xl shadow-xl p-6 flex items-center gap-4">
+        <span class="w-14 h-14 shrink-0 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3.75 18.75V7.5a2.25 2.25 0 012.25-2.25h12a2.25 2.25 0 012.25 2.25v11.25m-16.5 0A2.25 2.25 0 006 21h12a2.25 2.25 0 002.25-2.25m-16.5 0V11.25A2.25 2.25 0 016 9h12a2.25 2.25 0 012.25 2.25v7.5" />
+          </svg>
+        </span>
+        <div class="min-w-0">
+          <p class="text-2xl font-bold text-gray-900 leading-none">{{ isLoadingStats ? '—' : stats?.totalAppointments }}</p>
+          <p class="text-xs text-gray-500 mt-1">{{ 'ADMIN.STATS.TOTAL_APPOINTMENTS' | translate }}</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl shadow-xl p-6 flex items-center gap-4">
+        <span class="w-14 h-14 shrink-0 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </span>
+        <div class="min-w-0">
+          <p class="text-2xl font-bold text-gray-900 leading-none">{{ isLoadingStats ? '—' : stats?.pendingCount }}</p>
+          <p class="text-xs text-gray-500 mt-1">{{ 'ADMIN.STATS.PENDING' | translate }}</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl shadow-xl p-6 flex items-center gap-4">
+        <span class="w-14 h-14 shrink-0 rounded-full bg-teal-50 text-teal-600 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 9l2.31-6.929c.163-.49.63-.821 1.153-.821h9.574c.523 0 .99.331 1.153.82L18.75 20.25M12 3l-1.5 4.5M12 3l1.5 4.5" />
+          </svg>
+        </span>
+        <div class="min-w-0">
+          <p class="text-2xl font-bold text-gray-900 leading-none">{{ isLoadingStats ? '—' : stats?.totalReviews }}</p>
+          <p class="text-xs text-gray-500 mt-1">{{ 'ADMIN.STATS.TOTAL_REVIEWS' | translate }}</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl shadow-xl p-6 flex items-center gap-4">
+        <span class="w-14 h-14 shrink-0 rounded-full bg-fuchsia-50 text-fuchsia-600 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+          </svg>
+        </span>
+        <div class="min-w-0">
+          <p class="text-2xl font-bold text-gray-900 leading-none">{{ isLoadingStats || !stats?.totalReviews ? '—' : (stats?.averageRating ?? 0).toFixed(1) }}</p>
+          <p class="text-xs text-gray-500 mt-1">{{ 'ADMIN.STATS.AVERAGE_RATING' | translate }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="inline-flex items-center gap-1 p-1 rounded-full bg-gray-100">
+      <button type="button" (click)="selectTab('users')"
+              class="px-4 py-2 text-sm font-medium rounded-full transition-colors"
+              [class.bg-gray-900]="activeTab === 'users'"
+              [class.text-white]="activeTab === 'users'"
+              [class.text-gray-600]="activeTab !== 'users'">
+        {{ 'ADMIN.TABS.USERS' | translate }}
+        <span class="ml-1 opacity-70">({{ usersInViewedCenter.length }})</span>
+      </button>
+      <button type="button" (click)="selectTab('doctors')"
+              class="px-4 py-2 text-sm font-medium rounded-full transition-colors"
+              [class.bg-gray-900]="activeTab === 'doctors'"
+              [class.text-white]="activeTab === 'doctors'"
+              [class.text-gray-600]="activeTab !== 'doctors'">
+        {{ 'ADMIN.TABS.DOCTORS' | translate }}
+      </button>
+      <button type="button" (click)="selectTab('reviews')"
+              class="px-4 py-2 text-sm font-medium rounded-full transition-colors"
+              [class.bg-gray-900]="activeTab === 'reviews'"
+              [class.text-white]="activeTab === 'reviews'"
+              [class.text-gray-600]="activeTab !== 'reviews'">
+        {{ 'ADMIN.TABS.REVIEWS' | translate }}
+      </button>
+      <button type="button" (click)="selectTab('branding')"
+              class="px-4 py-2 text-sm font-medium rounded-full transition-colors"
+              [class.bg-gray-900]="activeTab === 'branding'"
+              [class.text-white]="activeTab === 'branding'"
+              [class.text-gray-600]="activeTab !== 'branding'">
+        {{ 'ADMIN.TABS.BRANDING' | translate }}
+      </button>
+      @if (isSuperAdmin) {
+        <button type="button" (click)="selectTab('centers')"
+                class="px-4 py-2 text-sm font-medium rounded-full transition-colors"
+                [class.bg-gray-900]="activeTab === 'centers'"
+                [class.text-white]="activeTab === 'centers'"
+                [class.text-gray-600]="activeTab !== 'centers'">
+          {{ 'ADMIN.TABS.CENTERS' | translate }}
+        </button>
+      }
+    </div>
+
+    <!-- Users tab -->
+    @if (activeTab === 'users') {
+      <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+        <div class="flex flex-wrap items-center gap-3 p-6 border-b border-gray-100">
+          <div class="relative flex-1 min-w-[200px]">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+            <input type="text" [(ngModel)]="userQuery"
+                   [placeholder]="'ADMIN.SEARCH_PLACEHOLDER' | translate"
+                   class="w-full pl-9 pr-4 py-2 text-sm rounded-full border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-300">
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            @for (role of roleOptions; track role) {
+              <button type="button" (click)="roleFilter = role"
+                      class="px-3 py-1.5 text-xs rounded-full border transition-colors"
+                      [class.bg-gray-900]="roleFilter === role" [class.text-white]="roleFilter === role" [class.border-gray-900]="roleFilter === role"
+                      [class.border-gray-200]="roleFilter !== role" [class.text-gray-600]="roleFilter !== role">
+                {{ role === 'All' ? ('ADMIN.ALL_ROLES' | translate) : role }}
+              </button>
+            }
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            @for (status of statusOptions; track status) {
+              <button type="button" (click)="userStatusFilter = status"
+                      class="px-3 py-1.5 text-xs rounded-full border transition-colors"
+                      [class.bg-gray-900]="userStatusFilter === status" [class.text-white]="userStatusFilter === status" [class.border-gray-900]="userStatusFilter === status"
+                      [class.border-gray-200]="userStatusFilter !== status" [class.text-gray-600]="userStatusFilter !== status">
+                {{ status === 'All' ? ('ADMIN.ALL_STATUSES' | translate) : (('ADMIN.STATUS_' + status.toUpperCase()) | translate) }}
+              </button>
+            }
+          </div>
+        </div>
+
+        @if (isLoadingUsers) {
+          <p class="text-center text-gray-500 py-16">{{ 'ADMIN.LOADING' | translate }}</p>
+        } @else if (filteredUsers.length === 0) {
+          <p class="text-center text-gray-500 py-16">{{ 'ADMIN.NO_USERS' | translate }}</p>
+        } @else {
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="text-left text-xs uppercase tracking-wide text-gray-400 border-b border-gray-100">
+                  <th class="py-3 px-6 font-medium">{{ 'ADMIN.TABLE.NAME' | translate }}</th>
+                  <th class="py-3 px-4 font-medium">{{ 'ADMIN.TABLE.ROLE' | translate }}</th>
+                  <th class="py-3 px-4 font-medium">{{ 'ADMIN.TABLE.CREATED' | translate }}</th>
+                  <th class="py-3 px-4 font-medium">{{ 'ADMIN.TABLE.STATUS' | translate }}</th>
+                  <th class="py-3 px-6"></th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-50">
+                @for (user of filteredUsers; track user.id) {
+                  <tr class="hover:bg-rose-50/50 transition-colors">
+                    <td class="py-3 px-6">
+                      <div class="flex items-center gap-3">
+                        <span class="w-9 h-9 shrink-0 rounded-full bg-linear-to-br from-rose-400 via-fuchsia-400 to-teal-400 text-white text-xs font-semibold flex items-center justify-center">
+                          {{ initials(user.displayName) }}
+                        </span>
+                        <span class="min-w-0">
+                          <span class="block font-medium text-gray-900 truncate">{{ user.displayName }}</span>
+                          <span class="block text-xs text-gray-500 truncate">{{ user.email }}</span>
+                        </span>
+                      </div>
+                    </td>
+                    <td class="py-3 px-4 text-gray-700">{{ user.role }}</td>
+                    <td class="py-3 px-4 text-gray-500">{{ user.createdAt | date:'mediumDate' }}</td>
+                    <td class="py-3 px-4">
+                      <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-medium"
+                            [class.bg-teal-50]="user.isActive" [class.text-teal-700]="user.isActive"
+                            [class.bg-gray-100]="!user.isActive" [class.text-gray-500]="!user.isActive">
+                        {{ (user.isActive ? 'ADMIN.STATUS_ACTIVE' : 'ADMIN.STATUS_INACTIVE') | translate }}
+                      </span>
+                    </td>
+                    <td class="py-3 px-6 text-right">
+                      @if (user.id !== ownUserId) {
+                        <button type="button" (click)="toggleUserStatus(user)"
+                                [disabled]="processingUserId === user.id"
+                                class="px-3 py-1.5 text-xs font-medium border border-gray-300 text-gray-700 rounded-full hover:bg-gray-50
+                                       disabled:text-gray-400 disabled:cursor-not-allowed">
+                          {{ (user.isActive ? 'ADMIN.DEACTIVATE_BUTTON' : 'ADMIN.ACTIVATE_BUTTON') | translate }}
+                        </button>
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Doctors tab -->
+    @if (activeTab === 'doctors') {
+      <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+        <div class="flex flex-wrap items-center gap-3 p-6 border-b border-gray-100">
+          <div class="relative flex-1 min-w-[200px]">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+            <input type="text" [(ngModel)]="doctorQuery"
+                   [placeholder]="'ADMIN.DOCTOR_SEARCH_PLACEHOLDER' | translate"
+                   class="w-full pl-9 pr-4 py-2 text-sm rounded-full border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-300">
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            @for (status of statusOptions; track status) {
+              <button type="button" (click)="doctorStatusFilter = status"
+                      class="px-3 py-1.5 text-xs rounded-full border transition-colors"
+                      [class.bg-gray-900]="doctorStatusFilter === status" [class.text-white]="doctorStatusFilter === status" [class.border-gray-900]="doctorStatusFilter === status"
+                      [class.border-gray-200]="doctorStatusFilter !== status" [class.text-gray-600]="doctorStatusFilter !== status">
+                {{ status === 'All' ? ('ADMIN.ALL_STATUSES' | translate) : (('ADMIN.STATUS_' + status.toUpperCase()) | translate) }}
+              </button>
+            }
+          </div>
+        </div>
+
+        @if (isLoadingDoctors) {
+          <p class="text-center text-gray-500 py-16">{{ 'ADMIN.LOADING' | translate }}</p>
+        } @else if (filteredDoctors.length === 0) {
+          <p class="text-center text-gray-500 py-16">{{ 'ADMIN.NO_DOCTORS' | translate }}</p>
+        } @else {
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="text-left text-xs uppercase tracking-wide text-gray-400 border-b border-gray-100">
+                  <th class="py-3 px-6 font-medium">{{ 'ADMIN.TABLE.DOCTOR' | translate }}</th>
+                  <th class="py-3 px-4 font-medium">{{ 'ADMIN.TABLE.SPECIALIZATION' | translate }}</th>
+                  <th class="py-3 px-4 font-medium">{{ 'ADMIN.TABLE.CITY' | translate }}</th>
+                  <th class="py-3 px-4 font-medium">{{ 'ADMIN.TABLE.STATUS' | translate }}</th>
+                  <th class="py-3 px-6"></th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-50">
+                @for (doctor of filteredDoctors; track doctor.id) {
+                  <tr class="hover:bg-rose-50/50 transition-colors">
+                    <td class="py-3 px-6">
+                      <a [routerLink]="['/doctors', doctor.id]" class="flex items-center gap-3 group">
+                        @if (doctor.hasPhoto) {
+                          <img [src]="doctor.id | doctorPhotoUrl" alt=""
+                               class="w-9 h-9 shrink-0 rounded-full object-cover">
+                        } @else {
+                          <span class="w-9 h-9 shrink-0 rounded-full bg-linear-to-br from-rose-400 via-fuchsia-400 to-teal-400 text-white text-xs font-semibold flex items-center justify-center">
+                            {{ initials(doctor.fullName) }}
+                          </span>
+                        }
+                        <span class="font-medium text-gray-900 group-hover:text-rose-600 transition-colors truncate">{{ doctor.fullName }}</span>
+                      </a>
+                    </td>
+                    <td class="py-3 px-4 text-gray-700">{{ doctor.specialization }}</td>
+                    <td class="py-3 px-4 text-gray-700">{{ doctor.city }}</td>
+                    <td class="py-3 px-4">
+                      <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-medium"
+                            [class.bg-teal-50]="doctor.isActive" [class.text-teal-700]="doctor.isActive"
+                            [class.bg-gray-100]="!doctor.isActive" [class.text-gray-500]="!doctor.isActive">
+                        {{ (doctor.isActive ? 'ADMIN.STATUS_ACTIVE' : 'ADMIN.STATUS_INACTIVE') | translate }}
+                      </span>
+                    </td>
+                    <td class="py-3 px-6 text-right">
+                      <button type="button" (click)="toggleDoctorStatus(doctor)"
+                              [disabled]="processingDoctorId === doctor.id"
+                              class="px-3 py-1.5 text-xs font-medium border border-gray-300 text-gray-700 rounded-full hover:bg-gray-50
+                                     disabled:text-gray-400 disabled:cursor-not-allowed">
+                        {{ (doctor.isActive ? 'ADMIN.DEACTIVATE_BUTTON' : 'ADMIN.ACTIVATE_BUTTON') | translate }}
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Reviews tab -->
+    @if (activeTab === 'reviews') {
+      <div class="bg-white rounded-3xl shadow-xl p-6 sm:p-8">
+        @if (isLoadingReviews) {
+          <p class="text-center text-gray-500 py-16">{{ 'ADMIN.LOADING' | translate }}</p>
+        } @else if (reviews.length === 0) {
+          <p class="text-center text-gray-500 py-16">{{ 'ADMIN.NO_REVIEWS' | translate }}</p>
+        } @else {
+          <div class="space-y-4">
+            @for (review of reviews; track review.id) {
+              <div class="p-4 rounded-2xl bg-gray-50 flex items-start justify-between gap-4">
+                <div class="min-w-0">
+                  <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+                    <span class="text-sm font-medium text-gray-900">{{ review.patientName }}</span>
+                    <span class="text-xs text-gray-400">→</span>
+                    <span class="text-sm text-gray-700">{{ review.doctorName }}</span>
+                    <span class="text-xs text-gray-500">{{ review.createdAt | date:'mediumDate' }}</span>
+                  </div>
+                  <div class="flex gap-0.5 text-sm mt-1.5" aria-hidden="true">
+                    @for (star of [1, 2, 3, 4, 5]; track star) {
+                      <span [class.text-amber-400]="star <= review.rating" [class.text-gray-200]="star > review.rating">★</span>
+                    }
+                  </div>
+                  @if (review.comment) {
+                    <p class="text-sm text-gray-600 mt-2">{{ review.comment }}</p>
+                  }
+                </div>
+                <button type="button" (click)="deleteReview(review)"
+                        [disabled]="processingReviewId === review.id"
+                        class="shrink-0 px-3 py-1.5 text-xs font-medium border border-gray-300 text-gray-700 rounded-full hover:bg-red-50 hover:text-red-600 hover:border-red-200
+                               disabled:text-gray-400 disabled:cursor-not-allowed transition-colors">
+                  {{ 'ADMIN.DELETE_REVIEW_BUTTON' | translate }}
+                </button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Medical Centers tab (platform super-admin only) -->
+    @if (activeTab === 'centers') {
+      <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+        <div class="flex items-center justify-between p-6 border-b border-gray-100">
+          <p class="text-sm text-gray-500">{{ 'ADMIN.CENTERS.SUBHEADING' | translate }}</p>
+          <button type="button" (click)="showCreateCenterForm = !showCreateCenterForm"
+                  class="px-4 py-2 text-sm font-medium brand-bg brand-radius text-white brand-bg-hover transition-colors">
+            {{ (showCreateCenterForm ? 'ADMIN.CENTERS.CANCEL' : 'ADMIN.CENTERS.NEW_CENTER') | translate }}
+          </button>
+        </div>
+
+        @if (showCreateCenterForm) {
+          <form (ngSubmit)="createCenter()" class="p-6 border-b border-gray-100 grid grid-cols-1 sm:grid-cols-2 gap-4 bg-gray-50">
+            <div>
+              <label class="block text-xs font-medium text-gray-500 mb-1">{{ 'ADMIN.CENTERS.NAME' | translate }}</label>
+              <input type="text" [(ngModel)]="newCenter.name" name="centerName" required
+                     class="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 bg-white focus:outline-none brand-ring-focus">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-500 mb-1">{{ 'ADMIN.CENTERS.SLUG' | translate }}</label>
+              <input type="text" [(ngModel)]="newCenter.slug" name="centerSlug" required placeholder="e.g. green-valley-clinic"
+                     class="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 bg-white focus:outline-none brand-ring-focus">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-500 mb-1">{{ 'ADMIN.CENTERS.COLOR' | translate }}</label>
+              <div class="flex items-center gap-2">
+                <input type="color" [(ngModel)]="newCenter.primaryColorHex" name="centerColor"
+                       class="w-10 h-10 rounded-lg border border-gray-200 cursor-pointer">
+                <input type="text" [(ngModel)]="newCenter.primaryColorHex" name="centerColorHex"
+                       class="flex-1 px-3 py-2 text-sm rounded-xl border border-gray-200 bg-white focus:outline-none brand-ring-focus">
+              </div>
+            </div>
+            <div></div>
+            <div>
+              <label class="block text-xs font-medium text-gray-500 mb-1">{{ 'ADMIN.CENTERS.ADMIN_NAME' | translate }}</label>
+              <input type="text" [(ngModel)]="newCenter.adminDisplayName" name="adminDisplayName" required
+                     class="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 bg-white focus:outline-none brand-ring-focus">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-500 mb-1">{{ 'ADMIN.CENTERS.ADMIN_EMAIL' | translate }}</label>
+              <input type="email" [(ngModel)]="newCenter.adminEmail" name="adminEmail" required
+                     class="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 bg-white focus:outline-none brand-ring-focus">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-500 mb-1">{{ 'ADMIN.CENTERS.ADMIN_PASSWORD' | translate }}</label>
+              <input type="password" [(ngModel)]="newCenter.adminPassword" name="adminPassword" required
+                     class="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 bg-white focus:outline-none brand-ring-focus">
+            </div>
+            <div class="sm:col-span-2">
+              <button type="submit" [disabled]="isCreatingCenter"
+                      class="px-4 py-2 text-sm font-medium brand-bg brand-radius text-white brand-bg-hover transition-colors disabled:opacity-50">
+                {{ 'ADMIN.CENTERS.CREATE' | translate }}
+              </button>
+            </div>
+          </form>
+        }
+
+        @if (isLoadingCenters) {
+          <p class="text-center text-gray-500 py-16">{{ 'ADMIN.LOADING' | translate }}</p>
+        } @else if (tenantService.centers().length === 0) {
+          <p class="text-center text-gray-500 py-16">{{ 'ADMIN.CENTERS.NONE' | translate }}</p>
+        } @else {
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="text-left text-xs uppercase tracking-wide text-gray-400 border-b border-gray-100">
+                  <th class="py-3 px-6 font-medium">{{ 'ADMIN.CENTERS.NAME' | translate }}</th>
+                  <th class="py-3 px-4 font-medium">{{ 'ADMIN.CENTERS.SLUG' | translate }}</th>
+                  <th class="py-3 px-4 font-medium">{{ 'ADMIN.CENTERS.COLOR' | translate }}</th>
+                  <th class="py-3 px-4 font-medium">{{ 'ADMIN.TABLE.STATUS' | translate }}</th>
+                  <th class="py-3 px-6 font-medium">{{ 'ADMIN.CENTERS.PUBLIC_LINK' | translate }}</th>
+                  <th class="py-3 px-6"></th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-50">
+                @for (center of tenantService.centers(); track center.id) {
+                  <tr class="hover:bg-rose-50/50 transition-colors">
+                    <td class="py-3 px-6 font-medium text-gray-900">{{ center.name }}</td>
+                    <td class="py-3 px-4 text-gray-500">{{ center.slug }}</td>
+                    <td class="py-3 px-4">
+                      <span class="inline-flex items-center gap-2">
+                        <span class="w-4 h-4 rounded-full border border-black/10" [style.background-color]="center.primaryColorHex"></span>
+                        <span class="text-gray-500 text-xs">{{ center.primaryColorHex }}</span>
+                      </span>
+                    </td>
+                    <td class="py-3 px-4">
+                      <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-medium"
+                            [class.bg-teal-50]="center.isActive" [class.text-teal-700]="center.isActive"
+                            [class.bg-gray-100]="!center.isActive" [class.text-gray-500]="!center.isActive">
+                        {{ (center.isActive ? 'ADMIN.STATUS_ACTIVE' : 'ADMIN.STATUS_INACTIVE') | translate }}
+                      </span>
+                    </td>
+                    <td class="py-3 px-6">
+                      <button type="button" (click)="copyPublicLink(center.slug)"
+                              class="text-xs font-medium text-gray-500 hover:text-gray-900 underline decoration-dotted">
+                        /c/{{ center.slug }}
+                      </button>
+                    </td>
+                    <td class="py-3 px-6 text-right">
+                      <button type="button" (click)="viewCenterData(center.id)"
+                              class="px-3 py-1.5 text-xs font-medium border border-gray-300 text-gray-700 rounded-full hover:bg-gray-50 transition-colors">
+                        {{ 'ADMIN.CENTERS.VIEW_DATA' | translate }}
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Branding tab (center-scoped admin only) -->
+    @if (activeTab === 'branding') {
+      <div class="bg-white rounded-3xl shadow-xl p-6 sm:p-8 max-w-xl">
+        <p class="text-sm text-gray-500 mb-6">{{ 'ADMIN.BRANDING.SUBHEADING' | translate }}</p>
+
+        @if (tenantService.selectedTenant(); as center) {
+          <div class="flex items-center justify-between gap-3 p-4 rounded-2xl bg-gray-50 mb-6">
+            <div class="min-w-0">
+              <p class="text-xs font-medium text-gray-500 mb-0.5">{{ 'ADMIN.BRANDING.PUBLIC_LINK' | translate }}</p>
+              <p class="text-sm text-gray-900 truncate">{{ publicLink(center.slug) }}</p>
+            </div>
+            <button type="button" (click)="copyPublicLink(center.slug)"
+                    class="shrink-0 px-3 py-1.5 text-xs font-medium border border-gray-300 text-gray-700 rounded-full hover:bg-gray-100 transition-colors">
+              {{ (linkCopied ? 'ADMIN.BRANDING.LINK_COPIED' : 'ADMIN.BRANDING.COPY_LINK') | translate }}
+            </button>
+          </div>
+        }
+
+        <form (ngSubmit)="saveBranding()" class="space-y-5">
+          <div>
+            <label class="block text-xs font-medium text-gray-500 mb-1">{{ 'ADMIN.CENTERS.NAME' | translate }}</label>
+            <input type="text" [(ngModel)]="brandingForm.name" name="brandingName" required
+                   class="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 bg-gray-50 focus:outline-none brand-ring-focus">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gray-500 mb-1">{{ 'ADMIN.CENTERS.COLOR' | translate }}</label>
+            <div class="flex items-center gap-2">
+              <input type="color" [(ngModel)]="brandingForm.primaryColorHex" name="brandingColor"
+                     class="w-10 h-10 rounded-lg border border-gray-200 cursor-pointer">
+              <input type="text" [(ngModel)]="brandingForm.primaryColorHex" name="brandingColorHex"
+                     class="flex-1 px-3 py-2 text-sm rounded-xl border border-gray-200 bg-gray-50 focus:outline-none brand-ring-focus">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-gray-500 mb-2">{{ 'ADMIN.BRANDING.FONT' | translate }}</label>
+            <div class="grid grid-cols-2 gap-2">
+              @for (font of availableFonts; track font.name) {
+                <button type="button" (click)="brandingForm.fontFamily = font.name"
+                        [style.font-family]="font.stack"
+                        class="px-3 py-2.5 text-sm text-left rounded-xl border transition-colors"
+                        [class.border-gray-900]="brandingForm.fontFamily === font.name"
+                        [class.bg-gray-50]="brandingForm.fontFamily === font.name"
+                        [class.border-gray-200]="brandingForm.fontFamily !== font.name">
+                  {{ font.name }}
+                </button>
+              }
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-gray-500 mb-2">{{ 'ADMIN.BRANDING.BUTTON_SHAPE' | translate }}</label>
+            <div class="flex gap-2">
+              @for (radius of availableRadii; track radius.value) {
+                <button type="button" (click)="brandingForm.buttonRadius = radius.value"
+                        class="flex-1 py-2.5 text-xs font-medium border transition-colors flex items-center justify-center gap-2"
+                        [style.border-radius]="radius.px === '9999px' ? '9999px' : '0.5rem'"
+                        [class.border-gray-900]="brandingForm.buttonRadius === radius.value"
+                        [class.bg-gray-50]="brandingForm.buttonRadius === radius.value"
+                        [class.border-gray-200]="brandingForm.buttonRadius !== radius.value">
+                  <span class="w-5 h-5 bg-gray-800 inline-block" [style.border-radius]="radius.px"></span>
+                  {{ ('ADMIN.BRANDING.RADIUS_' + radius.value.toUpperCase()) | translate }}
+                </button>
+              }
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-gray-500 mb-1">{{ 'ADMIN.BRANDING.BANNER_IMAGE' | translate }}</label>
+            <p class="text-xs text-gray-400 mb-2">{{ 'ADMIN.BRANDING.BANNER_IMAGE_HINT' | translate }}</p>
+            @if (tenantService.selectedTenant()?.hasBannerImage) {
+              <div class="relative w-full h-32 rounded-xl overflow-hidden mb-2 border border-gray-200">
+                <img [src]="tenantService.bannerImageUrl(tenantService.selectedTenantId()!)" alt=""
+                     class="w-full h-full object-cover">
+              </div>
+            }
+            <div class="flex items-center gap-2">
+              <label class="px-3 py-1.5 text-xs font-medium border border-gray-300 text-gray-700 rounded-full hover:bg-gray-50 cursor-pointer transition-colors">
+                {{ 'ADMIN.BRANDING.UPLOAD_BANNER' | translate }}
+                <input type="file" accept="image/*" class="hidden" [disabled]="isUploadingBanner" (change)="onBannerSelected($event)">
+              </label>
+              @if (tenantService.selectedTenant()?.hasBannerImage) {
+                <button type="button" (click)="removeBanner()"
+                        class="px-3 py-1.5 text-xs font-medium border border-gray-300 text-gray-700 rounded-full hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors">
+                  {{ 'ADMIN.BRANDING.REMOVE_BANNER' | translate }}
+                </button>
+              }
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-gray-500 mb-1">{{ 'ADMIN.BRANDING.BANNER_VIDEO' | translate }}</label>
+            <p class="text-xs text-gray-400 mb-2">{{ 'ADMIN.BRANDING.BANNER_VIDEO_HINT' | translate }}</p>
+            <input type="url" [(ngModel)]="brandingForm.bannerVideoUrl" name="bannerVideoUrl"
+                   placeholder="https://cdn.example.com/hero.mp4"
+                   class="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 bg-gray-50 focus:outline-none brand-ring-focus">
+          </div>
+
+          <div class="pt-2">
+            <p class="text-xs font-medium text-gray-500 mb-2">{{ 'ADMIN.BRANDING.PREVIEW' | translate }}</p>
+            <button type="button" class="px-4 py-2 text-sm font-medium text-white pointer-events-none"
+                    [style.background-color]="brandingForm.primaryColorHex"
+                    [style.border-radius]="previewRadiusPx"
+                    [style.font-family]="previewFontStack">
+              {{ 'ADMIN.BRANDING.PREVIEW_BUTTON' | translate }}
+            </button>
+          </div>
+
+          <button type="submit" [disabled]="isSavingBranding"
+                  class="px-4 py-2 text-sm font-medium brand-bg brand-radius text-white brand-bg-hover transition-colors disabled:opacity-50">
+            {{ 'ADMIN.BRANDING.SAVE' | translate }}
+          </button>
+        </form>
+      </div>
+    }
+  </div>
+</main>

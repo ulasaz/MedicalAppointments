@@ -1,0 +1,12 @@
+<div class="flex items-center gap-0.5 p-0.5 rounded-full text-xs bg-gray-100">
+  @for (lang of ['en', 'pl']; track lang) {
+    <button type="button"
+            (click)="switchLang(lang)"
+            class="px-2.5 py-1 rounded-full uppercase transition-colors"
+            [ngClass]="currentLang === lang
+              ? 'bg-gray-900 text-white'
+              : 'text-gray-500 hover:text-gray-900'">
+      {{ lang }}
+    </button>
+  }
+</div>
