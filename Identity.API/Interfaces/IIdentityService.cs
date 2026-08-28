@@ -9,4 +9,7 @@ public interface IIdentityService
     Task<AuthResponse> LoginAsync(LoginRequest request);
     
     Task<UserProfileResponse> GetProfileAsync(Guid userId);
+    Task<List<UserProfileResponse>> GetAllUsersAsync(Guid requestingAdminId);
+    Task<UserProfileResponse> SetUserActiveStatusAsync(Guid requestingAdminId, Guid targetUserId, bool isActive);
+    Task<UserProfileResponse> UpdateDisplayNameAsync(Guid userId, string displayName);
 }

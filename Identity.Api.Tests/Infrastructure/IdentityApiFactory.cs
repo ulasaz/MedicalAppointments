@@ -1,31 +1,25 @@
 using Identity.Database;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Identity.Api.Tests.Infrastructure;
 
 public class IdentityApiFactory : WebApplicationFactory<Identity.Controllers.AuthController>
 {
-    private readonly string _connectionString;
-
     public IdentityApiFactory(string connectionString)
     {
-        _connectionString = connectionString;
-    }
-
-    protected override void ConfigureWebHost(IWebHostBuilder builder)
-    {
-        builder.ConfigureAppConfiguration((_, config) =>
-        {
-            config.AddInMemoryCollection(new Dictionary<string, string?>
-            {
-                ["ConnectionStrings:DefaultConnection"] = _connectionString,
-                ["JwtSettings:Secret"] = "MySuperSecretKeyThatIsVeryLongAndSecureForLunchOrderingSystem",
-                ["Jwt:ExpirationInMinutes"] = "60"
-            });
-        });
+        // Identity.API's Program.cs reads the connection string from IConfiguration with
+        // top-level statements, synchronously, BEFORE builder.Build() runs. WebApplicationFactory's
+        // ConfigureWebHost -> ConfigureAppConfiguration callback only gets merged in DURING that
+        // deferred Build() call, so it arrives too late to affect a value already read out of
+        // config — the override was silently a no-op and every test run was hitting the real
+        // dev database (appsettings.json's "127.0.0.1:5432" default). Environment variables, by
+        // contrast, are read by WebApplication.CreateBuilder() itself, so setting them here in the
+        // constructor — before the factory's host is ever built — actually takes effect. This
+        // mirrors exactly how the real docker-compose deployment overrides the same settings.
+        Environment.SetEnvironmentVariable("ConnectionStrings__DefaultConnection", connectionString);
+        Environment.SetEnvironmentVariable("JwtSettings__Secret", "MySuperSecretKeyThatIsVeryLongAndSecureForCuraSlotSystem");
+        Environment.SetEnvironmentVariable("Jwt__ExpirationInMinutes", "60");
     }
 
     public Task InitializeDatabaseAsync()

@@ -6,7 +6,7 @@ x64/
 x86/
 b囊in/
 obj/
-
+.env
 # Служебные файлы Rider и Visual Studio
 .idea/
 .vs/

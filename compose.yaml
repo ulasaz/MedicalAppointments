@@ -1,20 +1,20 @@
 ﻿services:
-  lunch-postgres:
-   image: postgres:16
-   environment:
-    POSTGRES_USER: postgres
-    POSTGRES_PASSWORD: postgres
-   ports:
-     - "5432:5432"
-   volumes:
-    - postgres_data:/var/lib/postgresql/data
-   healthcheck:
-    test: ["CMD-SHELL", "pg_isready -U postgres"]
-    interval: 5s
-    timeout: 5s
-    retries: 5
-  
-  lunch-rabbitmq:
+  curaslot-postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  curaslot-rabbitmq:
     image: rabbitmq:3-management
     ports:
       - "5672:5672"
@@ -31,46 +31,58 @@
       context: .
       dockerfile: Identity.API/Dockerfile
     environment:
-      - ConnectionStrings__DefaultConnection=Host=lunch-postgres;Port=5432;Database=LunchOrdering_Identity;Username=postgres;Password=postgres
-      - RabbitMq__Host=lunch-rabbitmq
-      - JwtSettings__Secret=MySuperSecretKeyThatIsVeryLongAndSecureForLunchOrderingSystem
+      - ConnectionStrings__DefaultConnection=Host=curaslot-postgres;Port=5432;Database=CuraSlot_Identity;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+      - RabbitMq__Host=curaslot-rabbitmq
+      - JwtSettings__Secret=${JWT_SECRET}
       - Jwt__ExpirationInMinutes=60
+      - AdminSeed__Email=${ADMIN_EMAIL}
+      - AdminSeed__Password=${ADMIN_PASSWORD}
     depends_on:
-      lunch-postgres:
+      curaslot-postgres:
         condition: service_healthy
-      lunch-rabbitmq:
-        condition: service_started
-
-  menu.api:
-    image: menu.api
-    build:
-      context: .
-      dockerfile: Menu.API/Dockerfile
-    environment:
-      - ConnectionStrings__DefaultConnection=Host=lunch-postgres;Port=5432;Database=LunchOrdering_Menu;Username=postgres;Password=postgres
-      - RabbitMq__Host=lunch-rabbitmq
-    volumes:
-      - ./Menu.API/credentials.json:/app/credentials.json:ro
-      - ./Menu.API/token.json:/app/token.json
-    depends_on:
-      lunch-postgres:
-        condition: service_healthy
-      lunch-rabbitmq:
+      curaslot-rabbitmq:
         condition: service_healthy
 
-  orders.api:
-    image: orders.api
+  doctors.api:
+    image: doctors.api
     build:
       context: .
-      dockerfile: Orders.API/Dockerfile
+      dockerfile: Doctors.API/Dockerfile
     environment:
-      - ConnectionStrings__DefaultConnection=Host=lunch-postgres;Port=5432;Database=LunchOrdering_Orders;Username=postgres;Password=postgres
-      - RabbitMq__Host=lunch-rabbitmq
+      - ConnectionStrings__DefaultConnection=Host=curaslot-postgres;Port=5432;Database=CuraSlot_Doctors;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+      - RabbitMq__Host=curaslot-rabbitmq
+      - JwtSettings__Secret=${JWT_SECRET}
+      - ServiceUrls__AppointmentsApi=http://appointments.api:8080
     depends_on:
-      lunch-postgres:
+      curaslot-postgres:
         condition: service_healthy
-      lunch-rabbitmq:
+      curaslot-rabbitmq:
         condition: service_healthy
+
+  appointments.api:
+    image: appointments.api
+    build:
+      context: .
+      dockerfile: Appointments.API/Dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=curaslot-postgres;Port=5432;Database=CuraSlot_Appointments;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+      - RabbitMq__Host=curaslot-rabbitmq
+      - JwtSettings__Secret=${JWT_SECRET}
+      - ServiceUrls__DoctorsApi=http://doctors.api:8080
+      - ServiceUrls__IdentityApi=http://identity.api:8080
+      - Stripe__SecretKey=${STRIPE_SECRET_KEY}
+      - Stripe__WebhookSecret=${STRIPE_WEBHOOK_SECRET}
+    depends_on:
+      curaslot-postgres:
+        condition: service_healthy
+      curaslot-rabbitmq:
+        condition: service_healthy
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    ports:
+      - "8025:8025"
+      - "1025:1025"
 
   notifications.api:
     image: notifications.api
@@ -78,13 +90,21 @@
       context: .
       dockerfile: Notifications.API/Dockerfile
     environment:
-      - ConnectionStrings__DefaultConnection=Host=lunch-postgres;Port=5432;Database=LunchOrdering_Notifications;Username=postgres;Password=postgres
-      - RabbitMq__Host=lunch-rabbitmq
+      - ConnectionStrings__DefaultConnection=Host=curaslot-postgres;Port=5432;Database=CuraSlot_Notifications;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+      - RabbitMq__Host=curaslot-rabbitmq
+      - ServiceUrls__IdentityApi=http://identity.api:8080
+      - ServiceUrls__DoctorsApi=http://doctors.api:8080
+      - Smtp__Host=mailhog
+      - Smtp__Port=1025
     depends_on:
-      lunch-postgres:
+      curaslot-postgres:
         condition: service_healthy
-      lunch-rabbitmq:
+      curaslot-rabbitmq:
         condition: service_healthy
+      identity.api:
+        condition: service_started
+      doctors.api:
+        condition: service_started
 
   gateway:
     image: gateway
@@ -92,17 +112,17 @@
       context: .
       dockerfile: Gateway/Dockerfile
     ports:
-      - "5000:8080"
+      - "5050:8080"
     depends_on:
       - identity.api
-      - menu.api
+      - doctors.api
       - notifications.api
-      - orders.api
+      - appointments.api
 
   frontend:
-    image: lunch-frontend
+    image: medical-frontend
     build:
-      context: ./lunch-ordering-system
+      context: ./cura-slot
       dockerfile: Dockerfile
     ports:
       - "4200:80"

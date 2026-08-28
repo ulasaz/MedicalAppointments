@@ -1,16 +1,21 @@
-using Finbuckle.MultiTenant.Abstractions;
-using Finbuckle.MultiTenant.EntityFrameworkCore;
 using Identity.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Database;
 
-public class DatabaseContext : MultiTenantDbContext
+public class DatabaseContext : DbContext
 {
     public DbSet<User> Users { get; set; }
-    public DatabaseContext(
-        IMultiTenantContextAccessor multiTenantContextAccessor,
-        DbContextOptions<DatabaseContext> options) : base(multiTenantContextAccessor, options)
+    public DbSet<MedicalCenter> MedicalCenters { get; set; }
+
+    public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
     {
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<MedicalCenter>()
+            .HasIndex(m => m.Slug)
+            .IsUnique();
     }
 }

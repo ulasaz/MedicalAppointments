@@ -20,8 +20,9 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-app.MapHealthChecks("/health");
 app.UseCors("AngularApplicationPolicy");
+
+app.MapHealthChecks("/health");
 app.MapReverseProxy();
 
 app.Run();

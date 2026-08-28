@@ -58,6 +58,10 @@ public class AuthController : ControllerBase
         {
             return Unauthorized(new { message = _localizer["InvalidCredentials"].Value });
         }
+        catch (UnauthorizedAccessException)
+        {
+            return StatusCode(StatusCodes.Status403Forbidden, new { message = _localizer["AccountDeactivated"].Value });
+        }
         catch (ArgumentException)
         {
             return BadRequest(new { message = _localizer["InvalidLoginData"].Value });
@@ -87,6 +91,85 @@ public class AuthController : ControllerBase
         catch (ArgumentException)
         {
             return BadRequest(new { message = _localizer["InvalidProfileRequest"].Value });
+        }
+    }
+
+    [Authorize]
+    [HttpPut("me")]
+    public async Task<IActionResult> UpdateMe([FromBody] UpdateProfileRequest request)
+    {
+        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out Guid userId))
+        {
+            return Unauthorized();
+        }
+
+        try
+        {
+            var response = await _identityService.UpdateDisplayNameAsync(userId, request.DisplayName);
+            return Ok(response);
+        }
+        catch (KeyNotFoundException)
+        {
+            return Unauthorized();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest(new { message = _localizer["InvalidProfileRequest"].Value });
+        }
+    }
+
+    [AllowAnonymous]
+    [HttpGet("users/{id:guid}")]
+    public async Task<IActionResult> GetUserById(Guid id)
+    {
+        try
+        {
+            var response = await _identityService.GetProfileAsync(id);
+            return Ok(response);
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound(new { message = _localizer["UserNotFound"].Value });
+        }
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpGet("admin/users")]
+    public async Task<ActionResult<List<UserProfileResponse>>> GetAllUsers()
+    {
+        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (!Guid.TryParse(userIdString, out var requestingAdminId))
+        {
+            return Unauthorized();
+        }
+
+        var response = await _identityService.GetAllUsersAsync(requestingAdminId);
+        return Ok(response);
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPut("admin/users/{id:guid}/status")]
+    public async Task<IActionResult> SetUserStatus(Guid id, [FromBody] SetUserStatusRequest request)
+    {
+        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (!Guid.TryParse(userIdString, out var requestingAdminId))
+        {
+            return Unauthorized();
+        }
+
+        try
+        {
+            var response = await _identityService.SetUserActiveStatusAsync(requestingAdminId, id, request.IsActive);
+            return Ok(response);
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound(new { message = _localizer["UserNotFound"].Value });
+        }
+        catch (InvalidOperationException)
+        {
+            return Conflict(new { message = "An admin cannot change their own account status." });
         }
     }
 }

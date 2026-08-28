@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
 using Identity.Api.Tests.Infrastructure;
+using Identity.Helpers;
 
 namespace Identity.Api.Tests.Tests;
 
@@ -24,7 +25,9 @@ public class AuthFlowTests
         {
             Email = email,
             Password = "SecurePassword123!",
-            DisplayName = "Test User"
+            DisplayName = "Test User",
+            Role = "Patient",
+            TenantId = DefaultTenantSeeder.DefaultTenantId
         });
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -41,14 +44,18 @@ public class AuthFlowTests
         {
             Email = email,
             Password = "SecurePassword123!",
-            DisplayName = "First User"
+            DisplayName = "First User",
+            Role = "Patient",
+            TenantId = DefaultTenantSeeder.DefaultTenantId
         });
 
         var response = await _client.PostAsJsonAsync("/api/auth/register", new
         {
             Email = email,
             Password = "AnotherPassword456!",
-            DisplayName = "Second User"
+            DisplayName = "Second User",
+            Role = "Patient",
+            TenantId = DefaultTenantSeeder.DefaultTenantId
         });
 
         response.StatusCode.Should().Be(HttpStatusCode.Conflict);
@@ -61,7 +68,39 @@ public class AuthFlowTests
         {
             Email = "",
             Password = "SecurePassword123!",
-            DisplayName = "Test User"
+            DisplayName = "Test User",
+            Role = "Patient",
+            TenantId = DefaultTenantSeeder.DefaultTenantId
+        });
+
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task Register_WithInvalidRole_Returns400BadRequest()
+    {
+        var response = await _client.PostAsJsonAsync("/api/auth/register", new
+        {
+            Email = $"badrole-{Guid.NewGuid()}@example.com",
+            Password = "SecurePassword123!",
+            DisplayName = "Test User",
+            Role = "Admin",
+            TenantId = DefaultTenantSeeder.DefaultTenantId
+        });
+
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task Register_WithUnknownTenant_Returns400BadRequest()
+    {
+        var response = await _client.PostAsJsonAsync("/api/auth/register", new
+        {
+            Email = $"unknown-tenant-{Guid.NewGuid()}@example.com",
+            Password = "SecurePassword123!",
+            DisplayName = "Test User",
+            Role = "Patient",
+            TenantId = Guid.NewGuid()
         });
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -70,10 +109,20 @@ public class AuthFlowTests
     [Fact]
     public async Task Login_WithValidCredentials_Returns200WithToken()
     {
+        var email = $"login-valid-{Guid.NewGuid()}@example.com";
+        await _client.PostAsJsonAsync("/api/auth/register", new
+        {
+            Email = email,
+            Password = "SecurePassword123!",
+            DisplayName = "Login Test User",
+            Role = "Patient",
+            TenantId = DefaultTenantSeeder.DefaultTenantId
+        });
+
         var response = await _client.PostAsJsonAsync("/api/auth/login", new
         {
-            Email = "customer@demo.local",
-            Password = "CafePassword123!"
+            Email = email,
+            Password = "SecurePassword123!"
         });
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -84,9 +133,19 @@ public class AuthFlowTests
     [Fact]
     public async Task Login_WithWrongPassword_Returns401Unauthorized()
     {
+        var email = $"login-wrongpw-{Guid.NewGuid()}@example.com";
+        await _client.PostAsJsonAsync("/api/auth/register", new
+        {
+            Email = email,
+            Password = "SecurePassword123!",
+            DisplayName = "Login Test User",
+            Role = "Patient",
+            TenantId = DefaultTenantSeeder.DefaultTenantId
+        });
+
         var response = await _client.PostAsJsonAsync("/api/auth/login", new
         {
-            Email = "customer@demo.local",
+            Email = email,
             Password = "WrongPassword!"
         });
 
@@ -114,7 +173,9 @@ public class AuthFlowTests
         {
             Email = email,
             Password = "SecurePassword123!",
-            DisplayName = "Profile User"
+            DisplayName = "Profile User",
+            Role = "Patient",
+            TenantId = DefaultTenantSeeder.DefaultTenantId
         });
         var auth = await registerResponse.Content.ReadFromJsonAsync<AuthResponse>();
 
@@ -127,7 +188,7 @@ public class AuthFlowTests
         var profile = await response.Content.ReadFromJsonAsync<UserProfileResponse>();
         profile!.Email.Should().Be(email);
         profile.DisplayName.Should().Be("Profile User");
-        profile.Role.Should().Be("Customer");
+        profile.Role.Should().Be("Patient");
     }
 
     [Fact]
@@ -139,7 +200,7 @@ public class AuthFlowTests
     }
 
     [Fact]
-    public async Task Register_NewUser_HasCustomerRoleByDefault()
+    public async Task Register_NewUser_PersistsRequestedRole()
     {
         var email = $"role-{Guid.NewGuid()}@example.com";
 
@@ -147,7 +208,9 @@ public class AuthFlowTests
         {
             Email = email,
             Password = "SecurePassword123!",
-            DisplayName = "Role Test User"
+            DisplayName = "Role Test User",
+            Role = "Doctor",
+            TenantId = DefaultTenantSeeder.DefaultTenantId
         });
         var auth = await registerResponse.Content.ReadFromJsonAsync<AuthResponse>();
 
@@ -156,7 +219,7 @@ public class AuthFlowTests
         var response = await _client.SendAsync(request);
 
         var profile = await response.Content.ReadFromJsonAsync<UserProfileResponse>();
-        profile!.Role.Should().Be("Customer");
+        profile!.Role.Should().Be("Doctor");
     }
 
     private record AuthResponse(string Token);

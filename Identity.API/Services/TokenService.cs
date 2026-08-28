@@ -25,20 +25,29 @@ public class TokenService : ITokenService
         
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
         
-        var claims = new[]
+        var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.DisplayName),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            new Claim(ClaimTypes.Role, user.Role)
+            new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new(ClaimTypes.Name, user.DisplayName),
+            new(JwtRegisteredClaimNames.Email, user.Email),
+            new(ClaimTypes.Role, user.Role)
         };
-        
+
+        // Absent entirely for the platform super-admin (TenantId == null) — everyone
+        // else (Patient, Doctor, center-scoped Admin) carries their medical center's id
+        // here so every other service can resolve tenant context straight from the token
+        // without a lookup, via Finbuckle's claim strategy.
+        if (user.TenantId.HasValue)
+        {
+            claims.Add(new Claim("tenant_id", user.TenantId.Value.ToString()));
+        }
+
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
             Expires = DateTime.UtcNow.AddMinutes(_config.GetValue<int>("Jwt:ExpirationInMinutes")),
-            Issuer = "LunchOrdering.Identity",
-            Audience = "LunchOrdering.Services",
+            Issuer = "CuraSlot.Identity",
+            Audience = "CuraSlot.Services",
             SigningCredentials = credentials
         };
 

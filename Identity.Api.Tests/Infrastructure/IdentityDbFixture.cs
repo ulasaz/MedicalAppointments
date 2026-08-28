@@ -16,9 +16,9 @@ public class IdentityDbFixture : IAsyncLifetime
         await _postgres.StartAsync();
 
         var baseConnectionString = _postgres.GetConnectionString();
-        await CreateDatabaseAsync(baseConnectionString, "LunchOrdering_Identity");
+        await CreateDatabaseAsync(baseConnectionString, "CuraSlot_Identity");
 
-        var connectionString = ReplaceDatabase(baseConnectionString, "LunchOrdering_Identity");
+        var connectionString = ReplaceDatabase(baseConnectionString, "CuraSlot_Identity");
         Factory = new IdentityApiFactory(connectionString);
 
         await Factory.InitializeDatabaseAsync();
